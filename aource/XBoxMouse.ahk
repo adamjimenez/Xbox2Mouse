@@ -9,6 +9,7 @@ ToggleTrigger := 0 ; Default value
 HaltProgram := 0 ; Default value
 LastRT := 0 ; Default values
 LastLT := 0 ; Default values
+KeyHeld = 0
 
 ; Global strings
 AppVersion = 1.5
@@ -382,20 +383,7 @@ return
 GoAltEnter:
 	Settimer CheckAll, off
 	Settimer ReActivateCheckAll, 1000
-
-	BlockPOVTab := 1
 	Send {Alt down}{Enter}{Alt up}
-	;Send {Alt up}
-
-
-	;KeyWait %JoystickPrefix%5
-	;KeyWait %JoystickPrefix%6
-
-	;Settimer CheckAll, off
-	;Settimer ReActivateCheckAll, 1000
-	;KeyWait %JoystickPrefix%5
-
-	BlockPOVTab := 0
 return
 
 ; TOGGLE TRIGGER NORMAL BUTTON BEHAVIOUR FUNCTION
@@ -1120,6 +1108,12 @@ Return
 
 ; -----------------DIGITAL PAD FUNCTIONS
 
+KeyDelay:
+	KeyHeld = 1
+	KeyDelayTimer = 0
+	SetTimer KeyDelay, off
+Return
+
 DigitalPad:
 	if (ToggleMouseSimulator = 1)
 		return
@@ -1130,7 +1124,10 @@ DigitalPad:
 	; Some joysticks might have a smooth/continous POV rather than one in fixed increments.
 	; To support them all, use a range:
 	if POV < 0   ; No angle to report
+	{
 		KeyToHoldDown =
+		KeyHeld = 0
+	}
 	else if POV > 31500                 ; 315 to 360 degrees: Forward
 		KeyToHoldDown = Up
 	else if POV between 0 and 4500      ; 0 to 45 degrees: Forward
@@ -1143,7 +1140,21 @@ DigitalPad:
 		KeyToHoldDown = Left
 
 	if KeyToHoldDown = %KeyToHoldDownPrev%  ; The correct key is already down (or no key is needed).
-		return  ; Do nothing.
+	{
+		if KeyHeld = 0
+		{
+			if KeyDelayTimer != 1
+			{
+				KeyDelayTimer = 1
+				SetTimer KeyDelay, 1000
+			}
+
+			return  ; key delay
+		}
+	}
+	else
+		KeyHeld = 0
+
 
 	if KeyToHoldDownPrev   ; There is a previous key to release.
 		{
