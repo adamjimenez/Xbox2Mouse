@@ -339,6 +339,10 @@ CheckAll:
 		{
 			Goto GoAltTab
 		}
+	else if KeyToHoldDown = Up
+		{
+			Goto GoAltEnter
+		}
 	else
 		{
 			BlockPOVTab := 0
@@ -371,6 +375,26 @@ GoAltTab:
 		KeyWait %JoystickPrefix%6
 		Send {Alt up}{shift up}
 	}
+	BlockPOVTab := 0
+return
+
+; ALT ENTER MENU
+GoAltEnter:
+	Settimer CheckAll, off
+	Settimer ReActivateCheckAll, 1000
+
+	BlockPOVTab := 1
+	Send {Alt down}{Enter}{Alt up}
+	;Send {Alt up}
+
+
+	;KeyWait %JoystickPrefix%5
+	;KeyWait %JoystickPrefix%6
+
+	;Settimer CheckAll, off
+	;Settimer ReActivateCheckAll, 1000
+	;KeyWait %JoystickPrefix%5
+
 	BlockPOVTab := 0
 return
 
