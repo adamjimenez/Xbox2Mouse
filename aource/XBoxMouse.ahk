@@ -324,8 +324,8 @@ CheckAll:
 		}
 	else if GetKeyState(JoystickPrefix . 4)
 		{
-			BlockPOVTab := 0
-			Goto ToggleTriggerSet
+			; BlockPOVTab := 0
+			; Goto ToggleTriggerSet
 		}
 	else if GetKeyState(JoystickPrefix . 3)
 		{
@@ -389,6 +389,8 @@ return
 
 ; TOGGLE TRIGGER NORMAL BUTTON BEHAVIOUR FUNCTION
 ToggleTriggerSet:
+	return
+
 	SetMouseDelay, -1  ; Makes movement smoother.
 ;	Tooltip Test
 	if ToggleTrigger = 1
@@ -557,15 +559,17 @@ return
 IncreaseVolume:
 	SoundGet master_volume
 	Send {Volume_Up}
-	Tooltip %master_volume% Increasing Audio Volume...
-	SetTimer TooltipOff, 500
+	; Tooltip %master_volume% Increasing Audio Volume...
+	; SetTimer TooltipOff, 500
+	; TODO volume icon
 return
 
 DecreaseVolume:
 	SoundGet master_volume
 	Send {Volume_Down}
-	Tooltip %master_volume% Decreasing Audio Volume...
-	SetTimer TooltipOff, 500
+	; Tooltip %master_volume% Decreasing Audio Volume...
+	; SetTimer TooltipOff, 500
+	; TODO volume icon
 return
 
 ; LEFT TRIGGER BUTTON REPLACEMENT
@@ -587,7 +591,7 @@ LeftTrigger:
 	}
 	else ; Send replacement key
 	{
-		Send % "{" . LT_Key . (LT ? " Down}" : " Up}") ;%
+		; Send % "{" . LT_Key . (LT ? " Down}" : " Up}") ;%
 	}
 return
 
@@ -610,7 +614,7 @@ RightTrigger:
 	}
 	else ; Send replacement key
 	{
-		Send % "{" . RT_Key . (RT ? " Down}" : " Up}") ;%
+		; Send % "{" . RT_Key . (RT ? " Down}" : " Up}") ;%
 	}
 return
 
