@@ -185,8 +185,12 @@ else
 }
 
 ; ----------------- TRAY ICON COSMETICS
-
-Menu Tray, Icon, %AppDir%\XBoxMouse.ico
+if A_IsCompiled
+{
+	Menu Tray, Icon, %A_ScriptDir%\%A_ScriptName%
+}else{
+	Menu Tray, Icon, %A_ScriptDir%\XBoxMouse.ico
+}
 Menu tray, NoStandard
 Menu Tray, Tip, XBox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
 Menu tray, add, Enable Mouse Simulator, ToggleMouseSet  ; Creates a new menu item.
