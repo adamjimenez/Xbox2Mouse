@@ -12,7 +12,7 @@ LastLT := 0 ; Default values
 KeyHeld = 0
 
 ; Global strings
-AppVersion = 1.5
+AppVersion = 2.0
 AppJoystickMessage = No joysticks or gamepads were detected! Please press button A when you have inserted a controller or right click the system tray and select "Reload"!`nThis message will not be shown again!
 
 ; -----------------LOAD SETTINGS
