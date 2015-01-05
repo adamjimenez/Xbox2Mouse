@@ -1241,23 +1241,19 @@ Gui Destroy
 	Gui Add, Text, xp yp+14, This program is written to run silently in the background.
 	Gui Add, Text, xp yp+14, To change settings or exit this program please right click the system tray icon.
 	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, To quickly toggle enabling or disabling functions hold down LB+RB on your controller and press B, Y or X.
+	Gui Add, Text, xp yp+14, To quickly toggle enabling or disabling functions hold down LB+RB and B.
 	Gui Add, Text, xp yp+14, For more detailed controls and hotkeys please visit
-	Gui Add, Text, xp+240 yp cBlue gLink2 vURL_Link2, the website!
+	Gui Add, Text, xp+240 yp cBlue gLink1 vURL_Link1, https://github.com/adamjimenez/XBoxMouse-Simulator
 	Gui Add, Text, xp-240 yp+14,
 	Gui Add, Text, xp yp+14, To change advanced settings please edit the ini file manually and reload the program.
 	Gui Add, Text, xp yp+14, If you accidentally mess up the settings in "BoxMouse.ini" please manually delete the file and reload the program.
 	Gui Add, Text, xp yp+14, The ini file is located in the same directory as this program but can be quickly edited from the system tray.
 	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, To uninstall this program simply delete the exe file and the ini file.
+	Gui Add, Text, xp yp+14, To uninstall this program simply delete the files.
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, This message is only shown once, if you wish to read it again, please right click the system tray icon and click help/about.
 	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, For more information please visit the website!
-	Gui Add, Text, xp yp+14 cBlue gLink1 vURL_Link1, http://nirklars.wordpress.com
 	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, Best Regards
-	Gui Add, Text, xp yp+14, Nicklas Hult
 	Gui Add, Button, xp+250 h23 w75, OK
 
 ;Setup Links
@@ -1282,11 +1278,7 @@ ButtonOK:
 	Gui destroy
 return
 Link1:
-	Run http://nirklars.wordpress.com
-	Gui destroy
-return
-Link2:
-	Run http://nirklars.wordpress.com/xboxmouse/#controls
+	Run https://github.com/adamjimenez/XBoxMouse-Simulator
 	Gui destroy
 return
 
