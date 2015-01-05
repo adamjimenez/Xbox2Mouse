@@ -1181,6 +1181,7 @@ DigitalPad:
 		if KeyToHoldDown   ; There is a key to press down.
 			{
 				Send, {%KeyToHoldDown% down}  ; Press it down.
+				sleep, 50
 			}
 	}
 return
