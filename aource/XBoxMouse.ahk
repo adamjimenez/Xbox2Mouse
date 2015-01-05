@@ -329,8 +329,9 @@ CheckAll:
 		}
 	else if GetKeyState(JoystickPrefix . 3)
 		{
-			BlockPOVTab := 0
-			Goto ToggleEmulatorEnhancement
+			; disable this for now
+			; BlockPOVTab := 0
+			; Goto ToggleEmulatorEnhancement
 		}
 	else if KeyToHoldDown = Right
 		{
