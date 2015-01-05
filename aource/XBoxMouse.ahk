@@ -2,7 +2,15 @@
 #SingleInstance force
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
+
+if A_IsCompiled
+{
+	AppDir = %A_ScriptDir%
+} else {
+	AppDir = %A_ScriptDir%\..
+}
+
+SetWorkingDir AppDir  ; Ensures a consistent starting directory.
 
 ToggleMouseSimulator := 0 ; Default value
 ToggleTrigger := 0 ; Default value
@@ -16,7 +24,7 @@ AppVersion = 2.0
 AppJoystickMessage = No joysticks or gamepads were detected! Please press button A when you have inserted a controller or right click the system tray and select "Reload"!`nThis message will not be shown again!
 
 ; -----------------LOAD SETTINGS
-inifile = %A_ScriptDir%\XBoxMouse.ini
+inifile = %AppDir%\XBoxMouse.ini
 
 
 ; Increase the following value to make the mouse cursor move faster:
@@ -178,10 +186,7 @@ else
 
 ; ----------------- TRAY ICON COSMETICS
 
-if A_IsCompiled
-{
-	Menu Tray, Icon, %A_ScriptDir%\%A_ScriptName%
-}
+Menu Tray, Icon, %AppDir%\XBoxMouse.ico
 Menu tray, NoStandard
 Menu Tray, Tip, XBox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
 Menu tray, add, Enable Mouse Simulator, ToggleMouseSet  ; Creates a new menu item.
@@ -269,7 +274,7 @@ return
 
 ; TRAY ICON MENU ITEMS
 MenuHandler:
-	Run, open "%A_ScriptDir%\XBoxMouse.ini"
+	Run, open "%AppDir%\XBoxMouse.ini"
 return
 
 ; SHOW ABOUT/HELP GUI WINDOW
@@ -445,7 +450,7 @@ return
 
 ShowSplashImage:
 	Settimer ShowSplashImage, off
-	gui,add,picture,,%A_ScriptDir%\%SplashIcon%
+	gui,add,picture,,%AppDir%\%SplashIcon%
 	Gui, Color, 000000
 	Gui +LastFound
 	winset,transcolor,000000
