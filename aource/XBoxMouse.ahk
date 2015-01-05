@@ -440,12 +440,25 @@ ToggleEmulatorEnhancement:
 	Settimer ReActivateCheckAll, 1000
 return
 
+ShowSplashImage:
+	Settimer ShowSplashImage, off
+	gui,add,picture,,%A_ScriptDir%\%SplashIcon%
+	Gui, Color, 000000
+	Gui +LastFound
+	winset,transcolor,000000
+	gui,-caption +alwaysontop +ToolWindow
+	gui,show,NoActivate
+	sleep,2000
+	gui,destroy
+return
+
 ; TOGGLE MOUSE CONTROLLER FUNCTION
 ToggleMouseSet:
 	SetMouseDelay, -1  ; Makes movement smoother.
 	if ToggleMouseSimulator = 1
 	{
-		Tooltip Mouse Simulator`nENABLED
+		; Tooltip Mouse Simulator`nENABLED
+
 		ToggleMouseSimulator = 0
 		SetTimer HideMouseCursorCheckIdle, off
 			if NeverHideCursor
@@ -457,10 +470,12 @@ ToggleMouseSet:
 				SystemCursor("On")
 			}
 		Menu, tray, Check, Enable Mouse Simulator
+
+		SplashIcon = mouse.png
 	}
 	else
 	{
-		Tooltip Mouse Simulator`nDISABLED
+		; Tooltip Mouse Simulator`nDISABLED
 			if NeverHideCursor
 			{
 			}
@@ -471,7 +486,10 @@ ToggleMouseSet:
 			}
 		ToggleMouseSimulator = 1
 		Menu, tray, Uncheck, Enable Mouse Simulator
+
+		SplashIcon = mouse-off.png
 	}
+	Settimer ShowSplashImage, on
 	Settimer CheckAll, off
 	Settimer TooltipOff, 2000
 	Settimer ReActivateCheckAll, 1000
