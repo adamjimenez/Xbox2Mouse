@@ -1,5 +1,5 @@
 ; -----------------PUBLIC VARS, DECLARATION
-#SingleInstance force 
+#SingleInstance force
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -19,104 +19,104 @@ inifile = %A_ScriptDir%\XBoxMouse.ini
 
 
 ; Increase the following value to make the mouse cursor move faster:
-IniRead, JoyMultiplier, %inifile%, JoyStickSettings, JoyMultiplier, 0.50 
-IniWrite, %JoyMultiplier%, %inifile%, JoyStickSettings, JoyMultiplier 
+IniRead, JoyMultiplier, %inifile%, JoyStickSettings, JoyMultiplier, 0.50
+IniWrite, %JoyMultiplier%, %inifile%, JoyStickSettings, JoyMultiplier
 
-; Decrease the following value to require less joystick displacement-from-center 
-; to start moving the mouse.  However, you may need to calibrate your joystick 
-; -- ensuring it's properly centered -- to avoid cursor drift. 
+; Decrease the following value to require less joystick displacement-from-center
+; to start moving the mouse.  However, you may need to calibrate your joystick
+; -- ensuring it's properly centered -- to avoid cursor drift.
 ; A perfectly tight and centered joystick could use a value of 1:
-IniRead, JoyThreshold, %inifile%, JoyStickSettings, JoyThreshold, 10.0 
-IniWrite, %JoyThreshold%, %inifile%, JoyStickSettings, JoyThreshold 
+IniRead, JoyThreshold, %inifile%, JoyStickSettings, JoyThreshold, 10.0
+IniWrite, %JoyThreshold%, %inifile%, JoyStickSettings, JoyThreshold
 
-IniRead, JoyMouseScrollAccelerationStart, %inifile%, JoyStickSettings, JoyMouseScrollAccelerationStart, 0.730 
-IniWrite, %JoyMouseScrollAccelerationStart%, %inifile%, JoyStickSettings, JoyMouseScrollAccelerationStart 
+IniRead, JoyMouseScrollAccelerationStart, %inifile%, JoyStickSettings, JoyMouseScrollAccelerationStart, 0.730
+IniWrite, %JoyMouseScrollAccelerationStart%, %inifile%, JoyStickSettings, JoyMouseScrollAccelerationStart
 
-IniRead, JoyMouseScrollAcceleration, %inifile%, JoyStickSettings, JoyMouseScrollAcceleration, 1.20 
-IniWrite, %JoyMouseScrollAcceleration%, %inifile%, JoyStickSettings, JoyMouseScrollAcceleration 
+IniRead, JoyMouseScrollAcceleration, %inifile%, JoyStickSettings, JoyMouseScrollAcceleration, 1.20
+IniWrite, %JoyMouseScrollAcceleration%, %inifile%, JoyStickSettings, JoyMouseScrollAcceleration
 
 ; MouseSimulator off by default on startup?
 IniRead, ToggleMouseSimulator, %inifile%, MouseSimulator, DisabledOnStartup, 0
-IniWrite, %ToggleMouseSimulator%, %inifile%, MouseSimulator, DisabledOnStartup 
+IniWrite, %ToggleMouseSimulator%, %inifile%, MouseSimulator, DisabledOnStartup
 
-; Change the following to true to invert the Y-axis, which causes the mouse to 
+; Change the following to true to invert the Y-axis, which causes the mouse to
 ; move vertically in the direction opposite the stick
-IniRead, InvertYAxis, %inifile%, MouseSimulator, InvertYAxis, 0 
-IniWrite, %InvertYAxis%, %inifile%, MouseSimulator, InvertYAxis 
+IniRead, InvertYAxis, %inifile%, MouseSimulator, InvertYAxis, 0
+IniWrite, %InvertYAxis%, %inifile%, MouseSimulator, InvertYAxis
 
 
 ; Change these values to use joystick button numbers other than 1, 2, and 3 for
 ; the left, right, and middle mouse buttons.  Available numbers are 1 through 32.
 ; Use the Joystick Test Script to find out your joystick's numbers more easily.
 IniRead, ButtonLeft, %inifile%, MouseSimulator, ButtonLeft, 1
-IniWrite, %ButtonLeft%, %inifile%, MouseSimulator, ButtonLeft 
+IniWrite, %ButtonLeft%, %inifile%, MouseSimulator, ButtonLeft
 IniRead, ButtonRight, %inifile%, MouseSimulator, ButtonRight, 2
-IniWrite, %ButtonRight%, %inifile%, MouseSimulator, ButtonRight 
+IniWrite, %ButtonRight%, %inifile%, MouseSimulator, ButtonRight
 IniRead, ButtonMiddle, %inifile%, MouseSimulator, ButtonMiddle, 3
-IniWrite, %ButtonMiddle%, %inifile%, MouseSimulator, ButtonMiddle 
+IniWrite, %ButtonMiddle%, %inifile%, MouseSimulator, ButtonMiddle
 
 ; If your joystick has a POV control, you can use it as a mouse wheel.  The
 ; following value is the number of milliseconds between turns of the wheel.
 ; Decrease it to have the wheel turn faster:
 IniRead, WheelDelay, %inifile%, MouseSimulator, WheelDelay, 5
-IniWrite, %WheelDelay%, %inifile%, MouseSimulator, WheelDelay 
+IniWrite, %WheelDelay%, %inifile%, MouseSimulator, WheelDelay
 
 ; First run?
 IniRead, FirstRun, %inifile%, Settings, FirstRun, 1
-IniWrite, 0, %inifile%, Settings, FirstRun 
+IniWrite, 0, %inifile%, Settings, FirstRun
 
 ; Autodetect joysticks, default on
 IniRead, AutoDetectJoysticks, %inifile%, Settings, AutoDetectJoysticks, 1
-IniWrite, %AutoDetectJoysticks%, %inifile%, Settings, AutoDetectJoysticks 
+IniWrite, %AutoDetectJoysticks%, %inifile%, Settings, AutoDetectJoysticks
 
 ; Load xbox trigger settings - uses Xinput for detection due to trigger using only a single axis
 ; Is Trigger on by default? Toggled while running by pressing L+R+Button2
 IniRead, ToggleTrigger, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault, 1
-IniWrite, %ToggleTrigger%, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault 
+IniWrite, %ToggleTrigger%, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault
 
 ; Minimum to be considered "pressed", between 1 (0.39%) and 255 (100%) for trigger buttons
 IniRead, TriggerThreshold, %inifile%, XBoxTriggerButtons, TriggerThreshold, 64.0
-IniWrite, %TriggerThreshold%, %inifile%, XBoxTriggerButtons, TriggerThreshold 
+IniWrite, %TriggerThreshold%, %inifile%, XBoxTriggerButtons, TriggerThreshold
 
 ; InvertVolume
 IniRead, InvertVolumeButtons, %inifile%, XBoxTriggerButtons, InvertVolumeButtons, 0
-IniWrite, %InvertVolumeButtons%, %inifile%, XBoxTriggerButtons, InvertVolumeButtons 
+IniWrite, %InvertVolumeButtons%, %inifile%, XBoxTriggerButtons, InvertVolumeButtons
 
 ; Keys to bind to triggers.
 IniRead, LT_Key, %inifile%, XBoxTriggerButtons, LeftTriggerKey, z
-IniWrite, %LT_Key%, %inifile%, XBoxTriggerButtons, LeftTriggerKey 
+IniWrite, %LT_Key%, %inifile%, XBoxTriggerButtons, LeftTriggerKey
 
 IniRead, RT_Key, %inifile%, XBoxTriggerButtons, RightTriggerKey, x
-IniWrite, %RT_Key%, %inifile%, XBoxTriggerButtons, RightTriggerKey 
+IniWrite, %RT_Key%, %inifile%, XBoxTriggerButtons, RightTriggerKey
 
 ; Load settings if emulator integration shortcuts are enabled by default
 IniRead, EmulatorEnhancement, %inifile%, Settings, EmulatorEnhancement, 1
-IniWrite, %EmulatorEnhancement%, %inifile%, Settings, EmulatorEnhancement 
+IniWrite, %EmulatorEnhancement%, %inifile%, Settings, EmulatorEnhancement
 
 ; Load settings if cursor should never hide
 IniRead, NeverHideCursor, %inifile%, Settings, NeverHideCursor, 0
-IniWrite, %NeverHideCursor%, %inifile%, Settings, NeverHideCursor 
+IniWrite, %NeverHideCursor%, %inifile%, Settings, NeverHideCursor
 
 ; Bonus extra settings
 IniRead, ExtrasLWinDisable, %inifile%, Extras, DisableLeftWindowsKey, 0
-IniWrite, %ExtrasLWinDisable%, %inifile%, Extras, DisableLeftWindowsKey 
+IniWrite, %ExtrasLWinDisable%, %inifile%, Extras, DisableLeftWindowsKey
 if ExtrasLWinDisable = 1
 {
 Hotkey, LWin, Blank, On
 }
 
 IniRead, ExtrasRWinDisable, %inifile%, Extras, DisableRightWindowsKey, 0
-IniWrite, %ExtrasRWinDisable%, %inifile%, Extras, DisableRightWindowsKey 
+IniWrite, %ExtrasRWinDisable%, %inifile%, Extras, DisableRightWindowsKey
 if ExtrasRWinDisable = 1
 {
-	Hotkey, RWin, Blank, On 
+	Hotkey, RWin, Blank, On
 }
 
 IniRead, EscapeDoubleTapDelay, %inifile%, Settings, EscapeDoubleTapDelay, 200
-IniWrite, %EscapeDoubleTapDelay%, %inifile%, Settings, EscapeDoubleTapDelay 
+IniWrite, %EscapeDoubleTapDelay%, %inifile%, Settings, EscapeDoubleTapDelay
 
 IniRead, MouseCursorSpeedSlowdownMultiplier, %inifile%, Settings, MouseCursorSpeedSlowdownMultiplier, 3
-IniWrite, %MouseCursorSpeedSlowdownMultiplier%, %inifile%, Settings, MouseCursorSpeedSlowdownMultiplier 
+IniWrite, %MouseCursorSpeedSlowdownMultiplier%, %inifile%, Settings, MouseCursorSpeedSlowdownMultiplier
 
 IniRead, WindowedFullscreen, %inifile%, Extras, WindowedFullscreen, 0
 IniWrite, %WindowedFullscreen%, %inifile%, Extras, WindowedFullscreen
@@ -131,7 +131,7 @@ if ErrorLevel
 	msgbox 16, ,There was an error reading the %inifile%! Please make sure that it is not copy protected or being used by another program!
 
 ; ----------------- STUFF TO DO AFTER LOADING SETTINGS
-	
+
 ; First run message
 if FirstRun
 {
@@ -158,13 +158,13 @@ if AutoDetectJoysticks = 1
 			IniRead, JoyStickMessageShowOnce, %inifile%, Settings, JoyStickMessageShowOnce, 0
 			if JoyStickMessageShowOnce
 			{
-				HaltProgram := 1 ; Do nothing to prevent overuse of cpu 
+				HaltProgram := 1 ; Do nothing to prevent overuse of cpu
 			}
 			else
 			{
 				MsgBox, 48, XBoxMouse simulator V%AppVersion%, %AppJoystickMessage%
-				IniWrite, 1, %inifile%, Settings, JoyStickMessageShowOnce 
-				HaltProgram := 1 ; Do nothing to prevent overuse of cpu 
+				IniWrite, 1, %inifile%, Settings, JoyStickMessageShowOnce
+				HaltProgram := 1 ; Do nothing to prevent overuse of cpu
 			}
 		}
 	}
@@ -172,9 +172,9 @@ if AutoDetectJoysticks = 1
 else
 {
 	IniRead, JoyStickNumber, %inifile%, Settings, JoyStickNumber, 1
-	IniWrite, %JoyStickNumber%, %inifile%, Settings, JoyStickNumber 
+	IniWrite, %JoyStickNumber%, %inifile%, Settings, JoyStickNumber
 }
-	
+
 ; ----------------- TRAY ICON COSMETICS
 
 if A_IsCompiled
@@ -204,20 +204,20 @@ Menu tray, add, Reload, MenuHandlerReload  ; Creates a new menu item.
 Menu tray, add  ; Creates a separator line.
 Menu tray, add, Help/About, MenuHandlerHelp  ; Creates a new menu item.
 Menu tray, add, Exit, MenuHandlerExit  ; instead of default exit
-	
+
 ; -----------------LOAD HOTKEYS
 
 if HaltProgram = 0 ; prevent looping overuse of cpu when no controller is connected
 {
 	SystemCursor("Init") ; Initialize Cursor hiding
 	XInput_Init() ; Initialize XInput for trigger button recognition
-	
+
 	; Load hotkeys
 	JoystickPrefix = %JoystickNumber%Joy
 	Hotkey, %JoystickPrefix%%ButtonLeft%, ButtonLeft
 	Hotkey, %JoystickPrefix%%ButtonRight%, ButtonRight
 	Hotkey, %JoystickPrefix%%ButtonMiddle%, ButtonMiddle
-	Hotkey, %JoystickPrefix%4, KeyKeyboard
+	; Hotkey, %JoystickPrefix%4, KeyKeyboard
 	Hotkey, %JoystickPrefix%5, KeyTabPrev
 	Hotkey, %JoystickPrefix%6, KeyTabNext
 	Hotkey, %JoystickPrefix%7, KeyEscape
@@ -235,7 +235,7 @@ if HaltProgram = 0 ; prevent looping overuse of cpu when no controller is connec
 		YAxisMultiplier = -1
 	else
 		YAxisMultiplier = 1
-			
+
 	; Start watching for joystick input
 	SetTimer CheckAll, 25 ; Modifier hotkeys to change settings
 	SetTimer LeftRightTrigger, 5 ; XBox trigger as normal buttons
@@ -255,7 +255,7 @@ else
 	Hotkey, 5Joy1, JoyReload
 	Hotkey, 6Joy1, JoyReload
 }
-	
+
 return  ; End of auto-execute section.
 ;-----------------------------------------------END OF AUTO-EXECUTE SECTION------------------------------------------------------
 
@@ -287,13 +287,13 @@ return
 ; CHECK MODIFIER BUTTONS HELD DOWN
 ;check if all buttons are pressed at the same time
 CheckAll:
-	
+
 	; Check if modifier buttons are down
 	if GetKeyState(JoystickPrefix . 5)
 		LeftModDown := 1
 	else
 		LeftModDown := 0
-		
+
 	if GetKeyState(JoystickPrefix . 6)
 		RightModDown := 1
 	else
@@ -304,16 +304,16 @@ CheckAll:
 		BothModDown = 1
 	else
 		BothModDown = 0
-	
+
 	;Debug
 	;Tooltip Modifier %LeftModDown% and %RightModDown% and %BothModDown%
-	
+
 	; Old script part, I know this uses an older way of triggering buttons and I will clean up this properly some day.
 	if !GetKeyState(JoystickPrefix . 5) ;Hold down button 5 to proceed
 		Return
 	if !GetKeyState(JoystickPrefix . 6) ;Hold down button 6 to proceed
 		Return
-	
+
 	BlockKeyTab := 1
 	BlockPOVTab := 1 ; Prevent user from using pov key while checking for inputs, makes alt tabbing work uninterrupted
 	if GetKeyState(JoystickPrefix . 2)
@@ -324,12 +324,12 @@ CheckAll:
 	else if GetKeyState(JoystickPrefix . 4)
 		{
 			BlockPOVTab := 0
-			Goto ToggleTriggerSet	
+			Goto ToggleTriggerSet
 		}
 	else if GetKeyState(JoystickPrefix . 3)
 		{
 			BlockPOVTab := 0
-			Goto ToggleEmulatorEnhancement	
+			Goto ToggleEmulatorEnhancement
 		}
 	else if KeyToHoldDown = Right
 		{
@@ -346,7 +346,7 @@ CheckAll:
 return
 
 ; ENABLES THE MODIFIER CHECKALL TIMER AGAIN AFTER A WHILE
-ReActivateCheckAll: 
+ReActivateCheckAll:
 	Settimer CheckAll, on
 return
 
@@ -383,7 +383,7 @@ ToggleTriggerSet:
 		Tooltip L/R Trigger Buttons`nDISABLED
 		ToggleTrigger = 0
 		Settimer, LeftRightTrigger, off
-		IniWrite, %ToggleTrigger%, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault 
+		IniWrite, %ToggleTrigger%, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault
 		Menu, tray, Uncheck, Enable L/R Trigger Buttons
 	}
 	else
@@ -391,7 +391,7 @@ ToggleTriggerSet:
 		Tooltip L/R Trigger Buttons`nENABLED
 		ToggleTrigger = 1
 		Settimer, LeftRightTrigger, on
-		IniWrite, %ToggleTrigger%, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault 
+		IniWrite, %ToggleTrigger%, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault
 		Menu, tray, Check, Enable L/R Trigger Buttons
 	}
 	Settimer CheckAll, off
@@ -414,14 +414,14 @@ ToggleEmulatorEnhancement:
 		EmulatorEnhancement = 1
 		SetTimer HideMouseCursorCheckIdle, off
 		Menu, tray, Check, Enable Emulator Enhancement Hotkeys
-		IniWrite, %EmulatorEnhancement%, %inifile%, Settings, EmulatorEnhancement 
+		IniWrite, %EmulatorEnhancement%, %inifile%, Settings, EmulatorEnhancement
 	}
 	else
 	{
 		Tooltip Emulator Enhancement Hotkeys`nDISABLED
 		EmulatorEnhancement = 0
 		Menu, tray, Uncheck, Enable Emulator Enhancement Hotkeys
-		IniWrite, %EmulatorEnhancement%, %inifile%, Settings, EmulatorEnhancement 
+		IniWrite, %EmulatorEnhancement%, %inifile%, Settings, EmulatorEnhancement
 	}
 	Settimer CheckAll, off
 	Settimer TooltipOff, 2000
@@ -441,7 +441,7 @@ ToggleMouseSet:
 			}
 			else
 			{
-				DllCall("ShowCursor","Uint",1) 
+				DllCall("ShowCursor","Uint",1)
 				SystemCursor("On")
 			}
 		Menu, tray, Check, Enable Mouse Simulator
@@ -454,7 +454,7 @@ ToggleMouseSet:
 			}
 			else
 			{
-				DllCall("ShowCursor","Uint",0) 
+				DllCall("ShowCursor","Uint",0)
 				SetTimer HideMouseCursorCheckIdle, 250
 			}
 		ToggleMouseSimulator = 1
@@ -465,8 +465,8 @@ ToggleMouseSet:
 	Settimer ReActivateCheckAll, 1000
 Return
 
-; DISABLE TOOLTIP AFTER A WHILE 
-TooltipOff: 
+; DISABLE TOOLTIP AFTER A WHILE
+TooltipOff:
 	ToolTip
 	Settimer TooltipOff, off
 return
@@ -481,21 +481,21 @@ KeyKeyboard:
 		if GetKeyState(JoystickPrefix . 6) ; ignore inputs while holding down this button
 			Return
 		}
-		
+
 	;Start ON SCREEN keyboard
 	Process, Exist, osk.exe ; check to see if process is running
 	If (ErrorLevel = 0) ; If it is not running
 	   {
-	   DllCall("Wow64DisableWow64FsRedirection", "uint*", OldValue) 
+	   DllCall("Wow64DisableWow64FsRedirection", "uint*", OldValue)
 	   Run osk.exe
-	   DllCall("Wow64RevertWow64FsRedirection", "uint", OldValue) 
+	   DllCall("Wow64RevertWow64FsRedirection", "uint", OldValue)
 	   }
 	Else ; If it is running, ErrorLevel equals the process id for the target program (Printkey). Then close it.
 	   {
-		;DllCall("Wow64DisableWow64FsRedirection", "uint*", OldValue) 
+		;DllCall("Wow64DisableWow64FsRedirection", "uint*", OldValue)
 		Process, Close, %ErrorLevel%
-		;DllCall("Wow64RevertWow64FsRedirection", "uint", OldValue) 
-	   } 
+		;DllCall("Wow64RevertWow64FsRedirection", "uint", OldValue)
+	   }
 	Process, Exist, MSSWCHX.EXE ; check to see if WINDOWS XP OLD keyboard process is running to prevent multiple instances
 	Process, Close, %ErrorLevel%
 return
@@ -504,17 +504,17 @@ return
 ; READ LEFT AND RIGHT TRIGGER BUTTONS AND REPLACE WITH KEYBOARD IF SET
 LeftRightTrigger:
 	SetMouseDelay, -1  ; Makes movement smoother.
-	Loop, 4 
+	Loop, 4
 	{
 		if XInput_GetState(A_Index-1, State)=0 {
 			LT := json(State,"bLeftTrigger") >= TriggerThreshold
 			RT := json(State,"bRightTrigger") >= TriggerThreshold
-			if (LT != LastLT) 
+			if (LT != LastLT)
 			{
 				Gosub LeftTrigger
 				LastLT := LT
 			}
-			if (RT != LastRT) 
+			if (RT != LastRT)
 			{
 				Gosub RightTrigger
 				LastRT := RT
@@ -588,7 +588,7 @@ KeyTabPrev:
 	if (ToggleMouseSimulator = 1)
 		return
 	SetMouseDelay, -1  ; Makes movement smoother.
-	
+
 	; MOUSE SLOWDOWN START
 		; Lower Mouse Speed while keeping key down
 		JoyMultiplier:=JoyMultiplier/MouseCursorSpeedSlowdownMultiplier
@@ -598,7 +598,7 @@ KeyTabPrev:
 		joyXcheck := joyX
 		joyYcheck := joyY
 	KeyWait %JoystickPrefix%5
-		
+
 		; Restore Mouse Speed when releasing key
 		JoyMultiplier:=JoyMultiplier*MouseCursorSpeedSlowdownMultiplier
 		; Abort command if mouse moved
@@ -628,7 +628,7 @@ KeyTabPrev:
 		BlockKeyTab = 0
 		return
 	}
-	
+
 	; CUSTOM COMMAND INTEGRATION
 		WinGetActiveStats Title, Width, Height, X, Y
 		{
@@ -668,7 +668,7 @@ KeyTabNext:
 	if (ToggleMouseSimulator = 1)
 		return
 	SetMouseDelay, -1  ; Makes movement smoother.
-	
+
 	; MOUSE SLOWDOWN START
 		; Lower Mouse Speed while keeping key down
 		JoyMultiplier:=JoyMultiplier/MouseCursorSpeedSlowdownMultiplier
@@ -678,7 +678,7 @@ KeyTabNext:
 		joyXcheck := joyX
 		joyYcheck := joyY
 	KeyWait %JoystickPrefix%6
-		
+
 		; Restore Mouse Speed when releasing key
 		JoyMultiplier:=JoyMultiplier*MouseCursorSpeedSlowdownMultiplier
 		; Abort command if mouse moved
@@ -708,7 +708,7 @@ KeyTabNext:
 		BlockKeyTab = 0
 		return
 	}
-	
+
 	; CUSTOM COMMAND INTEGRATION
 		WinGetActiveStats Title, Width, Height, X, Y
 		{
@@ -765,7 +765,7 @@ KeyEscape:
 		}
 return
 
-DoubleEscape: 
+DoubleEscape:
 	DoubleEscapeActive = 0
 	SetTimer DoubleEscape, off
 return
@@ -832,7 +832,7 @@ SaveState:
 		{
 			Send {F5}
 		}
-	}		
+	}
 return
 
 
@@ -852,7 +852,7 @@ LoadState:
 		else if InStr(Title, "Snes9X") ; Is snes9X running?
 		{
 			Send {F7}
-		}			
+		}
 		else if InStr(Title, "GSdx |") ; Is PCSX2 running?
 		{
 			Send {F3}
@@ -878,7 +878,7 @@ LoadState:
 		{
 			Send {F7}
 		}
-	}	
+	}
 return
 
 ; -----------------HOTKEY FUNCTIONS
@@ -1001,8 +1001,8 @@ WatchJoystick2:
 	GetKeyState, joyr, %JoystickNumber%JoyR
 	GetKeyState, joyu, %JoystickNumber%JoyU
 	JoyNeedsToBeMoved := false  ; Set default.
-	
-	; VERTICAL 
+
+	; VERTICAL
 	if joyr > 60
 	{
 		JoyNeedsToBeMoved := true
@@ -1024,7 +1024,7 @@ WatchJoystick2:
 		;DeltaR = 0
 	}
 
-	
+
 	; ACTION
 	if JoyNeedsToBeMoved
 	{
@@ -1041,7 +1041,7 @@ WatchJoystick2:
 			ScrollSpeedVertical := ((100 - joyr)*10^JoyMouseScrollAcceleration)*JoyMouseScrollAccelerationStart
 			VerticalDirection = 1
 		}
-		
+
 		; INSTANT SINGLE SCROLL "NUDGE" makes the scrolling experience softer and more comfortable
 		if JoyBuffer = 0
 		{
@@ -1119,7 +1119,7 @@ DigitalPad:
 		KeyToHoldDown = Left
 
 	if KeyToHoldDown = %KeyToHoldDownPrev%  ; The correct key is already down (or no key is needed).
-		return  ; Do nothing. 
+		return  ; Do nothing.
 
 	if KeyToHoldDownPrev   ; There is a previous key to release.
 		{
@@ -1178,10 +1178,10 @@ Gui Destroy
 	Gui Margin, 5, 5
 	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
 	Gui Add, Text, xm ym, Welcome to XBoxMouse simulator V%AppVersion%!
-	Gui Add, Text, xp yp+14, 
+	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, This program is written to run silently in the background.
 	Gui Add, Text, xp yp+14, To change settings or exit this program please right click the system tray icon.
-	Gui Add, Text, xp yp+14, 
+	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, To quickly toggle enabling or disabling functions hold down LB+RB on your controller and press B, Y or X.
 	Gui Add, Text, xp yp+14, For more detailed controls and hotkeys please visit
 	Gui Add, Text, xp+240 yp cBlue gLink2 vURL_Link2, the website!
@@ -1193,10 +1193,10 @@ Gui Destroy
 	Gui Add, Text, xp yp+14, To uninstall this program simply delete the exe file and the ini file.
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, This message is only shown once, if you wish to read it again, please right click the system tray icon and click help/about.
-	Gui Add, Text, xp yp+14, 
+	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, For more information please visit the website!
 	Gui Add, Text, xp yp+14 cBlue gLink1 vURL_Link1, http://nirklars.wordpress.com
-	Gui Add, Text, xp yp+14, 
+	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, Best Regards
 	Gui Add, Text, xp yp+14, Nicklas Hult
 	Gui Add, Button, xp+250 h23 w75, OK
@@ -1249,7 +1249,7 @@ HideMouseCursorCheckIdle:
 	}
 	else
 	{
-		DllCall("ShowCursor","Uint",1) 
+		DllCall("ShowCursor","Uint",1)
 		SystemCursor("On")
 	}
 	return
@@ -1302,9 +1302,9 @@ SystemCursor(OnOff=1)   ; INIT = "I","Init"; OFF = 0,"Off"; TOGGLE = -1,"T","Tog
 
 /*
     Function: XInput_Init
-    
+
     Initializes XInput.ahk with the given XInput DLL.
-    
+
     Parameters:
         dll     -   The path or name of the XInput DLL to load.
 */
@@ -1313,12 +1313,12 @@ XInput_Init(dll="xinput1_3")
     global
     if _XInput_hm
         return
-    
+
     ;======== CONSTANTS DEFINED IN XINPUT.H ========
-    
+
     ; NOTE: These are based on my outdated copy of the DirectX SDK.
     ;       Newer versions of XInput may require additional constants.
-    
+
     ; Device types available in XINPUT_CAPABILITIES
     XINPUT_DEVTYPE_GAMEPAD          = 0x01
 
@@ -1351,21 +1351,21 @@ XInput_Init(dll="xinput1_3")
 
     ; Flags to pass to XInputGetCapabilities
     XINPUT_FLAG_GAMEPAD             = 0x00000001
-    
+
     ;=============== END CONSTANTS =================
-    
+
     _XInput_hm := DllCall("LoadLibrary" ,"str",dll)
-    
+
     if !_XInput_hm
     {
         MsgBox, Failed to initialize XInput: %dll%.dll not found.
         return
     }
-    
+
     _XInput_GetState        := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputGetState")
     _XInput_SetState        := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputSetState")
     _XInput_GetCapabilities := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputGetCapabilities")
-    
+
     if !(_XInput_GetState && _XInput_SetState && _XInput_GetCapabilities)
     {
         XInput_Term()
@@ -1376,13 +1376,13 @@ XInput_Init(dll="xinput1_3")
 
 /*
     Function: XInput_GetState
-    
+
     Retrieves the current state of the specified controller.
 
     Parameters:
         UserIndex   -   [in] Index of the user's controller. Can be a value from 0 to 3.
         State       -   [out] Receives the current state of the controller.
-    
+
     Returns:
         If the function succeeds, the return value is ERROR_SUCCESS (zero).
         If the controller is not connected, the return value is ERROR_DEVICE_NOT_CONNECTED (1167).
@@ -1398,9 +1398,9 @@ XInput_Init(dll="xinput1_3")
 XInput_GetState(UserIndex, ByRef State)
 {
     global _XInput_GetState
-    
+
     VarSetCapacity(xiState,16)
-    
+
     if ErrorLevel := DllCall(_XInput_GetState ,"uint",UserIndex ,"uint",&xiState)
         State =
     else
@@ -1419,27 +1419,27 @@ XInput_GetState(UserIndex, ByRef State)
                 'sThumbRY':" NumGet(xiState,14,"Short") "
             ;}
         )}"
-    
+
     return ErrorLevel
 }
 
 /*
     Function: XInput_SetState
-    
+
     Sends data to a connected controller. This function is used to activate the vibration
     function of a controller.
-    
+
     Parameters:
         UserIndex       -   [in] Index of the user's controller. Can be a value from 0 to 3.
         LeftMotorSpeed  -   [in] Speed of the left motor, between 0 and 65535.
         RightMotorSpeed -   [in] Speed of the right motor, between 0 and 65535.
-    
+
     Returns:
         If the function succeeds, the return value is 0 (ERROR_SUCCESS).
         If the controller is not connected, the return value is 1167 (ERROR_DEVICE_NOT_CONNECTED).
         If the function fails, the return value is an error code defined in Winerror.h.
             http://msdn.microsoft.com/en-us/library/ms681381.aspx
-    
+
     Remarks:
         The left motor is the low-frequency rumble motor. The right motor is the
         high-frequency rumble motor. The two motors are not the same, and they create
@@ -1453,16 +1453,16 @@ XInput_SetState(UserIndex, LeftMotorSpeed, RightMotorSpeed)
 
 /*
     Function: XInput_GetCapabilities
-    
+
     Retrieves the capabilities and features of a connected controller.
-    
+
     Parameters:
-        UserIndex   -   [in] Index of the user's controller. Can be a value in the range 0–3.
+        UserIndex   -   [in] Index of the user's controller. Can be a value in the range 0ï¿½3.
         Flags       -   [in] Input flags that identify the controller type.
                                 0   - All controllers.
                                 1   - XINPUT_FLAG_GAMEPAD: Xbox 360 Controllers only.
         Caps        -   [out] Receives the controller capabilities.
-    
+
     Returns:
         If the function succeeds, the return value is 0 (ERROR_SUCCESS).
         If the controller is not connected, the return value is 1167 (ERROR_DEVICE_NOT_CONNECTED).
@@ -1472,9 +1472,9 @@ XInput_SetState(UserIndex, LeftMotorSpeed, RightMotorSpeed)
 XInput_GetCapabilities(UserIndex, Flags, ByRef Caps)
 {
     global _XInput_GetCapabilities
-    
+
     VarSetCapacity(xiCaps,20)
-    
+
     if ErrorLevel := DllCall(_XInput_GetCapabilities ,"uint",UserIndex ,"uint",Flags ,"uint",&xiCaps)
         Caps =
     else
@@ -1497,7 +1497,7 @@ XInput_GetCapabilities(UserIndex, Flags, ByRef Caps)
                 'wRightMotorSpeed':" NumGet(xiCaps,18,"UShort") "
             }
         )}"
-    
+
     return ErrorLevel
 }
 
@@ -1578,7 +1578,7 @@ HandleMessage(p_w, p_l, p_m, p_hw)
   {
     global   WM_SETCURSOR, WM_MOUSEMOVE,
     static   URL_hover, h_cursor_hand, h_old_cursor, CtrlIsURL, LastCtrl
-   
+
     If (p_m = WM_SETCURSOR)
       {
         If URL_hover
@@ -1595,11 +1595,11 @@ HandleMessage(p_w, p_l, p_m, p_hw)
                 Gui, Font, cBlue underline
                 GuiControl, Font, %A_GuiControl%
                 LastCtrl = %A_GuiControl%
-               
+
                 h_cursor_hand := DllCall("LoadCursor", "uint", 0, "uint", 32649)
-               
+
                 URL_hover := true
-              }                 
+              }
               h_old_cursor := DllCall("SetCursor", "uint", h_cursor_hand)
           }
         ; Mouse cursor doesn't hover URL text control
@@ -1609,9 +1609,9 @@ HandleMessage(p_w, p_l, p_m, p_hw)
               {
                 Gui, Font, norm cBlue
                 GuiControl, Font, %LastCtrl%
-               
+
                 DllCall("SetCursor", "uint", h_old_cursor)
-               
+
                 URL_hover=
               }
           }
