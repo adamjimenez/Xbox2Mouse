@@ -352,7 +352,7 @@ CheckAll:
 		}
 	else
 		{
-			BlockPOVTab := 0
+			; BlockPOVTab := 0
 		}
 return
 
@@ -375,12 +375,12 @@ GoAltTab:
 	}
 	else
 	{
-		BlockPOVTab := 0
 		; new alt+tab solution for vista and windows 7
-		Send {Alt down}{Shift down}{Tab}
+		Send {Alt down}{Tab}
 		KeyWait %JoystickPrefix%5
 		KeyWait %JoystickPrefix%6
-		Send {Alt up}{shift up}
+		Send {Alt up}
+		; BlockPOVTab := 1
 	}
 	BlockPOVTab := 0
 return
@@ -397,7 +397,6 @@ ToggleTriggerSet:
 	return
 
 	SetMouseDelay, -1  ; Makes movement smoother.
-;	Tooltip Test
 	if ToggleTrigger = 1
 	{
 		Tooltip L/R Trigger Buttons`nDISABLED
