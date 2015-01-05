@@ -185,8 +185,8 @@ if A_IsCompiled
 Menu tray, NoStandard
 Menu Tray, Tip, XBox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
 Menu tray, add, Enable Mouse Simulator, ToggleMouseSet  ; Creates a new menu item.
-Menu tray, add, Enable L/R Trigger Buttons, ToggleTriggerSet  ; Creates a new menu item.
-Menu tray, add, Enable Emulator Enhancement Hotkeys, ToggleEmulatorEnhancement  ; Creates a new menu item.
+; Menu tray, add, Enable L/R Trigger Buttons, ToggleTriggerSet  ; Creates a new menu item.
+; Menu tray, add, Enable Emulator Enhancement Hotkeys, ToggleEmulatorEnhancement  ; Creates a new menu item.
 Menu tray, add  ; Creates a separator line.
 Menu tray, add, Edit Advanced Settings, MenuHandler  ; Creates a new menu item.
 	If ToggleMouseSimulator = 0
@@ -195,15 +195,15 @@ Menu tray, add, Edit Advanced Settings, MenuHandler  ; Creates a new menu item.
 	}
 	If ToggleTrigger = 1
 	{
-		Menu, tray, Check, Enable L/R Trigger Buttons
+	;	Menu, tray, Check, Enable L/R Trigger Buttons
 	}
 	If EmulatorEnhancement = 1
 	{
-		Menu, tray, Check, Enable Emulator Enhancement Hotkeys
+	;	Menu, tray, Check, Enable Emulator Enhancement Hotkeys
 	}
 Menu tray, add, Reload, MenuHandlerReload  ; Creates a new menu item.
 Menu tray, add  ; Creates a separator line.
-Menu tray, add, Help/About, MenuHandlerHelp  ; Creates a new menu item.
+Menu tray, add, About, MenuHandlerHelp  ; Creates a new menu item.
 Menu tray, add, Exit, MenuHandlerExit  ; instead of default exit
 
 ; -----------------LOAD HOTKEYS
