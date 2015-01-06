@@ -1303,20 +1303,34 @@ Gui Destroy
 	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
 	Gui Add, Text, xm ym, Welcome to XBox2Mouse V%AppVersion%!
 	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, This program is written to run silently in the background.
+	Gui Add, Text, xp yp+14, Controls:
+	Gui Add, Text, xp yp+14,
+	Gui Add, Text, xp yp+14, LB + RB + B: Toggle on/ off
+	Gui Add, Text, xp yp+14, Dpad: arrow keys
+	Gui Add, Text, xp yp+14, A: left click
+	Gui Add, Text, xp yp+14, B: right click
+	Gui Add, Text, xp yp+14, X: middle click
+	Gui Add, Text, xp yp+14, Start: enter
+	Gui Add, Text, xp yp+14, LB|RB + up/ down: Page up/ Page down
+	Gui Add, Text, xp yp+14, LB|RB + left/ right: Previous tab/ Next tab
+	Gui Add, Text, xp yp+14, LB + RB + back: Close window (Alt+F4)
+	Gui Add, Text, xp yp+14, LB + RB + left/ right: Next / Previous program (Alt+Tab)
+	Gui Add, Text, xp yp+14, LB + RB + up: Full screen (Alt+Enter)
+	Gui Add, Text, xp yp+14, RS: Adjust volume, click to mute
+	Gui Add, Text, xp yp+14, LB|RB RS: Adjust zoom, click to reset
+	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, To change settings or exit this program please right click the system tray icon.
 	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, To quickly toggle enabling or disabling functions hold down LB+RB and B.
-	Gui Add, Text, xp yp+14, For more detailed controls and hotkeys please visit
+	Gui Add, Text, xp yp+14, For more details please visit:
 	Gui Add, Text, xp+240 yp cBlue gLink1 vURL_Link1, https://github.com/adamjimenez/XBox2Mouse
 	Gui Add, Text, xp-240 yp+14,
 	Gui Add, Text, xp yp+14, To change advanced settings please edit the ini file manually and reload the program.
-	Gui Add, Text, xp yp+14, If you accidentally mess up the settings in "BoxMouse.ini" please manually delete the file and reload the program.
+	Gui Add, Text, xp yp+14, If you accidentally mess up the settings in "XBox2Mouse.ini" please manually delete the file and reload the program.
 	Gui Add, Text, xp yp+14, The ini file is located in the same directory as this program but can be quickly edited from the system tray.
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, To uninstall this program simply delete the files.
 	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, This message is only shown once, if you wish to read it again, please right click the system tray icon and click help/about.
+	Gui Add, Text, xp yp+14, To see this message again, right click the system tray icon and click About.
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14,
 	Gui Add, Button, xp+250 h23 w75, OK
