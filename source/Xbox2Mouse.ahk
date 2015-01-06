@@ -232,8 +232,8 @@ if HaltProgram = 0 ; prevent looping overuse of cpu when no controller is connec
 	Hotkey, %JoystickPrefix%6, KeyTabNext
 	Hotkey, %JoystickPrefix%7, KeyEscape
 	Hotkey, %JoystickPrefix%8, KeyEnter
-	Hotkey, %JoystickPrefix%9, SaveState ; L3
-	Hotkey, %JoystickPrefix%10, LoadState ; R3
+	Hotkey, %JoystickPrefix%9, LoadState ; L3
+	Hotkey, %JoystickPrefix%10, Mute ; R3
 
 	; -----------------LOADING PARAMETERS
 
@@ -846,6 +846,18 @@ KeyEnter:
 	}
 return
 
+Mute:
+	if (ToggleMouseSimulator = 1) ; only run when mouse is enabled
+		return
+
+	if (TotalModDown = 1)
+		Send {Ctrl down}{0}{Ctrl up}
+	else {
+		SoundGet master_volume
+		Send {Volume_Mute}
+	}
+return
+
 ; SAVE STATE BUTTON - DIFFERENT DEPENDING ON THE EMULATOR CURRENTLY RUNNING IN FOCUS
 SaveState:
 	if (ToggleMouseSimulator = 0) ; only run when mouse is disabled
@@ -893,26 +905,11 @@ SaveState:
 	}
 return
 
-
 ; LOAD STATE BUTTON - DIFFERENT DEPENDING ON THE EMULATOR CURRENTLY RUNNING IN FOCUS
 LoadState:
 	if (ToggleMouseSimulator = 1) ; only run when mouse is enabled
 		return
 
-	;mute
-
-	if (TotalModDown = 1)
-		Send {Ctrl down}{0}{Ctrl up}
-	else {
-		SoundGet master_volume
-		Send {Volume_Mute}
-	}
-
-	return
-
-	/*
-	if (EmulatorEnhancement = 0)
-		return
 	SetMouseDelay, -1  ; Makes movement smoother.
 	WinGetActiveStats Title, Width, Height, X, Y
 	{
@@ -950,7 +947,6 @@ LoadState:
 			Send {F7}
 		}
 	}
-	*/
 return
 
 ; -----------------HOTKEY FUNCTIONS
