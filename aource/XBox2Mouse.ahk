@@ -454,12 +454,14 @@ return
 ShowSplashImage:
 	Settimer ShowSplashImage, off
 	gui,add,picture,,%AppDir%\%SplashIcon%
-	Gui, Color, 000000
+	Gui, Color, 7e7e7e
 	Gui +LastFound
-	winset,transcolor,000000
+	GUI_ID:=WinExist() ; Handle to the GUI
+	; winset,transcolor,000000 ; transparency doesn't work with fade
 	gui,-caption +alwaysontop +ToolWindow
 	gui,show,NoActivate
-	sleep,2000
+	sleep,1000
+	; DllCall("AnimateWindow","UInt",GUI_ID,"Int",1000,"UInt","0x90000") ;fade window / FIXME temp disables input..
 	gui,destroy
 return
 
@@ -502,7 +504,7 @@ ToggleMouseSet:
 	}
 	Settimer ShowSplashImage, on
 	Settimer CheckAll, off
-	Settimer TooltipOff, 2000
+	; Settimer TooltipOff, 2000
 	Settimer ReActivateCheckAll, 1000
 Return
 
