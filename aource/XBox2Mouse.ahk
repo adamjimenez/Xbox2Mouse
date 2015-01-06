@@ -885,8 +885,14 @@ LoadState:
 		return
 
 	;mute
-	SoundGet master_volume
-	Send {Volume_Mute}
+
+	if (TotalModDown = 1)
+		Send {Ctrl down}{0}{Ctrl up}
+	else {
+		SoundGet master_volume
+		Send {Volume_Mute}
+	}
+
 	return
 
 	/*
@@ -1099,19 +1105,18 @@ WatchJoystick2:
 			;Tooltip %joyr% %ScrollSpeedVertical% ;debugging info
 				if VerticalDirection = 1
 				{
-					;Send {WheelDown}
-					Gosub DecreaseVolume
+					Gosub JoyStick2Down
 				}
 				else
 				{
-					;Send {WheelUp}
-					Gosub IncreaseVolume
+					Gosub JoyStick2Up
 				}
 			JoyBuffer := 1
 		}
 		else
 		{
-			SetTimer Joystick2ScrollVerticalTimer, %ScrollSpeedVertical%
+			if (TotalModDown = 0)
+				SetTimer Joystick2ScrollVerticalTimer, %ScrollSpeedVertical%
 		}
 		;SetTimer Joystick2ScrollHorisontalTimer, %ScrollSpeedHorisontal%
 	}
@@ -1126,14 +1131,28 @@ return
 Joystick2ScrollVerticalTimer:
 	if VerticalDirection = 1
 	{
-		;Send {WheelDown}
-		Gosub DecreaseVolume
+		Gosub JoyStick2Down
 	}
 	else
 	{
-		;Send {WheelUp}
-		Gosub IncreaseVolume
+		Gosub JoyStick2Up
 	}
+return
+
+JoyStick2Down:
+	;Send {WheelDown}
+	if (TotalModDown = 1)
+		Send {Ctrl down}{-}{Ctrl up}
+	else
+		Gosub DecreaseVolume
+return
+
+JoyStick2Up:
+	;Send {WheelUp}
+	if (TotalModDown = 1)
+		Send {Ctrl down}{+}{Ctrl up}
+	else
+		Gosub IncreaseVolume
 return
 
 ; Joystick2ScrollHorisontalTimer:
