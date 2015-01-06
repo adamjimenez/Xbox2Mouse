@@ -24,7 +24,7 @@ AppVersion = 2.0
 AppJoystickMessage = No joysticks or gamepads were detected! Please press button A when you have inserted a controller or right click the system tray and select "Reload"!`nThis message will not be shown again!
 
 ; -----------------LOAD SETTINGS
-inifile = %AppDir%\XBox2Mouse.ini
+inifile = %AppDir%\Xbox2Mouse.ini
 
 
 ; Increase the following value to make the mouse cursor move faster:
@@ -80,23 +80,23 @@ IniWrite, %AutoDetectJoysticks%, %inifile%, Settings, AutoDetectJoysticks
 
 ; Load xbox trigger settings - uses Xinput for detection due to trigger using only a single axis
 ; Is Trigger on by default? Toggled while running by pressing L+R+Button2
-IniRead, ToggleTrigger, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault, 1
-IniWrite, %ToggleTrigger%, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault
+IniRead, ToggleTrigger, %inifile%, XboxTriggerButtons, TriggerButtonsOnByDefault, 1
+IniWrite, %ToggleTrigger%, %inifile%, XboxTriggerButtons, TriggerButtonsOnByDefault
 
 ; Minimum to be considered "pressed", between 1 (0.39%) and 255 (100%) for trigger buttons
-IniRead, TriggerThreshold, %inifile%, XBoxTriggerButtons, TriggerThreshold, 64.0
-IniWrite, %TriggerThreshold%, %inifile%, XBoxTriggerButtons, TriggerThreshold
+IniRead, TriggerThreshold, %inifile%, XboxTriggerButtons, TriggerThreshold, 64.0
+IniWrite, %TriggerThreshold%, %inifile%, XboxTriggerButtons, TriggerThreshold
 
 ; InvertVolume
-IniRead, InvertVolumeButtons, %inifile%, XBoxTriggerButtons, InvertVolumeButtons, 0
-IniWrite, %InvertVolumeButtons%, %inifile%, XBoxTriggerButtons, InvertVolumeButtons
+IniRead, InvertVolumeButtons, %inifile%, XboxTriggerButtons, InvertVolumeButtons, 0
+IniWrite, %InvertVolumeButtons%, %inifile%, XboxTriggerButtons, InvertVolumeButtons
 
 ; Keys to bind to triggers.
-IniRead, LT_Key, %inifile%, XBoxTriggerButtons, LeftTriggerKey, z
-IniWrite, %LT_Key%, %inifile%, XBoxTriggerButtons, LeftTriggerKey
+IniRead, LT_Key, %inifile%, XboxTriggerButtons, LeftTriggerKey, z
+IniWrite, %LT_Key%, %inifile%, XboxTriggerButtons, LeftTriggerKey
 
-IniRead, RT_Key, %inifile%, XBoxTriggerButtons, RightTriggerKey, x
-IniWrite, %RT_Key%, %inifile%, XBoxTriggerButtons, RightTriggerKey
+IniRead, RT_Key, %inifile%, XboxTriggerButtons, RightTriggerKey, x
+IniWrite, %RT_Key%, %inifile%, XboxTriggerButtons, RightTriggerKey
 
 ; Load settings if emulator integration shortcuts are enabled by default
 IniRead, EmulatorEnhancement, %inifile%, Settings, EmulatorEnhancement, 1
@@ -171,7 +171,7 @@ if AutoDetectJoysticks = 1
 			}
 			else
 			{
-				MsgBox, 48, XBox2Mouse V%AppVersion%, %AppJoystickMessage%
+				MsgBox, 48, Xbox2Mouse V%AppVersion%, %AppJoystickMessage%
 				IniWrite, 1, %inifile%, Settings, JoyStickMessageShowOnce
 				HaltProgram := 1 ; Do nothing to prevent overuse of cpu
 			}
@@ -189,10 +189,10 @@ if A_IsCompiled
 {
 	Menu Tray, Icon, %A_ScriptDir%\%A_ScriptName%
 }else{
-	Menu Tray, Icon, %A_ScriptDir%\XBox2Mouse.ico
+	Menu Tray, Icon, %A_ScriptDir%\Xbox2Mouse.ico
 }
 Menu tray, NoStandard
-Menu Tray, Tip, XBox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
+Menu Tray, Tip, Xbox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
 Menu tray, add, Enable Mouse Simulator, ToggleMouseSet  ; Creates a new menu item.
 ; Menu tray, add, Enable L/R Trigger Buttons, ToggleTriggerSet  ; Creates a new menu item.
 ; Menu tray, add, Enable Emulator Enhancement Hotkeys, ToggleEmulatorEnhancement  ; Creates a new menu item.
@@ -248,7 +248,7 @@ if HaltProgram = 0 ; prevent looping overuse of cpu when no controller is connec
 
 	; Start watching for joystick input
 	SetTimer CheckAll, 25 ; Modifier hotkeys to change settings
-	SetTimer LeftRightTrigger, 5 ; XBox trigger as normal buttons
+	SetTimer LeftRightTrigger, 5 ; Xbox trigger as normal buttons
 	SetTimer WatchJoystick, 10  ; Monitor the movement of the joystick.
 	SetTimer WatchJoystick2, 250 ; Movement of the scroller (joystick 2)
 	SetTimer DigitalPad, %WheelDelay%
@@ -278,7 +278,7 @@ return
 
 ; TRAY ICON MENU ITEMS
 MenuHandler:
-	Run, open "%AppDir%\XBox2Mouse.ini"
+	Run, open "%AppDir%\Xbox2Mouse.ini"
 return
 
 ; SHOW ABOUT/HELP GUI WINDOW
@@ -406,7 +406,7 @@ ToggleTriggerSet:
 		Tooltip L/R Trigger Buttons`nDISABLED
 		ToggleTrigger = 0
 		Settimer, LeftRightTrigger, off
-		IniWrite, %ToggleTrigger%, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault
+		IniWrite, %ToggleTrigger%, %inifile%, XboxTriggerButtons, TriggerButtonsOnByDefault
 		Menu, tray, Uncheck, Enable L/R Trigger Buttons
 	}
 	else
@@ -414,7 +414,7 @@ ToggleTriggerSet:
 		Tooltip L/R Trigger Buttons`nENABLED
 		ToggleTrigger = 1
 		Settimer, LeftRightTrigger, on
-		IniWrite, %ToggleTrigger%, %inifile%, XBoxTriggerButtons, TriggerButtonsOnByDefault
+		IniWrite, %ToggleTrigger%, %inifile%, XboxTriggerButtons, TriggerButtonsOnByDefault
 		Menu, tray, Check, Enable L/R Trigger Buttons
 	}
 	Settimer CheckAll, off
@@ -1301,7 +1301,7 @@ ShowHelpAbout:
 Gui Destroy
 	Gui Margin, 5, 5
 	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
-	Gui Add, Text, xm ym, Welcome to XBox2Mouse V%AppVersion%!
+	Gui Add, Text, xm ym, Welcome to Xbox2Mouse V%AppVersion%!
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, Controls:
 	Gui Add, Text, xp yp+14,
@@ -1322,10 +1322,10 @@ Gui Destroy
 	Gui Add, Text, xp yp+14, To change settings or exit this program please right click the system tray icon.
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, For more details please visit:
-	Gui Add, Text, xp+240 yp cBlue gLink1 vURL_Link1, https://github.com/adamjimenez/XBox2Mouse
+	Gui Add, Text, xp+240 yp cBlue gLink1 vURL_Link1, https://github.com/adamjimenez/Xbox2Mouse
 	Gui Add, Text, xp-240 yp+14,
 	Gui Add, Text, xp yp+14, To change advanced settings please edit the ini file manually and reload the program.
-	Gui Add, Text, xp yp+14, If you accidentally mess up the settings in "XBox2Mouse.ini" please manually delete the file and reload the program.
+	Gui Add, Text, xp yp+14, If you accidentally mess up the settings in "Xbox2Mouse.ini" please manually delete the file and reload the program.
 	Gui Add, Text, xp yp+14, The ini file is located in the same directory as this program but can be quickly edited from the system tray.
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, To uninstall this program simply delete the files.
@@ -1349,7 +1349,7 @@ Gui Destroy
 	OnMessage(WM_MOUSEMOVE, "HandleMessage")
 
 ;Show window
-	Gui Show, w600, XBox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
+	Gui Show, w600, Xbox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
 return
 
 ;Object References
@@ -1357,7 +1357,7 @@ ButtonOK:
 	Gui destroy
 return
 Link1:
-	Run https://github.com/adamjimenez/XBox2Mouse
+	Run https://github.com/adamjimenez/Xbox2Mouse
 	Gui destroy
 return
 
