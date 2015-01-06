@@ -1311,11 +1311,11 @@ Gui Destroy
 	Gui Add, Text, xp yp+14, Controls:
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, LB + RB + B: Toggle on/ off
-	Gui Add, Text, xp yp+14, Dpad: arrow keys
-	Gui Add, Text, xp yp+14, A: left click
-	Gui Add, Text, xp yp+14, B: right click
-	Gui Add, Text, xp yp+14, X: middle click
-	Gui Add, Text, xp yp+14, Start: enter
+	Gui Add, Text, xp yp+14, Dpad: Arrow keys
+	Gui Add, Text, xp yp+14, A: Left click
+	Gui Add, Text, xp yp+14, B: Right click
+	Gui Add, Text, xp yp+14, X: Middle click
+	Gui Add, Text, xp yp+14, Start: Enter
 	Gui Add, Text, xp yp+14, LB|RB + up/ down: Page up/ Page down
 	Gui Add, Text, xp yp+14, LB|RB + left/ right: Previous tab/ Next tab
 	Gui Add, Text, xp yp+14, LB + RB + back: Close window (Alt+F4)
@@ -1323,6 +1323,7 @@ Gui Destroy
 	Gui Add, Text, xp yp+14, LB + RB + up: Full screen (Alt+Enter)
 	Gui Add, Text, xp yp+14, RS: Adjust volume, click to mute
 	Gui Add, Text, xp yp+14, LB|RB RS: Adjust zoom, click to reset
+	Gui Add, Text, xp yp+14, LT/RT: Scroll Down/ Up
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, To change settings or exit this program please right click the system tray icon.
 	Gui Add, Text, xp yp+14,
