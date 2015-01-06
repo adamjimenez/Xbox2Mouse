@@ -24,7 +24,7 @@ AppVersion = 2.0
 AppJoystickMessage = No joysticks or gamepads were detected! Please press button A when you have inserted a controller or right click the system tray and select "Reload"!`nThis message will not be shown again!
 
 ; -----------------LOAD SETTINGS
-inifile = %AppDir%\XBoxMouse.ini
+inifile = %AppDir%\XBox2Mouse.ini
 
 
 ; Increase the following value to make the mouse cursor move faster:
@@ -171,7 +171,7 @@ if AutoDetectJoysticks = 1
 			}
 			else
 			{
-				MsgBox, 48, XBoxMouse simulator V%AppVersion%, %AppJoystickMessage%
+				MsgBox, 48, XBox2Mouse V%AppVersion%, %AppJoystickMessage%
 				IniWrite, 1, %inifile%, Settings, JoyStickMessageShowOnce
 				HaltProgram := 1 ; Do nothing to prevent overuse of cpu
 			}
@@ -189,7 +189,7 @@ if A_IsCompiled
 {
 	Menu Tray, Icon, %A_ScriptDir%\%A_ScriptName%
 }else{
-	Menu Tray, Icon, %A_ScriptDir%\XBoxMouse.ico
+	Menu Tray, Icon, %A_ScriptDir%\XBox2Mouse.ico
 }
 Menu tray, NoStandard
 Menu Tray, Tip, XBox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
@@ -278,7 +278,7 @@ return
 
 ; TRAY ICON MENU ITEMS
 MenuHandler:
-	Run, open "%AppDir%\XBoxMouse.ini"
+	Run, open "%AppDir%\XBox2Mouse.ini"
 return
 
 ; SHOW ABOUT/HELP GUI WINDOW
@@ -1244,14 +1244,14 @@ ShowHelpAbout:
 Gui Destroy
 	Gui Margin, 5, 5
 	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
-	Gui Add, Text, xm ym, Welcome to XBoxMouse simulator V%AppVersion%!
+	Gui Add, Text, xm ym, Welcome to XBox2Mouse V%AppVersion%!
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, This program is written to run silently in the background.
 	Gui Add, Text, xp yp+14, To change settings or exit this program please right click the system tray icon.
 	Gui Add, Text, xp yp+14,
 	Gui Add, Text, xp yp+14, To quickly toggle enabling or disabling functions hold down LB+RB and B.
 	Gui Add, Text, xp yp+14, For more detailed controls and hotkeys please visit
-	Gui Add, Text, xp+240 yp cBlue gLink1 vURL_Link1, https://github.com/adamjimenez/XBoxMouse-Simulator
+	Gui Add, Text, xp+240 yp cBlue gLink1 vURL_Link1, https://github.com/adamjimenez/XBox2Mouse
 	Gui Add, Text, xp-240 yp+14,
 	Gui Add, Text, xp yp+14, To change advanced settings please edit the ini file manually and reload the program.
 	Gui Add, Text, xp yp+14, If you accidentally mess up the settings in "BoxMouse.ini" please manually delete the file and reload the program.
@@ -1286,7 +1286,7 @@ ButtonOK:
 	Gui destroy
 return
 Link1:
-	Run https://github.com/adamjimenez/XBoxMouse-Simulator
+	Run https://github.com/adamjimenez/XBox2Mouse
 	Gui destroy
 return
 
