@@ -547,21 +547,22 @@ return
 ; READ LEFT AND RIGHT TRIGGER BUTTONS AND REPLACE WITH KEYBOARD IF SET
 LeftRightTrigger:
 	SetMouseDelay, -1  ; Makes movement smoother.
-	Loop, 4
-	{
-		if XInput_GetState(A_Index-1, State)=0 {
-			LT := json(State,"bLeftTrigger") >= TriggerThreshold
-			RT := json(State,"bRightTrigger") >= TriggerThreshold
-			if (LT != LastLT)
-			{
-				Gosub LeftTrigger
-				LastLT := LT
-			}
-			if (RT != LastRT)
-			{
-				Gosub RightTrigger
-				LastRT := RT
-			}
+
+	if XInput_GetState(JoystickNumber-1, State)=0 {
+		LT := json(State,"bLeftTrigger") >= TriggerThreshold
+		RT := json(State,"bRightTrigger") >= TriggerThreshold
+
+		if (LT != 0)
+		{
+			Gosub LeftTrigger
+			LastLT := LT
+			sleep, 50
+		}
+		if (RT != 0)
+		{
+			Gosub RightTrigger
+			LastRT := RT
+			sleep, 50
 		}
 	}
 return
@@ -588,13 +589,14 @@ LeftTrigger:
 	{
 		if InvertVolumeButtons = 1
 		{
-			Gosub IncreaseVolume
+			Send {WheelDown}
 		}
 		else
 		{
-			Gosub DecreaseVolume
+			Send {WheelUp}
 		}
 	}
+	/*
 	else if ToggleTrigger = 0 ; Are the trigger replacements disabled?
 	{
 		; Do nothing
@@ -603,6 +605,7 @@ LeftTrigger:
 	{
 		; Send % "{" . LT_Key . (LT ? " Down}" : " Up}") ;%
 	}
+	*/
 return
 
 ; RIGHT TRIGGER BUTTON REPLACEMENT
@@ -611,13 +614,14 @@ RightTrigger:
 	{
 		if InvertVolumeButtons = 1
 		{
-			Gosub DecreaseVolume
+			Send {WheelUp}
 		}
 		else
 		{
-			Gosub IncreaseVolume
+			Send {WheelDown}
 		}
 	}
+	/*
 	else if ToggleTrigger = 0 ; Are the trigger replacements disabled?
 	{
 		; Do nothing
@@ -626,6 +630,7 @@ RightTrigger:
 	{
 		; Send % "{" . RT_Key . (RT ? " Down}" : " Up}") ;%
 	}
+	*/
 return
 
 ; PREVIOUS TAB BUTTON
