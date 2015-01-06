@@ -1262,9 +1262,9 @@ DigitalPad:
 					else if KeyToHoldDown = Down
 						Send {PgDn}
 					else if KeyToHoldDown = Left
-						Send {Ctrl down}{PgUp}{Ctrl up}
+						Send {Ctrl down}{Shift down}{Tab}{Ctrl up}{Shift up}
 					else if KeyToHoldDown = Right
-						Send {Ctrl down}{PgDn}{Ctrl up}
+						Send {Ctrl down}{Tab}{Ctrl up}
 				}
 				else
 					Send, {%KeyToHoldDown% down}  ; Press it down.
