@@ -1,4 +1,4 @@
-XBoxMouse-Simulator
+XBox2Mouse
 ===================
 
 XBox 360 Controller to Mouse Simulator
