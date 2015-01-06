@@ -672,6 +672,9 @@ KeyTabPrev:
 		return
 	}
 
+	return
+
+	/*
 	; CUSTOM COMMAND INTEGRATION
 		WinGetActiveStats Title, Width, Height, X, Y
 		{
@@ -703,6 +706,7 @@ KeyTabPrev:
 				}
 			}
 		}
+	*/
 return
 
 
@@ -752,6 +756,9 @@ KeyTabNext:
 		return
 	}
 
+	return
+
+	/*
 	; CUSTOM COMMAND INTEGRATION
 		WinGetActiveStats Title, Width, Height, X, Y
 		{
@@ -783,6 +790,7 @@ KeyTabNext:
 				}
 			}
 		}
+	*/
 return
 
 
@@ -1246,7 +1254,19 @@ DigitalPad:
 		SetKeyDelay -1  ; Avoid delays between keystrokes.
 		if KeyToHoldDown   ; There is a key to press down.
 			{
-				Send, {%KeyToHoldDown% down}  ; Press it down.
+				if (TotalModDown = 1) {
+					if KeyToHoldDown = Up
+						Send {PgUp}
+					else if KeyToHoldDown = Down
+						Send {PgDn}
+					else if KeyToHoldDown = Left
+						Send {Ctrl down}{PgUp}{Ctrl up}
+					else if KeyToHoldDown = Right
+						Send {Ctrl down}{PgDn}{Ctrl up}
+				}
+				else
+					Send, {%KeyToHoldDown% down}  ; Press it down.
+
 				sleep, 50
 			}
 	}
