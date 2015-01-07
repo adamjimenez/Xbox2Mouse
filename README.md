@@ -2,7 +2,14 @@ Xbox2Mouse
 ===================
 
 Xbox 360 Controller to Mouse Simulator
-Forked from XboxMouse Simulator by Nicklas Hult (http://nirklars.wordpress.com)
+Forked from XboxMouse Simulator by Nicklas Hult (http://nirklars.wordpress.com/xboxmouse/)
+
+Controls:
+
+![controls](https://github.com/adamjimenez/Xbox2Mouse/raw/master/controls.png "Controls")
+![controls](https://github.com/adamjimenez/Xbox2Mouse/raw/master/controls with one modifier.png "Controls with one Modifier")
+![controls](https://github.com/adamjimenez/Xbox2Mouse/raw/master/controls with both modifiers.png "Controls with both modifiers")
+
 
 Enhancements in fork
 * Fullscreen LB+RB+Up

@@ -1310,40 +1310,11 @@ ShowHelpAbout:
 Gui Destroy
 	Gui Margin, 5, 5
 	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
-	Gui Add, Text, xm ym, Welcome to Xbox2Mouse V%AppVersion%!
+	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
+	Gui, Add, Picture, xm ym, %AppDir%\controls.png
+	Gui Add, Button, xp+250 yp+450 h23 w75, Next
+	Gui Add, Text, x10 yp+50 cBlue gLink1 vURL_Link1, https://github.com/adamjimenez/Xbox2Mouse
 	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, Controls:
-	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, LB + RB + B: Toggle on/ off
-	Gui Add, Text, xp yp+14, Dpad: Arrow keys
-	Gui Add, Text, xp yp+14, A: Left click
-	Gui Add, Text, xp yp+14, B: Right click
-	Gui Add, Text, xp yp+14, X: Middle click
-	Gui Add, Text, xp yp+14, Start: Enter
-	Gui Add, Text, xp yp+14, LB|RB + up/ down: Page up/ Page down
-	Gui Add, Text, xp yp+14, LB|RB + left/ right: Previous tab/ Next tab
-	Gui Add, Text, xp yp+14, LB + RB + back: Close window (Alt+F4)
-	Gui Add, Text, xp yp+14, LB + RB + left/ right: Next / Previous program (Alt+Tab)
-	Gui Add, Text, xp yp+14, LB + RB + up: Full screen (Alt+Enter)
-	Gui Add, Text, xp yp+14, RS: Adjust volume, click to mute
-	Gui Add, Text, xp yp+14, LB|RB RS: Adjust zoom, click to reset
-	Gui Add, Text, xp yp+14, LT/RT: Scroll Down/ Up
-	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, To change settings or exit this program please right click the system tray icon.
-	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, For more details please visit:
-	Gui Add, Text, xp+240 yp cBlue gLink1 vURL_Link1, https://github.com/adamjimenez/Xbox2Mouse
-	Gui Add, Text, xp-240 yp+14,
-	Gui Add, Text, xp yp+14, To change advanced settings please edit the ini file manually and reload the program.
-	Gui Add, Text, xp yp+14, If you accidentally mess up the settings in "Xbox2Mouse.ini" please manually delete the file and reload the program.
-	Gui Add, Text, xp yp+14, The ini file is located in the same directory as this program but can be quickly edited from the system tray.
-	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, To uninstall this program simply delete the files.
-	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14, To see this message again, right click the system tray icon and click About.
-	Gui Add, Text, xp yp+14,
-	Gui Add, Text, xp yp+14,
-	Gui Add, Button, xp+250 h23 w75, OK
 
 ;Setup Links
 	; Retrieve scripts PID
@@ -1359,15 +1330,79 @@ Gui Destroy
 	OnMessage(WM_MOUSEMOVE, "HandleMessage")
 
 ;Show window
-	Gui Show, w600, Xbox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
+	Gui Show, w600, Xbox2Mouse V%AppVersion%
 return
 
 ;Object References
-ButtonOK:
+ButtonNext:
 	Gui destroy
+	Gosub ShowHelpAbout2
 return
 Link1:
 	Run https://github.com/adamjimenez/Xbox2Mouse
+	Gui destroy
+return
+
+ShowHelpAbout2:
+Gui Destroy
+	Gui Margin, 5, 5
+	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
+	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
+	Gui, Add, Picture, xm ym, %AppDir%\controls with one modifier.png
+	Gui Add, Button, xp+250 yp+450 h23 w75, Next2
+	Gui Add, Text, xp yp+14,
+
+;Setup Links
+	; Retrieve scripts PID
+	Process Exist
+	pid_this := ErrorLevel
+	; Retrieve unique ID number (HWND/handle)
+	WinGet hw_gui, ID, ahk_class AutoHotkeyGUI ahk_pid %pid_this%
+	; Call "HandleMessage" when script receives WM_SETCURSOR message
+	WM_SETCURSOR = 0x20
+	OnMessage(WM_SETCURSOR, "HandleMessage")
+	; Call "HandleMessage" when script receives WM_MOUSEMOVE message
+	WM_MOUSEMOVE = 0x200
+	OnMessage(WM_MOUSEMOVE, "HandleMessage")
+
+;Show window
+	Gui Show, w600, Xbox2Mouse V%AppVersion%
+return
+
+;Object References
+ButtonNext2:
+	Gui destroy
+	Gosub ShowHelpAbout3
+return
+
+ShowHelpAbout3:
+Gui Destroy
+	Gui Margin, 5, 5
+	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
+	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
+	Gui, Add, Picture, xm ym, %AppDir%\controls with both modifiers.png
+	Gui Add, Button, xp+250 yp+450 h23 w75, Close
+	Gui Add, Text, xp yp+14,
+
+;Setup Links
+	; Retrieve scripts PID
+	Process Exist
+	pid_this := ErrorLevel
+	; Retrieve unique ID number (HWND/handle)
+	WinGet hw_gui, ID, ahk_class AutoHotkeyGUI ahk_pid %pid_this%
+	; Call "HandleMessage" when script receives WM_SETCURSOR message
+	WM_SETCURSOR = 0x20
+	OnMessage(WM_SETCURSOR, "HandleMessage")
+	; Call "HandleMessage" when script receives WM_MOUSEMOVE message
+	WM_MOUSEMOVE = 0x200
+	OnMessage(WM_MOUSEMOVE, "HandleMessage")
+
+;Show window
+	Gui Show, w600, Xbox2Mouse V%AppVersion%
+return
+
+;Object References
+ButtonClose:
 	Gui destroy
 return
 
