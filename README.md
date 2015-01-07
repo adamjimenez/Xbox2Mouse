@@ -2,6 +2,7 @@ Xbox2Mouse
 ===================
 
 Xbox Controller to Mouse Input and Keyboard Shortcuts
+
 Forked from XboxMouse Simulator by Nicklas Hult (http://nirklars.wordpress.com/xboxmouse/)
 
 ![controls](https://github.com/adamjimenez/Xbox2Mouse/raw/master/controls.png "Controls")
@@ -19,5 +20,3 @@ Enhancements in fork
 * Zoom with LB|RB and right stick, click to reset zoom
 * Scroll up/ down with triggers
 * Fix don't accept triggers from other controllers
-
-Right click tray icon and click About for full controls
