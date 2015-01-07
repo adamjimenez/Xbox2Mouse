@@ -227,7 +227,7 @@ if HaltProgram = 0 ; prevent looping overuse of cpu when no controller is connec
 	Hotkey, %JoystickPrefix%%ButtonLeft%, ButtonLeft
 	Hotkey, %JoystickPrefix%%ButtonRight%, ButtonRight
 	Hotkey, %JoystickPrefix%%ButtonMiddle%, ButtonMiddle
-	; Hotkey, %JoystickPrefix%4, KeyKeyboard
+	Hotkey, %JoystickPrefix%4, BrowserBack
 	Hotkey, %JoystickPrefix%5, KeyTabPrev
 	Hotkey, %JoystickPrefix%6, KeyTabNext
 	Hotkey, %JoystickPrefix%7, KeyEscape
@@ -632,6 +632,14 @@ RightTrigger:
 	}
 	*/
 return
+
+BrowserBack:
+	if (ToggleMouseSimulator = 1)
+		return
+	SetMouseDelay, -1  ; Makes movement smoother.
+	Send {Browser_Back}
+return
+
 
 ; PREVIOUS TAB BUTTON
 KeyTabPrev:
