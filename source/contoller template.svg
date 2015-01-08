@@ -8,34 +8,34 @@
   <text fill="#000000" stroke-width="0" x="300" y="45" id="heading" font-size="24" font-family="Monospace" text-anchor="middle" stroke="#000000">Controls</text>
   <text fill="#000000" stroke-width="0" x="120" y="100" id="label_lt" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Left Trigger</text>
   <text fill="#000000" stroke-width="0" x="480" y="100" id="label_rt" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Right Trigger</text>
-  <text fill="#000000" stroke-width="0" x="70" y="140" id="label_lb" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Left Button</text>
+  <text fill="#000000" stroke-width="0" x="90" y="140" id="label_lb" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Left Button</text>
   <text fill="#000000" stroke-width="0" x="500" y="140" id="label_rb" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Right Button</text>
   <text fill="#000000" stroke-width="0" x="345" y="120" id="label_start" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Start</text>
   <text fill="#000000" stroke-width="0" x="255" y="120" id="label_select" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Select</text>
   <text fill="#000000" stroke-width="0" x="80" y="206" id="label_ls" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Left Stick</text>
   <text fill="#000000" stroke-width="0" x="60" y="290" id="label_l3" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Click Stick</text>
-  <text fill="#000000" stroke-width="0" x="204" y="396" id="label_dpad" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Dpad</text>
-  <text fill="#000000" stroke-width="0" x="420" y="386" id="label_rs" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Right Stick</text>
-  <text fill="#000000" stroke-width="0" x="340" y="420" id="label_r3" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Click Right Stick</text>
-  <text fill="#000000" stroke-width="0" x="545" y="235" id="label_y" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Y Button</text>
-  <text fill="#000000" stroke-width="0" x="545" y="258" id="label_x" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">X Button</text>
-  <text fill="#000000" stroke-width="0" x="545" y="278" id="label_b" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">B Button</text>
-  <text fill="#000000" stroke-width="0" x="545" y="305" id="label_a" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">A Button</text>
+  <text fill="#000000" stroke-width="0" x="210" y="390" id="label_dpad" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Dpad</text>
+  <text fill="#000000" stroke-width="0" x="406" y="380" id="label_rs" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Right Stick</text>
+  <text fill="#000000" stroke-width="0" x="340" y="415" id="label_r3" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Click Right Stick</text>
+  <text fill="#000000" stroke-width="0" x="510" y="234" id="label_y" font-size="14" font-family="Monospace" stroke="#000000">Y Button</text>
+  <text fill="#000000" stroke-width="0" x="510" y="258" id="label_x" font-size="14" font-family="Monospace" stroke="#000000">X Button</text>
+  <text fill="#000000" stroke-width="0" x="510" y="282" id="label_b" font-size="14" font-family="Monospace" stroke="#000000">B Button</text>
+  <text fill="#000000" stroke-width="0" x="510" y="306" id="label_a" font-size="14" font-family="Monospace" stroke="#000000">A Button</text>
 
   <line fill="none" stroke="#000000" stroke-width="2" x1="120" y1="106" x2="194" y2="142" id="line_lt"/>
-  <line fill="none" stroke="#000000" stroke-width="2" x1="464" y1="109" x2="408" y2="143" id="line_rt"/>
-  <line fill="none" stroke="#000000" stroke-width="2" x1="93" y1="145" x2="183" y2="172" id="line_lb"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="464" y1="106" x2="408" y2="142" id="line_rt"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="105" y1="145" x2="183" y2="172" id="line_lb"/>
   <line fill="none" stroke="#000000" stroke-width="2" x1="504" y1="145" x2="427" y2="172" id="line_rb"/>
   <line fill="none" stroke="#000000" stroke-width="2" x1="346" y1="250" x2="344" y2="126" id="line_start"/>
   <line fill="none" stroke="#000000" stroke-width="2" x1="259" y1="250" x2="257" y2="124" id="line_select"/>
-  <line fill="none" stroke="#000000" stroke-width="2" x1="180" y1="259" x2="105" y2="214" id="line_ls"/>
-  <line fill="none" stroke="#000000" stroke-width="2" x1="79" y1="274" x2="179" y2="262" id="line_l3"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="105" y1="214" x2="182" y2="264" id="line_ls"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="79" y1="274" x2="182" y2="264" id="line_l3"/>
   <line fill="none" stroke="#000000" stroke-width="2" x1="212" y1="377" x2="241" y2="310" id="line_dpad"/>
-  <line fill="none" stroke="#000000" stroke-width="2" x1="405" y1="367" x2="355" y2="323" id="line_rs"/>
-  <line fill="none" stroke="#000000" stroke-width="2" x1="328" y1="399" x2="355" y2="319" id="line_r3"/>
-  <line fill="none" stroke="#000000" stroke-width="2" x1="509" y1="230" x2="425" y2="217" id="line_y"/>
-  <line fill="none" stroke="#000000" stroke-width="2" x1="510" y1="253" x2="391" y2="244" id="line_x"/>
-  <line fill="none" stroke="#000000" stroke-width="2" x1="509" y1="273" x2="455" y2="251" id="line_b"/>
-  <line fill="none" stroke="#000000" stroke-width="2" x1="510" y1="298" x2="420" y2="274" id="line_a"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="405" y1="367" x2="356" y2="321" id="line_rs"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="328" y1="399" x2="356" y2="321" id="line_r3"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="230" x2="420" y2="220" id="line_y"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="254" x2="390" y2="248" id="line_x"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="278" x2="450" y2="245" id="line_b"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="302" x2="420" y2="274" id="line_a"/>
  </g>
 </svg>

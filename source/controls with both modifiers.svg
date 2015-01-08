@@ -2,24 +2,63 @@
 <svg width="600" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
  <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
  <g>
-  <title>Layer 1</title>
+  <title>Xbox Controls</title>
   <image xlink:href="http://cdn.spyparty.com/wp-content/uploads/2010/08/xbox_360_controller-small-600x375.png" id="controller" height="250" width="400" y="121.25" x="101"/>
-  <text stroke="#000000" transform="matrix(0.6684582685675269,0,0,0.5421432300663824,60.39822943419276,170.52572708698165) " xml:space="preserve" text-anchor="middle" font-family="Monospace" font-size="24" id="svg_4" y="403.809524" x="210.24417" stroke-width="0" fill="#000000">Up - Full Screen</text>
-  <text stroke="#000000" transform="matrix(0.5467616209264098,0,0,0.5637698615751137,219.1292165082988,119.64646116411019) " xml:space="preserve" text-anchor="middle" font-family="Monospace" font-size="24" id="svg_9" y="297.263292" x="602.85978" stroke-width="0" fill="#000000">Toggle On/Off</text>
-  <text stroke="#000000" transform="matrix(0.7018260365080806,0,0,0.570308818630047,100.53248130566647,45.19477853605858) " xml:space="preserve" text-anchor="middle" font-family="Monospace" font-size="24" id="svg_11" y="125.950219" x="356.88" stroke-width="0" fill="#000000">Toggle Screen</text>
-  <text stroke="#000000" transform="matrix(0.6085240840911865,0,0,0.6132769177615955,75.71388886123896,35.51976642920863) " xml:space="preserve" text-anchor="middle" font-family="Monospace" font-size="24" id="svg_12" y="134.312499" x="290.516212" stroke-width="0" fill="#000000">Close</text>
-  <line id="svg_17" y2="125.999997" x2="344.750023" y1="251.25" x1="346.250023" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" stroke="#000000" fill="none"/>
-  <line id="svg_18" y2="123.749997" x2="257.750021" y1="249" x1="258.500021" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" stroke="#000000" fill="none"/>
-  <line id="svg_20" y2="261.750001" x2="179.00002" y1="274.500001" x1="79.250017" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" stroke="#000000" fill="none"/>
-  <line id="svg_21" y2="309.750002" x2="241.250021" y1="377.250003" x1="212.00002" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" stroke="#000000" fill="none"/>
-  <line stroke="#000000" id="svg_26" y2="251.25" x2="455.000026" y1="273.000002" x1="509.000027" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" fill="none"/>
-  <text stroke="#000000" transform="matrix(0.4455283059041118,0,0,0.6361533956301312,103.84076680605098,225.70470174628963) " xml:space="preserve" text-anchor="middle" font-family="Monospace" font-size="24" id="svg_28" y="101.254003" x="-108.222507" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">Click Save State</text>
-  <text stroke="#000000" transform="matrix(0.6182473874058565,0,0,0.6322331784220493,41.34950914745036,49.65634251079627) " xml:space="preserve" text-anchor="middle" font-family="Monospace" font-size="24" id="svg_29" y="139.896998" x="53.417938" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">Modifier</text>
-  <line stroke="#000000" id="svg_30" y2="172.499998" x2="182.750019" y1="145.499998" x1="93.50002" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" fill="none"/>
-  <line id="svg_31" y2="170.999998" x2="427.250025" y1="137.249998" x1="503.750027" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="2" stroke="#000000" fill="none"/>
-  <text id="svg_33" stroke="#000000" transform="matrix(0.597890322455969,0,0,0.6538796806813529,475.35548042315395,41.724262641439196) " xml:space="preserve" text-anchor="middle" font-family="Monospace" font-size="24" y="138.749998" x="58.78089" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">Modifier</text>
-  <text stroke="#000000" transform="matrix(0.9884576775376297,0,0,1.1785714626312254,-15.0691761647304,-1.7857146263122559) " xml:space="preserve" text-anchor="middle" font-family="Monospace" font-size="24" id="svg_34" y="44.727272" x="324.818775" stroke-linecap="null" stroke-linejoin="null" stroke-dasharray="null" stroke-width="0" fill="#000000">Xbox2Mouse Controls With Both Modifiers</text>
-  <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="179.460117" y="415.750757" id="svg_1" font-size="24" font-family="Monospace" text-anchor="middle" xml:space="preserve" transform="matrix(0.6519722154296094,0,0,0.5610109590152377,93.18473197663786,172.39036298505067) " stroke="#000000">Left - Prev Program</text>
-  <text fill="#000000" stroke-width="0" stroke-dasharray="null" stroke-linejoin="null" stroke-linecap="null" x="201.633684" y="417.734336" id="svg_2" font-size="24" font-family="Monospace" text-anchor="middle" xml:space="preserve" transform="matrix(0.6337323784828186,0,0,0.576193446981787,84.15570897515863,182.2700893607277) " stroke="#000000">Right - Next Program</text>
+
+  <text fill="#000000" stroke-width="0" x="300" y="45" id="heading" font-size="24" font-family="Monospace" text-anchor="middle" stroke="#000000">Controls With Both Modifiers</text>
+  <!--
+  <text fill="#000000" stroke-width="0" x="120" y="100" id="label_lt" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Left Trigger</text>
+  <text fill="#000000" stroke-width="0" x="480" y="100" id="label_rt" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Right Trigger</text>
+  -->
+  <text fill="#000000" stroke-width="0" x="90" y="140" id="label_lb" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Modifier</text>
+  <text fill="#000000" stroke-width="0" x="500" y="140" id="label_rb" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Modifier</text>
+  <text fill="#000000" stroke-width="0" x="345" y="120" id="label_start" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Toggle Screen</text>
+  <text fill="#000000" stroke-width="0" x="255" y="120" id="label_select" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Close</text>
+  <!--
+  <text fill="#000000" stroke-width="0" x="80" y="206" id="label_ls" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Left Stick</text>
+  -->
+  <text fill="#000000" stroke-width="0" x="80" y="290" id="label_l3" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Click Save State</text>
+  <text fill="#000000" stroke-width="0" x="170" y="390" id="label_dpad" font-size="14" font-family="Monospace" stroke="#000000">Up - Full Screen</text>
+  <text fill="#000000" stroke-width="0" x="170" y="405" id="label_dpad3" font-size="14" font-family="Monospace" stroke="#000000">Left - Prev Program</text>
+  <text fill="#000000" stroke-width="0" x="170" y="420" id="label_dpad4" font-size="14" font-family="Monospace" stroke="#000000">Right - Next Program</text>
+  <!--
+  <text fill="#000000" stroke-width="0" x="406" y="380" id="label_rs" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Right Stick</text>
+  <text fill="#000000" stroke-width="0" x="340" y="415" id="label_r3" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Click Right Stick</text>
+  -->
+  <!--
+  <text fill="#000000" stroke-width="0" x="510" y="234" id="label_y" font-size="14" font-family="Monospace" stroke="#000000">Y Button</text>
+  <text fill="#000000" stroke-width="0" x="510" y="258" id="label_x" font-size="14" font-family="Monospace" stroke="#000000">X Button</text>
+  -->
+  <text fill="#000000" stroke-width="0" x="510" y="282" id="label_b" font-size="14" font-family="Monospace" stroke="#000000">Toggle On/Off</text>
+  <!--
+  <text fill="#000000" stroke-width="0" x="510" y="306" id="label_a" font-size="14" font-family="Monospace" stroke="#000000">A Button</text>
+  -->
+
+  <!--
+  <line fill="none" stroke="#000000" stroke-width="2" x1="120" y1="106" x2="194" y2="142" id="line_lt"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="464" y1="106" x2="408" y2="142" id="line_rt"/>
+  -->
+  <line fill="none" stroke="#000000" stroke-width="2" x1="105" y1="145" x2="183" y2="172" id="line_lb"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="504" y1="145" x2="427" y2="172" id="line_rb"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="346" y1="250" x2="344" y2="126" id="line_start"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="259" y1="250" x2="257" y2="124" id="line_select"/>
+  <!--
+  <line fill="none" stroke="#000000" stroke-width="2" x1="105" y1="214" x2="182" y2="264" id="line_ls"/>
+  -->
+  <line fill="none" stroke="#000000" stroke-width="2" x1="79" y1="274" x2="182" y2="264" id="line_l3"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="212" y1="377" x2="241" y2="310" id="line_dpad"/>
+  <!--
+  <line fill="none" stroke="#000000" stroke-width="2" x1="405" y1="367" x2="356" y2="321" id="line_rs"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="328" y1="399" x2="356" y2="321" id="line_r3"/>
+  -->
+  <!--
+  <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="230" x2="420" y2="220" id="line_y"/>
+  <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="254" x2="390" y2="248" id="line_x"/>
+  -->
+  <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="278" x2="450" y2="245" id="line_b"/>
+  <!--
+  <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="302" x2="420" y2="274" id="line_a"/>
+  -->
+
  </g>
 </svg>
