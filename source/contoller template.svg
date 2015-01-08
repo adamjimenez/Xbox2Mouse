@@ -3,7 +3,7 @@
  <!-- Created with SVG-edit - http://svg-edit.googlecode.com/ -->
  <g>
   <title>Xbox Controls</title>
-  <image x="101" y="122" width="400" height="250" id="controller" xlink:href="http://cdn.spyparty.com/wp-content/uploads/2010/08/xbox_360_controller-small-600x375.png"/>
+  <image x="101" y="122" width="400" height="250" id="controller" xlink:href="xbox_360_controller-small-600x375.png"/>
   <text fill="#000000" stroke-width="0" x="80" y="206" id="label_ls" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Left Stick</text>
   <text fill="#000000" stroke-width="0" x="204" y="396" id="label_dpad" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Dpad</text>
   <text fill="#000000" stroke-width="0" x="420" y="386" id="label_rs" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Right Stick</text>
