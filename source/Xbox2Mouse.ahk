@@ -468,6 +468,8 @@ ToggleEmulatorEnhancement:
 return
 
 ShowSplashImage:
+	return ; disable this to fix breaking out of fullscreen
+
 	Settimer ShowSplashImage, off
 	gui,add,picture,,%AppDir%\%SplashIcon%
 	Gui, Color, 7e7e7e
