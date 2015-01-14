@@ -528,17 +528,17 @@ KeyKeyboard:
 	;Start ON SCREEN keyboard
 	Process, Exist, osk.exe ; check to see if process is running
 	If (ErrorLevel = 0) ; If it is not running
-	   {
-	   DllCall("Wow64DisableWow64FsRedirection", "uint*", OldValue)
-	   Run osk.exe
-	   DllCall("Wow64RevertWow64FsRedirection", "uint", OldValue)
-	   }
+	{
+	DllCall("Wow64DisableWow64FsRedirection", "uint*", OldValue)
+	Run osk.exe
+	DllCall("Wow64RevertWow64FsRedirection", "uint", OldValue)
+	}
 	Else ; If it is running, ErrorLevel equals the process id for the target program (Printkey). Then close it.
-	   {
+	{
 		;DllCall("Wow64DisableWow64FsRedirection", "uint*", OldValue)
 		Process, Close, %ErrorLevel%
 		;DllCall("Wow64RevertWow64FsRedirection", "uint", OldValue)
-	   }
+	}
 	Process, Exist, MSSWCHX.EXE ; check to see if WINDOWS XP OLD keyboard process is running to prevent multiple instances
 	Process, Close, %ErrorLevel%
 return
@@ -640,6 +640,12 @@ BrowserBack:
 	Send {Browser_Back}
 return
 
+BrowserForward:
+	if (ToggleMouseSimulator = 1)
+		return
+	SetMouseDelay, -1  ; Makes movement smoother.
+	Send {Browser_Forward}
+return
 
 ; PREVIOUS TAB BUTTON
 KeyTabPrev:
@@ -823,6 +829,10 @@ KeyEscape:
 		{
 		Send {AltDown}{F4}{AltUp}
 		}
+	else if TotalModDown = 1
+		{
+		Gosub BrowserBack
+		}
 	else
 		{
 		Send {Esc}
@@ -847,6 +857,10 @@ KeyEnter:
 		Send {P}
 		Sleep 10
 		Send {RWin up}
+	}
+	else if TotalModDown = 1
+	{
+		Gosub BrowserForward
 	}
 	else
 	{
@@ -1295,19 +1309,19 @@ WindowedFullscreenToggle:
 	WinGet, TempWindowID, ID, A
 	If (WindowID != TempWindowID)
 	{
-	  WindowID:=TempWindowID
-	  WindowState:=0
+	WindowID:=TempWindowID
+	WindowState:=0
 	}
 	If (WindowState != 1)
 	{
-	  WinGetPos, WinPosX, WinPosY, WindowWidth, WindowHeight, ahk_id %WindowID%
-	  WinSet, Style, ^0xC40000, ahk_id %WindowID%
-	  WinMove, ahk_id %WindowID%, , 0, 0, A_ScreenWidth, A_ScreenHeight
+	WinGetPos, WinPosX, WinPosY, WindowWidth, WindowHeight, ahk_id %WindowID%
+	WinSet, Style, ^0xC40000, ahk_id %WindowID%
+	WinMove, ahk_id %WindowID%, , 0, 0, A_ScreenWidth, A_ScreenHeight
 	}
 	Else
 	{
-	  WinSet, Style, ^0xC40000, ahk_id %WindowID%
-	  WinMove, ahk_id %WindowID%, , WinPosX, WinPosY, WindowWidth, WindowHeight
+	WinSet, Style, ^0xC40000, ahk_id %WindowID%
+	WinMove, ahk_id %WindowID%, , WinPosX, WinPosY, WindowWidth, WindowHeight
 	}
 	WindowState:=!WindowState
 return
@@ -1448,250 +1462,250 @@ ExitApp
 
 SystemCursor(OnOff=1)   ; INIT = "I","Init"; OFF = 0,"Off"; TOGGLE = -1,"T","Toggle"; ON = others
 {
-    static AndMask, XorMask, $, h_cursor
-        ,c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13 ; system cursors
-        , b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13   ; blank cursors
-        , h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13   ; handles of default cursors
-    if (OnOff = "Init" or OnOff = "I" or $ = "")       ; init when requested or at first call
-    {
-        $ = h                                          ; active default cursors
-        VarSetCapacity( h_cursor,4444, 1 )
-        VarSetCapacity( AndMask, 32*4, 0xFF )
-        VarSetCapacity( XorMask, 32*4, 0 )
-        system_cursors = 32512,32513,32514,32515,32516,32642,32643,32644,32645,32646,32648,32649,32650
-        StringSplit c, system_cursors, `,
-        Loop %c0%
-        {
-            h_cursor   := DllCall( "LoadCursor", "uint",0, "uint",c%A_Index% )
-            h%A_Index% := DllCall( "CopyImage",  "uint",h_cursor, "uint",2, "int",0, "int",0, "uint",0 )
-            b%A_Index% := DllCall("CreateCursor","uint",0, "int",0, "int",0
-                , "int",32, "int",32, "uint",&AndMask, "uint",&XorMask )
-        }
-    }
-    if (OnOff = 0 or OnOff = "Off" or $ = "h" and (OnOff < 0 or OnOff = "Toggle" or OnOff = "T"))
-        $ = b  ; use blank cursors
-    else
-        $ = h  ; use the saved cursors
+	static AndMask, XorMask, $, h_cursor
+		,c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11,c12,c13 ; system cursors
+		, b1,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13   ; blank cursors
+		, h1,h2,h3,h4,h5,h6,h7,h8,h9,h10,h11,h12,h13   ; handles of default cursors
+	if (OnOff = "Init" or OnOff = "I" or $ = "")       ; init when requested or at first call
+	{
+		$ = h                                          ; active default cursors
+		VarSetCapacity( h_cursor,4444, 1 )
+		VarSetCapacity( AndMask, 32*4, 0xFF )
+		VarSetCapacity( XorMask, 32*4, 0 )
+		system_cursors = 32512,32513,32514,32515,32516,32642,32643,32644,32645,32646,32648,32649,32650
+		StringSplit c, system_cursors, `,
+		Loop %c0%
+		{
+			h_cursor   := DllCall( "LoadCursor", "uint",0, "uint",c%A_Index% )
+			h%A_Index% := DllCall( "CopyImage",  "uint",h_cursor, "uint",2, "int",0, "int",0, "uint",0 )
+			b%A_Index% := DllCall("CreateCursor","uint",0, "int",0, "int",0
+				, "int",32, "int",32, "uint",&AndMask, "uint",&XorMask )
+		}
+	}
+	if (OnOff = 0 or OnOff = "Off" or $ = "h" and (OnOff < 0 or OnOff = "Toggle" or OnOff = "T"))
+		$ = b  ; use blank cursors
+	else
+		$ = h  ; use the saved cursors
 
-    Loop %c0%
-    {
-        h_cursor := DllCall( "CopyImage", "uint",%$%%A_Index%, "uint",2, "int",0, "int",0, "uint",0 )
-        DllCall( "SetSystemCursor", "uint",h_cursor, "uint",c%A_Index% )
-    }
+	Loop %c0%
+	{
+		h_cursor := DllCall( "CopyImage", "uint",%$%%A_Index%, "uint",2, "int",0, "int",0, "uint",0 )
+		DllCall( "SetSystemCursor", "uint",h_cursor, "uint",c%A_Index% )
+	}
 }
 
 
 
 
 /*
-    Function: XInput_Init
+	Function: XInput_Init
 
-    Initializes XInput.ahk with the given XInput DLL.
+	Initializes XInput.ahk with the given XInput DLL.
 
-    Parameters:
-        dll     -   The path or name of the XInput DLL to load.
+	Parameters:
+		dll     -   The path or name of the XInput DLL to load.
 */
 XInput_Init(dll="xinput1_3")
 {
-    global
-    if _XInput_hm
-        return
+	global
+	if _XInput_hm
+		return
 
-    ;======== CONSTANTS DEFINED IN XINPUT.H ========
+	;======== CONSTANTS DEFINED IN XINPUT.H ========
 
-    ; NOTE: These are based on my outdated copy of the DirectX SDK.
-    ;       Newer versions of XInput may require additional constants.
+	; NOTE: These are based on my outdated copy of the DirectX SDK.
+	;       Newer versions of XInput may require additional constants.
 
-    ; Device types available in XINPUT_CAPABILITIES
-    XINPUT_DEVTYPE_GAMEPAD          = 0x01
+	; Device types available in XINPUT_CAPABILITIES
+	XINPUT_DEVTYPE_GAMEPAD          = 0x01
 
-    ; Device subtypes available in XINPUT_CAPABILITIES
-    XINPUT_DEVSUBTYPE_GAMEPAD       = 0x01
+	; Device subtypes available in XINPUT_CAPABILITIES
+	XINPUT_DEVSUBTYPE_GAMEPAD       = 0x01
 
-    ; Flags for XINPUT_CAPABILITIES
-    XINPUT_CAPS_VOICE_SUPPORTED     = 0x0004
+	; Flags for XINPUT_CAPABILITIES
+	XINPUT_CAPS_VOICE_SUPPORTED     = 0x0004
 
-    ; Constants for gamepad buttons
-    XINPUT_GAMEPAD_DPAD_UP          = 0x0001
-    XINPUT_GAMEPAD_DPAD_DOWN        = 0x0002
-    XINPUT_GAMEPAD_DPAD_LEFT        = 0x0004
-    XINPUT_GAMEPAD_DPAD_RIGHT       = 0x0008
-    XINPUT_GAMEPAD_START            = 0x0010
-    XINPUT_GAMEPAD_BACK             = 0x0020
-    XINPUT_GAMEPAD_LEFT_THUMB       = 0x0040
-    XINPUT_GAMEPAD_RIGHT_THUMB      = 0x0080
-    XINPUT_GAMEPAD_LEFT_SHOULDER    = 0x0100
-    XINPUT_GAMEPAD_RIGHT_SHOULDER   = 0x0200
-    XINPUT_GAMEPAD_A                = 0x1000
-    XINPUT_GAMEPAD_B                = 0x2000
-    XINPUT_GAMEPAD_X                = 0x4000
-    XINPUT_GAMEPAD_Y                = 0x8000
+	; Constants for gamepad buttons
+	XINPUT_GAMEPAD_DPAD_UP          = 0x0001
+	XINPUT_GAMEPAD_DPAD_DOWN        = 0x0002
+	XINPUT_GAMEPAD_DPAD_LEFT        = 0x0004
+	XINPUT_GAMEPAD_DPAD_RIGHT       = 0x0008
+	XINPUT_GAMEPAD_START            = 0x0010
+	XINPUT_GAMEPAD_BACK             = 0x0020
+	XINPUT_GAMEPAD_LEFT_THUMB       = 0x0040
+	XINPUT_GAMEPAD_RIGHT_THUMB      = 0x0080
+	XINPUT_GAMEPAD_LEFT_SHOULDER    = 0x0100
+	XINPUT_GAMEPAD_RIGHT_SHOULDER   = 0x0200
+	XINPUT_GAMEPAD_A                = 0x1000
+	XINPUT_GAMEPAD_B                = 0x2000
+	XINPUT_GAMEPAD_X                = 0x4000
+	XINPUT_GAMEPAD_Y                = 0x8000
 
-    ; Gamepad thresholds
-    XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE  = 7849
-    XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE = 8689
-    XINPUT_GAMEPAD_TRIGGER_THRESHOLD    = 30
+	; Gamepad thresholds
+	XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE  = 7849
+	XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE = 8689
+	XINPUT_GAMEPAD_TRIGGER_THRESHOLD    = 30
 
-    ; Flags to pass to XInputGetCapabilities
-    XINPUT_FLAG_GAMEPAD             = 0x00000001
+	; Flags to pass to XInputGetCapabilities
+	XINPUT_FLAG_GAMEPAD             = 0x00000001
 
-    ;=============== END CONSTANTS =================
+	;=============== END CONSTANTS =================
 
-    _XInput_hm := DllCall("LoadLibrary" ,"str",dll)
+	_XInput_hm := DllCall("LoadLibrary" ,"str",dll)
 
-    if !_XInput_hm
-    {
-        MsgBox, Failed to initialize XInput: %dll%.dll not found.
-        return
-    }
+	if !_XInput_hm
+	{
+		MsgBox, Failed to initialize XInput: %dll%.dll not found.
+		return
+	}
 
-    _XInput_GetState        := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputGetState")
-    _XInput_SetState        := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputSetState")
-    _XInput_GetCapabilities := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputGetCapabilities")
+	_XInput_GetState        := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputGetState")
+	_XInput_SetState        := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputSetState")
+	_XInput_GetCapabilities := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputGetCapabilities")
 
-    if !(_XInput_GetState && _XInput_SetState && _XInput_GetCapabilities)
-    {
-        XInput_Term()
-        MsgBox, Failed to initialize XInput: function not found.
-        return
-    }
+	if !(_XInput_GetState && _XInput_SetState && _XInput_GetCapabilities)
+	{
+		XInput_Term()
+		MsgBox, Failed to initialize XInput: function not found.
+		return
+	}
 }
 
 /*
-    Function: XInput_GetState
+	Function: XInput_GetState
 
-    Retrieves the current state of the specified controller.
+	Retrieves the current state of the specified controller.
 
-    Parameters:
-        UserIndex   -   [in] Index of the user's controller. Can be a value from 0 to 3.
-        State       -   [out] Receives the current state of the controller.
+	Parameters:
+		UserIndex   -   [in] Index of the user's controller. Can be a value from 0 to 3.
+		State       -   [out] Receives the current state of the controller.
 
-    Returns:
-        If the function succeeds, the return value is ERROR_SUCCESS (zero).
-        If the controller is not connected, the return value is ERROR_DEVICE_NOT_CONNECTED (1167).
-        If the function fails, the return value is an error code defined in Winerror.h.
-            http://msdn.microsoft.com/en-us/library/ms681381.aspx
+	Returns:
+		If the function succeeds, the return value is ERROR_SUCCESS (zero).
+		If the controller is not connected, the return value is ERROR_DEVICE_NOT_CONNECTED (1167).
+		If the function fails, the return value is an error code defined in Winerror.h.
+			http://msdn.microsoft.com/en-us/library/ms681381.aspx
 
-    Remarks:
-        XInput.dll returns controller state as a binary structure:
-            http://msdn.microsoft.com/en-us/library/bb174834.aspx
-        XInput.ahk converts this structure to a string, compatible with Titan's json():
-            http://www.autohotkey.com/forum/topic34565.html
+	Remarks:
+		XInput.dll returns controller state as a binary structure:
+			http://msdn.microsoft.com/en-us/library/bb174834.aspx
+		XInput.ahk converts this structure to a string, compatible with Titan's json():
+			http://www.autohotkey.com/forum/topic34565.html
 */
 XInput_GetState(UserIndex, ByRef State)
 {
-    global _XInput_GetState
+	global _XInput_GetState
 
-    VarSetCapacity(xiState,16)
+	VarSetCapacity(xiState,16)
 
-    if ErrorLevel := DllCall(_XInput_GetState ,"uint",UserIndex ,"uint",&xiState)
-        State =
-    else
-        State := "{
-        ( C LTrim Join
-            'dwPacketNumber':" NumGet(xiState,0) ",
-            ;   Seems less convenient - though more technically accurate - to require
-            ;   "Gamepad." prefix to access any of the useful properties with json().
-            ;'Gamepad':{
-                'wButtons':" NumGet(xiState,4,"UShort") ",
-                'bLeftTrigger':" NumGet(xiState,6,"UChar") ",
-                'bRightTrigger':" NumGet(xiState,7,"UChar") ",
-                'sThumbLX':" NumGet(xiState,8,"Short") ",
-                'sThumbLY':" NumGet(xiState,10,"Short") ",
-                'sThumbRX':" NumGet(xiState,12,"Short") ",
-                'sThumbRY':" NumGet(xiState,14,"Short") "
-            ;}
-        )}"
+	if ErrorLevel := DllCall(_XInput_GetState ,"uint",UserIndex ,"uint",&xiState)
+		State =
+	else
+		State := "{
+		( C LTrim Join
+			'dwPacketNumber':" NumGet(xiState,0) ",
+			;   Seems less convenient - though more technically accurate - to require
+			;   "Gamepad." prefix to access any of the useful properties with json().
+			;'Gamepad':{
+				'wButtons':" NumGet(xiState,4,"UShort") ",
+				'bLeftTrigger':" NumGet(xiState,6,"UChar") ",
+				'bRightTrigger':" NumGet(xiState,7,"UChar") ",
+				'sThumbLX':" NumGet(xiState,8,"Short") ",
+				'sThumbLY':" NumGet(xiState,10,"Short") ",
+				'sThumbRX':" NumGet(xiState,12,"Short") ",
+				'sThumbRY':" NumGet(xiState,14,"Short") "
+			;}
+		)}"
 
-    return ErrorLevel
+	return ErrorLevel
 }
 
 /*
-    Function: XInput_SetState
+	Function: XInput_SetState
 
-    Sends data to a connected controller. This function is used to activate the vibration
-    function of a controller.
+	Sends data to a connected controller. This function is used to activate the vibration
+	function of a controller.
 
-    Parameters:
-        UserIndex       -   [in] Index of the user's controller. Can be a value from 0 to 3.
-        LeftMotorSpeed  -   [in] Speed of the left motor, between 0 and 65535.
-        RightMotorSpeed -   [in] Speed of the right motor, between 0 and 65535.
+	Parameters:
+		UserIndex       -   [in] Index of the user's controller. Can be a value from 0 to 3.
+		LeftMotorSpeed  -   [in] Speed of the left motor, between 0 and 65535.
+		RightMotorSpeed -   [in] Speed of the right motor, between 0 and 65535.
 
-    Returns:
-        If the function succeeds, the return value is 0 (ERROR_SUCCESS).
-        If the controller is not connected, the return value is 1167 (ERROR_DEVICE_NOT_CONNECTED).
-        If the function fails, the return value is an error code defined in Winerror.h.
-            http://msdn.microsoft.com/en-us/library/ms681381.aspx
+	Returns:
+		If the function succeeds, the return value is 0 (ERROR_SUCCESS).
+		If the controller is not connected, the return value is 1167 (ERROR_DEVICE_NOT_CONNECTED).
+		If the function fails, the return value is an error code defined in Winerror.h.
+			http://msdn.microsoft.com/en-us/library/ms681381.aspx
 
-    Remarks:
-        The left motor is the low-frequency rumble motor. The right motor is the
-        high-frequency rumble motor. The two motors are not the same, and they create
-        different vibration effects.
+	Remarks:
+		The left motor is the low-frequency rumble motor. The right motor is the
+		high-frequency rumble motor. The two motors are not the same, and they create
+		different vibration effects.
 */
 XInput_SetState(UserIndex, LeftMotorSpeed, RightMotorSpeed)
 {
-    global _XInput_SetState
-    return DllCall(_XInput_SetState ,"uint",UserIndex ,"uint*",LeftMotorSpeed|RightMotorSpeed<<16)
+	global _XInput_SetState
+	return DllCall(_XInput_SetState ,"uint",UserIndex ,"uint*",LeftMotorSpeed|RightMotorSpeed<<16)
 }
 
 /*
-    Function: XInput_GetCapabilities
+	Function: XInput_GetCapabilities
 
-    Retrieves the capabilities and features of a connected controller.
+	Retrieves the capabilities and features of a connected controller.
 
-    Parameters:
-        UserIndex   -   [in] Index of the user's controller. Can be a value in the range 0�3.
-        Flags       -   [in] Input flags that identify the controller type.
-                                0   - All controllers.
-                                1   - XINPUT_FLAG_GAMEPAD: Xbox 360 Controllers only.
-        Caps        -   [out] Receives the controller capabilities.
+	Parameters:
+		UserIndex   -   [in] Index of the user's controller. Can be a value in the range 0�3.
+		Flags       -   [in] Input flags that identify the controller type.
+								0   - All controllers.
+								1   - XINPUT_FLAG_GAMEPAD: Xbox 360 Controllers only.
+		Caps        -   [out] Receives the controller capabilities.
 
-    Returns:
-        If the function succeeds, the return value is 0 (ERROR_SUCCESS).
-        If the controller is not connected, the return value is 1167 (ERROR_DEVICE_NOT_CONNECTED).
-        If the function fails, the return value is an error code defined in Winerror.h.
-            http://msdn.microsoft.com/en-us/library/ms681381.aspx
+	Returns:
+		If the function succeeds, the return value is 0 (ERROR_SUCCESS).
+		If the controller is not connected, the return value is 1167 (ERROR_DEVICE_NOT_CONNECTED).
+		If the function fails, the return value is an error code defined in Winerror.h.
+			http://msdn.microsoft.com/en-us/library/ms681381.aspx
 */
 XInput_GetCapabilities(UserIndex, Flags, ByRef Caps)
 {
-    global _XInput_GetCapabilities
+	global _XInput_GetCapabilities
 
-    VarSetCapacity(xiCaps,20)
+	VarSetCapacity(xiCaps,20)
 
-    if ErrorLevel := DllCall(_XInput_GetCapabilities ,"uint",UserIndex ,"uint",Flags ,"uint",&xiCaps)
-        Caps =
-    else
-        Caps := "{
-        ( LTrim Join
-            'Type':" NumGet(xiCaps,0,"UChar") ",
-            'SubType':" NumGet(xiCaps,1,"UChar") ",
-            'Flags':" NumGet(xiCaps,2,"UShort") ",
-            'Gamepad':{
-                'wButtons':" NumGet(xiCaps,4,"UShort") ",
-                'bLeftTrigger':" NumGet(xiCaps,6,"UChar") ",
-                'bRightTrigger':" NumGet(xiCaps,7,"UChar") ",
-                'sThumbLX':" NumGet(xiCaps,8,"Short") ",
-                'sThumbLY':" NumGet(xiCaps,10,"Short") ",
-                'sThumbRX':" NumGet(xiCaps,12,"Short") ",
-                'sThumbRY':" NumGet(xiCaps,14,"Short") "
-            },
-            'Vibration':{
-                'wLeftMotorSpeed':" NumGet(xiCaps,16,"UShort") ",
-                'wRightMotorSpeed':" NumGet(xiCaps,18,"UShort") "
-            }
-        )}"
+	if ErrorLevel := DllCall(_XInput_GetCapabilities ,"uint",UserIndex ,"uint",Flags ,"uint",&xiCaps)
+		Caps =
+	else
+		Caps := "{
+		( LTrim Join
+			'Type':" NumGet(xiCaps,0,"UChar") ",
+			'SubType':" NumGet(xiCaps,1,"UChar") ",
+			'Flags':" NumGet(xiCaps,2,"UShort") ",
+			'Gamepad':{
+				'wButtons':" NumGet(xiCaps,4,"UShort") ",
+				'bLeftTrigger':" NumGet(xiCaps,6,"UChar") ",
+				'bRightTrigger':" NumGet(xiCaps,7,"UChar") ",
+				'sThumbLX':" NumGet(xiCaps,8,"Short") ",
+				'sThumbLY':" NumGet(xiCaps,10,"Short") ",
+				'sThumbRX':" NumGet(xiCaps,12,"Short") ",
+				'sThumbRY':" NumGet(xiCaps,14,"Short") "
+			},
+			'Vibration':{
+				'wLeftMotorSpeed':" NumGet(xiCaps,16,"UShort") ",
+				'wRightMotorSpeed':" NumGet(xiCaps,18,"UShort") "
+			}
+		)}"
 
-    return ErrorLevel
+	return ErrorLevel
 }
 
 /*
-    Function: XInput_Term
-    Unloads the previously loaded XInput DLL.
+	Function: XInput_Term
+	Unloads the previously loaded XInput DLL.
 */
 XInput_Term() {
-    global
-    if _XInput_hm
-        DllCall("FreeLibrary","uint",_XInput_hm), _XInput_hm :=_XInput_GetState :=_XInput_SetState :=_XInput_GetCapabilities :=0
+	global
+	if _XInput_hm
+		DllCall("FreeLibrary","uint",_XInput_hm), _XInput_hm :=_XInput_GetState :=_XInput_SetState :=_XInput_GetCapabilities :=0
 }
 
 ; TODO: XInputEnable, 'GetBatteryInformation and 'GetKeystroke.
@@ -1758,45 +1772,45 @@ json(ByRef js, s, v = "") {
 
 ; HANDLE LINKS FUNCTION
 HandleMessage(p_w, p_l, p_m, p_hw)
-  {
-    global   WM_SETCURSOR, WM_MOUSEMOVE,
-    static   URL_hover, h_cursor_hand, h_old_cursor, CtrlIsURL, LastCtrl
+{
+	global   WM_SETCURSOR, WM_MOUSEMOVE,
+	static   URL_hover, h_cursor_hand, h_old_cursor, CtrlIsURL, LastCtrl
 
-    If (p_m = WM_SETCURSOR)
-      {
-        If URL_hover
-          Return, true
-      }
-    Else If (p_m = WM_MOUSEMOVE)
-      {
-        ; Mouse cursor hovers URL text control
-        StringLeft, CtrlIsURL, A_GuiControl, 3
-        If (CtrlIsURL = "URL")
-          {
-            If URL_hover=
-              {
-                Gui, Font, cBlue underline
-                GuiControl, Font, %A_GuiControl%
-                LastCtrl = %A_GuiControl%
+	If (p_m = WM_SETCURSOR)
+	{
+		If URL_hover
+		Return, true
+	}
+	Else If (p_m = WM_MOUSEMOVE)
+	{
+		; Mouse cursor hovers URL text control
+		StringLeft, CtrlIsURL, A_GuiControl, 3
+		If (CtrlIsURL = "URL")
+		{
+			If URL_hover=
+			{
+				Gui, Font, cBlue underline
+				GuiControl, Font, %A_GuiControl%
+				LastCtrl = %A_GuiControl%
 
-                h_cursor_hand := DllCall("LoadCursor", "uint", 0, "uint", 32649)
+				h_cursor_hand := DllCall("LoadCursor", "uint", 0, "uint", 32649)
 
-                URL_hover := true
-              }
-              h_old_cursor := DllCall("SetCursor", "uint", h_cursor_hand)
-          }
-        ; Mouse cursor doesn't hover URL text control
-        Else
-          {
-            If URL_hover
-              {
-                Gui, Font, norm cBlue
-                GuiControl, Font, %LastCtrl%
+				URL_hover := true
+			}
+			h_old_cursor := DllCall("SetCursor", "uint", h_cursor_hand)
+		}
+		; Mouse cursor doesn't hover URL text control
+		Else
+		{
+			If URL_hover
+			{
+				Gui, Font, norm cBlue
+				GuiControl, Font, %LastCtrl%
 
-                DllCall("SetCursor", "uint", h_old_cursor)
+				DllCall("SetCursor", "uint", h_old_cursor)
 
-                URL_hover=
-              }
-          }
-      }
-  }
+				URL_hover=
+			}
+		}
+	}
+}
