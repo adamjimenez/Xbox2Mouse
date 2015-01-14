@@ -18,6 +18,7 @@ HaltProgram := 0 ; Default value
 LastRT := 0 ; Default values
 LastLT := 0 ; Default values
 KeyHeld = 0
+OneHanded = 0
 
 ; Global strings
 AppVersion = 2.0
@@ -227,7 +228,7 @@ if HaltProgram = 0 ; prevent looping overuse of cpu when no controller is connec
 	Hotkey, %JoystickPrefix%%ButtonLeft%, ButtonLeft
 	Hotkey, %JoystickPrefix%%ButtonRight%, ButtonRight
 	Hotkey, %JoystickPrefix%%ButtonMiddle%, ButtonMiddle
-	Hotkey, %JoystickPrefix%4, BrowserBack
+	Hotkey, %JoystickPrefix%4, ToggleOneHanded
 	Hotkey, %JoystickPrefix%5, KeyTabPrev
 	Hotkey, %JoystickPrefix%6, KeyTabNext
 	Hotkey, %JoystickPrefix%7, KeyEscape
@@ -394,6 +395,21 @@ GoAltEnter:
 	Settimer CheckAll, off
 	Settimer ReActivateCheckAll, 1000
 	Send {Alt down}{Enter}{Alt up}
+return
+
+; Toggle one handed mode
+ToggleOneHanded:
+	if OneHanded {
+		OneHanded = 0
+		SetTimer WatchJoystick2, 250
+		Hotkey, %JoystickPrefix%6, KeyTabNext
+	}
+	else
+	{
+		OneHanded = 1
+		SetTimer WatchJoystick2, 10
+		Hotkey, %JoystickPrefix%6, ButtonLeft
+	}
 return
 
 ; TOGGLE TRIGGER NORMAL BUTTON BEHAVIOUR FUNCTION
@@ -994,6 +1010,9 @@ return
 WaitForLeftButtonUp:
 	if (ToggleMouseSimulator = 1)
 		return
+	if OneHanded AND RightModDown {
+		return
+	}
 	if GetKeyState(JoystickPrefix . ButtonLeft)
 		return  ; The button is still, down, so keep waiting.
 	; Otherwise, the button has been released.
@@ -1048,6 +1067,43 @@ return
 
 ; -----------------JOYSTICK FUNCTIONS
 
+MoveMouse(mousex, mousey)
+{
+	global JoyThresholdUpper, JoyThresholdLower, JoyMultiplier, YAxisMultiplier
+
+	if mousex > %JoyThresholdUpper%
+	{
+		MouseNeedsToBeMoved := true
+		DeltaX := mousex - JoyThresholdUpper
+	}
+	else if mousex < %JoyThresholdLower%
+	{
+		MouseNeedsToBeMoved := true
+		DeltaX := mousex - JoyThresholdLower
+	}
+	else
+		DeltaX = 0
+
+
+	if mousey > %JoyThresholdUpper%
+	{
+		MouseNeedsToBeMoved := true
+		DeltaY := mousey - JoyThresholdUpper
+	}
+	else if mousey < %JoyThresholdLower%
+	{
+		MouseNeedsToBeMoved := true
+		DeltaY := mousey - JoyThresholdLower
+	}
+	else
+		DeltaY = 0
+	if MouseNeedsToBeMoved
+	{
+		SetMouseDelay, -1  ; Makes movement smoother.
+		MouseMove, DeltaX * JoyMultiplier, DeltaY * JoyMultiplier * YAxisMultiplier, 0, R
+	}
+}
+
 ; The subroutines below do not use KeyWait because that would sometimes trap the
 ; WatchJoystick quasi-thread beneath the wait-for-button-up thread, which would
 ; effectively prevent mouse-dragging with the joystick.
@@ -1059,35 +1115,8 @@ WatchJoystick:
 	SetFormat, float, 03
 	GetKeyState, joyx, %JoystickNumber%JoyX
 	GetKeyState, joyy, %JoystickNumber%JoyY
-	if joyx > %JoyThresholdUpper%
-	{
-		MouseNeedsToBeMoved := true
-		DeltaX := joyx - JoyThresholdUpper
-	}
-	else if joyx < %JoyThresholdLower%
-	{
-		MouseNeedsToBeMoved := true
-		DeltaX := joyx - JoyThresholdLower
-	}
-	else
-		DeltaX = 0
-	if joyy > %JoyThresholdUpper%
-	{
-		MouseNeedsToBeMoved := true
-		DeltaY := joyy - JoyThresholdUpper
-	}
-	else if joyy < %JoyThresholdLower%
-	{
-		MouseNeedsToBeMoved := true
-		DeltaY := joyy - JoyThresholdLower
-	}
-	else
-		DeltaY = 0
-	if MouseNeedsToBeMoved
-	{
-		SetMouseDelay, -1  ; Makes movement smoother.
-		MouseMove, DeltaX * JoyMultiplier, DeltaY * JoyMultiplier * YAxisMultiplier, 0, R
-	}
+
+	MoveMouse(joyx, joyy)
 return
 
 
@@ -1099,6 +1128,11 @@ WatchJoystick2:
 	GetKeyState, joyr, %JoystickNumber%JoyR
 	GetKeyState, joyu, %JoystickNumber%JoyU
 	JoyNeedsToBeMoved := false  ; Set default.
+
+	if (OneHanded) {
+		MoveMouse(joyu, joyr)
+		return
+	}
 
 	; VERTICAL
 	if joyr > 60
