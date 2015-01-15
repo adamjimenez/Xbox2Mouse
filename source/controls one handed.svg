@@ -5,17 +5,17 @@
   <title>Xbox Controls</title>
   <image x="101" y="121.25" width="400" height="250" id="controller" xlink:href="http://cdn.spyparty.com/wp-content/uploads/2010/08/xbox_360_controller-small-600x375.png"/>
 
-  <text fill="#000000" stroke-width="0" x="300" y="45" id="heading" font-size="24" font-family="Monospace" text-anchor="middle" stroke="#000000">Xbox2Mouse Controls</text>
+  <text fill="#000000" stroke-width="0" x="300" y="45" id="heading" font-size="24" font-family="Monospace" text-anchor="middle" stroke="#000000">Controls One Handed Mode</text>
   <text fill="#000000" stroke-width="0" x="120" y="100" id="label_lt" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Scroll Up</text>
   <text fill="#000000" stroke-width="0" x="480" y="100" id="label_rt" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Scroll Down</text>
   <text fill="#000000" stroke-width="0" x="90" y="140" id="label_lb" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Modifier</text>
-  <text fill="#000000" stroke-width="0" x="500" y="140" id="label_rb" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Modifier</text>
+  <text fill="#000000" stroke-width="0" x="500" y="140" id="label_rb" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Left Click</text>
   <text fill="#000000" stroke-width="0" x="345" y="120" id="label_start" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Enter</text>
   <text fill="#000000" stroke-width="0" x="255" y="120" id="label_select" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Escape</text>
   <text fill="#000000" stroke-width="0" x="80" y="206" id="label_ls" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Mouse Control</text>
   <text fill="#000000" stroke-width="0" x="90" y="290" id="label_l3" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Click Load State</text>
   <text fill="#000000" stroke-width="0" x="210" y="390" id="label_dpad" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Arrow Keys</text>
-  <text fill="#000000" stroke-width="0" x="406" y="380" id="label_rs" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Volume Control</text>
+  <text fill="#000000" stroke-width="0" x="406" y="380" id="label_rs" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Mouse Control</text>
   <text fill="#000000" stroke-width="0" x="340" y="415" id="label_r3" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Click Mute</text>
   <text fill="#000000" stroke-width="0" x="500" y="234" id="label_y" font-size="14" font-family="Monospace" stroke="#000000">One Handed</text>
   <text fill="#000000" stroke-width="0" x="500" y="258" id="label_x" font-size="14" font-family="Monospace" stroke="#000000">Middle Click</text>
