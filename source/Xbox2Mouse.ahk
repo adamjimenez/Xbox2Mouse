@@ -1417,11 +1417,43 @@ return
 ;Object References
 ButtonNext:
 	Gui destroy
-	Gosub ShowHelpAbout2
+	Gosub ShowHelpAbout1
 return
 Link1:
 	Run https://github.com/adamjimenez/Xbox2Mouse
 	Gui destroy
+return
+
+ShowHelpAbout1:
+Gui Destroy
+	Gui Margin, 5, 5
+	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
+	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
+	Gui, Add, Picture, xm ym, %AppDir%\controls one handed.png
+	Gui Add, Button, xp+250 yp+450 h23 w75, Next1
+	Gui Add, Text, xp yp+14,
+
+;Setup Links
+	; Retrieve scripts PID
+	Process Exist
+	pid_this := ErrorLevel
+	; Retrieve unique ID number (HWND/handle)
+	WinGet hw_gui, ID, ahk_class AutoHotkeyGUI ahk_pid %pid_this%
+	; Call "HandleMessage" when script receives WM_SETCURSOR message
+	WM_SETCURSOR = 0x20
+	OnMessage(WM_SETCURSOR, "HandleMessage")
+	; Call "HandleMessage" when script receives WM_MOUSEMOVE message
+	WM_MOUSEMOVE = 0x200
+	OnMessage(WM_MOUSEMOVE, "HandleMessage")
+
+;Show window
+	Gui Show, w600, Xbox2Mouse V%AppVersion%
+return
+
+;Object References
+ButtonNext1:
+	Gui destroy
+	Gosub ShowHelpAbout2
 return
 
 ShowHelpAbout2:

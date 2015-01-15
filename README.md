@@ -6,10 +6,12 @@ Xbox Controller to Mouse Input and Keyboard Shortcuts
 Forked from XboxMouse Simulator by Nicklas Hult (http://nirklars.wordpress.com/xboxmouse/)
 
 ![controls](https://github.com/adamjimenez/Xbox2Mouse/raw/master/controls.png "Controls")
+![controls](https://github.com/adamjimenez/Xbox2Mouse/raw/master/controls one handed.png "Controls")
 ![controls](https://github.com/adamjimenez/Xbox2Mouse/raw/master/controls with one modifier.png "Controls with one Modifier")
 ![controls](https://github.com/adamjimenez/Xbox2Mouse/raw/master/controls with both modifiers.png "Controls with both modifiers")
 
 Enhancements in fork
+* One Handed Mode (Enable with Y)
 * Fullscreen LB+RB+Up
 * Holding dpad repeats cursor presses
 * Show icons when enabling / disabling LB+RB+B
