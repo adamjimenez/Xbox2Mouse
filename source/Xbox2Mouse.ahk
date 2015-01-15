@@ -188,10 +188,13 @@ else
 ; ----------------- TRAY ICON COSMETICS
 if A_IsCompiled
 {
-	Menu Tray, Icon, %A_ScriptDir%\%A_ScriptName%
+	AppIcon = %A_ScriptDir%\%A_ScriptName%
 }else{
-	Menu Tray, Icon, %A_ScriptDir%\Xbox2Mouse.ico
+	AppIcon = %A_ScriptDir%\Xbox2Mouse.ico
 }
+
+Menu Tray, Icon, %AppIcon%
+
 Menu tray, NoStandard
 Menu Tray, Tip, Xbox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
 Menu tray, add, Enable Mouse Simulator, ToggleMouseSet  ; Creates a new menu item.
@@ -512,7 +515,6 @@ ToggleMouseSet:
 	if ToggleMouseSimulator = 1
 	{
 		; Tooltip Mouse Simulator`nENABLED
-
 		ToggleMouseSimulator = 0
 		SetTimer HideMouseCursorCheckIdle, off
 			if NeverHideCursor
@@ -524,6 +526,8 @@ ToggleMouseSet:
 				SystemCursor("On")
 			}
 		Menu, tray, Check, Enable Mouse Simulator
+
+		Menu Tray, Icon, %AppIcon%
 
 		SplashIcon = mouse.png
 	}
@@ -540,6 +544,8 @@ ToggleMouseSet:
 			}
 		ToggleMouseSimulator = 1
 		Menu, tray, Uncheck, Enable Mouse Simulator
+
+		Menu Tray, Icon, %AppDir%\tray-disabled.ico
 
 		SplashIcon = mouse-off.png
 	}
