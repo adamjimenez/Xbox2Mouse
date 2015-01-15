@@ -467,8 +467,31 @@ ToggleEmulatorEnhancement:
 	Settimer ReActivateCheckAll, 1000
 return
 
+isWindowFullScreen(winTitle) {
+	;checks if the specified window is full screen
+
+	if !winTitle{
+		WinGetActiveTitle, winTitle
+	}
+
+	winID := WinExist(winTitle)
+
+	if (!winID)
+		Return false
+
+	WinGet style, Style, ahk_id %WinID%
+	WinGetPos ,,,winW,winH, %winTitle%
+	; 0x800000 is WS_BORDER.
+	; 0x20000000 is WS_MINIMIZE.
+	; no border and not minimized
+	Return ((style & 0x20800000) or winH < A_ScreenHeight or winW < A_ScreenWidth) ? false : true
+}
+
 ShowSplashImage:
-	return ; disable this to fix breaking out of fullscreen
+	; disable when fullscreen
+	if isWindowFullScreen(null) {
+		return
+	}
 
 	Settimer ShowSplashImage, off
 	gui,add,picture,,%AppDir%\%SplashIcon%
