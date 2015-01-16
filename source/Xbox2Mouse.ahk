@@ -21,7 +21,7 @@ KeyHeld = 0
 OneHanded = 0
 
 ; Global strings
-AppVersion = 2.0
+AppVersion = 2.1
 AppJoystickMessage = No joysticks or gamepads were detected! Please press button A when you have inserted a controller or right click the system tray and select "Reload"!`nThis message will not be shown again!
 
 ; -----------------LOAD SETTINGS
@@ -198,7 +198,7 @@ DisabledIcon = %AppDir%\assets\tray-disabled.ico
 Menu Tray, Icon, %AppIcon%
 
 Menu tray, NoStandard
-Menu Tray, Tip, Xbox Controller Mouse Simulator V%AppVersion% by Nicklas Hult
+Menu Tray, Tip, Xbox2Mouse V%AppVersion%
 Menu tray, add, Enable Mouse Simulator, ToggleMouseSet  ; Creates a new menu item.
 ; Menu tray, add, Enable L/R Trigger Buttons, ToggleTriggerSet  ; Creates a new menu item.
 ; Menu tray, add, Enable Emulator Enhancement Hotkeys, ToggleEmulatorEnhancement  ; Creates a new menu item.
