@@ -14,7 +14,7 @@ Enhancements in fork
 * One Handed Mode (Enable with Y)
 * Fullscreen LB+RB+Up
 * Holding dpad repeats cursor presses
-* Show icons when enabling / disabling LB+RB+B
+* Show icons when enabling / disabling LB+RB+Left Stick
 * Disable Virtual keyboard/ Toggle Emulator/ Toggle Triggers
 * Page up / down with LB|RB + up / down
 * Previous / Next tab with LB|RB + left / right

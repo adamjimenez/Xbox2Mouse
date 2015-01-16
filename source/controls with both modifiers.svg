@@ -17,7 +17,7 @@
   <!--
   <text fill="#000000" stroke-width="0" x="80" y="206" id="label_ls" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Left Stick</text>
   -->
-  <text fill="#000000" stroke-width="0" x="80" y="290" id="label_l3" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Click Save State</text>
+  <text fill="#000000" stroke-width="0" x="80" y="290" id="label_l3" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Click Toggle On/Off</text>
   <text fill="#000000" stroke-width="0" x="170" y="390" id="label_dpad" font-size="14" font-family="Monospace" stroke="#000000">Up - Full Screen</text>
   <text fill="#000000" stroke-width="0" x="170" y="405" id="label_dpad3" font-size="14" font-family="Monospace" stroke="#000000">Left - Prev Program</text>
   <text fill="#000000" stroke-width="0" x="170" y="420" id="label_dpad4" font-size="14" font-family="Monospace" stroke="#000000">Right - Next Program</text>
@@ -28,9 +28,7 @@
   <!--
   <text fill="#000000" stroke-width="0" x="510" y="234" id="label_y" font-size="14" font-family="Monospace" stroke="#000000">Y Button</text>
   <text fill="#000000" stroke-width="0" x="510" y="258" id="label_x" font-size="14" font-family="Monospace" stroke="#000000">X Button</text>
-  -->
-  <text fill="#000000" stroke-width="0" x="470" y="292" id="label_b" font-size="14" font-family="Monospace" stroke="#000000">Toggle On/Off</text>
-  <!--
+  <text fill="#000000" stroke-width="0" x="470" y="292" id="label_b" font-size="14" font-family="Monospace" stroke="#000000">B Button</text>
   <text fill="#000000" stroke-width="0" x="510" y="306" id="label_a" font-size="14" font-family="Monospace" stroke="#000000">A Button</text>
   -->
 
@@ -54,9 +52,7 @@
   <!--
   <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="230" x2="420" y2="220" id="line_y"/>
   <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="254" x2="390" y2="248" id="line_x"/>
-  -->
   <line fill="none" stroke="#000000" stroke-width="2" x1="495" y1="278" x2="450" y2="245" id="line_b"/>
-  <!--
   <line fill="none" stroke="#000000" stroke-width="2" x1="505" y1="302" x2="420" y2="274" id="line_a"/>
   -->
 

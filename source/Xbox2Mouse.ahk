@@ -332,7 +332,7 @@ CheckAll:
 
 	BlockKeyTab := 1
 	BlockPOVTab := 1 ; Prevent user from using pov key while checking for inputs, makes alt tabbing work uninterrupted
-	if GetKeyState(JoystickPrefix . 2)
+	if GetKeyState(JoystickPrefix . 9)
 		{
 			BlockPOVTab := 0
 			Goto ToggleMouseSet
@@ -926,10 +926,10 @@ KeyEnter:
 return
 
 Mute:
-	if (ToggleMouseSimulator = 1) ; only run when mouse is enabled
+	if ToggleMouseSimulator = 1 ; only run when mouse is enabled
 		return
 
-	if (TotalModDown = 1)
+	if TotalModDown = 1
 		Send {Ctrl down}{0}{Ctrl up}
 	else {
 		SoundGet master_volume
@@ -938,10 +938,10 @@ Mute:
 return
 
 EmuState:
-	if (ToggleMouseSimulator = 1) ; only run when mouse is disabled
+	if ToggleMouseSimulator = 1 ; only run when mouse is disabled
 		return
 
-	if BothModDown
+	if TotalModDown = 1
 		Gosub SaveState
 	else
 		Gosub LoadState
@@ -949,7 +949,7 @@ return
 
 ; SAVE STATE BUTTON - DIFFERENT DEPENDING ON THE EMULATOR CURRENTLY RUNNING IN FOCUS
 SaveState:
-	if (ToggleMouseSimulator = 1) ; only run when mouse is disabled
+	if ToggleMouseSimulator = 1 ; only run when mouse is disabled
 		return
 	SetMouseDelay, -1  ; Makes movement smoother.
 	WinGetActiveStats Title, Width, Height, X, Y
