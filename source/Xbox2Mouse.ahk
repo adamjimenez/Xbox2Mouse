@@ -192,6 +192,8 @@ if A_IsCompiled
 }else{
 	AppIcon = %A_ScriptDir%\Xbox2Mouse.ico
 }
+OneHandedIcon = %AppDir%\tray-onehanded.ico
+DisabledIcon = %AppDir%\tray-disabled.ico
 
 Menu Tray, Icon, %AppIcon%
 
@@ -402,16 +404,21 @@ return
 
 ; Toggle one handed mode
 ToggleOneHanded:
+	if (ToggleMouseSimulator = 1)
+		return
+		
 	if OneHanded {
 		OneHanded = 0
 		SetTimer WatchJoystick2, 250
 		Hotkey, %JoystickPrefix%6, KeyTabNext
+		Menu Tray, Icon, %AppIcon%
 	}
 	else
 	{
 		OneHanded = 1
 		SetTimer WatchJoystick2, 10
 		Hotkey, %JoystickPrefix%6, ButtonLeft
+		Menu Tray, Icon, %OneHandedIcon%
 	}
 return
 
@@ -527,7 +534,10 @@ ToggleMouseSet:
 			}
 		Menu, tray, Check, Enable Mouse Simulator
 
-		Menu Tray, Icon, %AppIcon%
+		if OneHanded = 1
+			Menu Tray, Icon, %OneHandedIcon%
+		else
+			Menu Tray, Icon, %AppIcon%
 
 		SplashIcon = mouse.png
 	}
@@ -545,7 +555,7 @@ ToggleMouseSet:
 		ToggleMouseSimulator = 1
 		Menu, tray, Uncheck, Enable Mouse Simulator
 
-		Menu Tray, Icon, %AppDir%\tray-disabled.ico
+		Menu Tray, Icon, %DisabledIcon%
 
 		SplashIcon = mouse-off.png
 	}
