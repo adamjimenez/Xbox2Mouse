@@ -192,8 +192,8 @@ if A_IsCompiled
 }else{
 	AppIcon = %A_ScriptDir%\Xbox2Mouse.ico
 }
-OneHandedIcon = %AppDir%\tray-onehanded.ico
-DisabledIcon = %AppDir%\tray-disabled.ico
+OneHandedIcon = %AppDir%\assets\tray-onehanded.ico
+DisabledIcon = %AppDir%\assets\tray-disabled.ico
 
 Menu Tray, Icon, %AppIcon%
 
@@ -406,7 +406,7 @@ return
 ToggleOneHanded:
 	if (ToggleMouseSimulator = 1)
 		return
-		
+
 	if OneHanded {
 		OneHanded = 0
 		SetTimer WatchJoystick2, 250
@@ -504,7 +504,7 @@ ShowSplashImage:
 	}
 
 	Settimer ShowSplashImage, off
-	gui,add,picture,,%AppDir%\%SplashIcon%
+	gui,add,picture,,%AppDir%\assets\%SplashIcon%
 	Gui, Color, 7e7e7e
 	Gui +LastFound
 	GUI_ID:=WinExist() ; Handle to the GUI
@@ -1408,7 +1408,7 @@ Gui Destroy
 	Gui Margin, 5, 5
 	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
 	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
-	Gui, Add, Picture, xm ym, %AppDir%\controls.png
+	Gui, Add, Picture, xm ym, %AppDir%\assets\controls.png
 	Gui Add, Button, xp+250 yp+450 h23 w75, Next
 	Gui Add, Text, x10 yp+50 cBlue gLink1 vURL_Link1, https://github.com/adamjimenez/Xbox2Mouse
 	Gui Add, Text, xp yp+14,
@@ -1445,7 +1445,7 @@ Gui Destroy
 	Gui Margin, 5, 5
 	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
 	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
-	Gui, Add, Picture, xm ym, %AppDir%\controls one handed.png
+	Gui, Add, Picture, xm ym, %AppDir%\assets\controls one handed.png
 	Gui Add, Button, xp+250 yp+450 h23 w75, Next1
 	Gui Add, Text, xp yp+14,
 
@@ -1477,7 +1477,7 @@ Gui Destroy
 	Gui Margin, 5, 5
 	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
 	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
-	Gui, Add, Picture, xm ym, %AppDir%\controls with one modifier.png
+	Gui, Add, Picture, xm ym, %AppDir%\assets\controls with one modifier.png
 	Gui Add, Button, xp+250 yp+450 h23 w75, Next2
 	Gui Add, Text, xp yp+14,
 
@@ -1509,7 +1509,7 @@ Gui Destroy
 	Gui Margin, 5, 5
 	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
 	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
-	Gui, Add, Picture, xm ym, %AppDir%\controls with both modifiers.png
+	Gui, Add, Picture, xm ym, %AppDir%\assets\controls with both modifiers.png
 	Gui Add, Button, xp+250 yp+450 h23 w75, Close
 	Gui Add, Text, xp yp+14,
 
