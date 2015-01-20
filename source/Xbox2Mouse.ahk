@@ -324,14 +324,20 @@ CheckAll:
 	;Debug
 	;Tooltip Modifier %LeftModDown% and %RightModDown% and %BothModDown%
 
+	/*
 	; Old script part, I know this uses an older way of triggering buttons and I will clean up this properly some day.
 	if !GetKeyState(JoystickPrefix . 5) ;Hold down button 5 to proceed
 		Return
 	if !GetKeyState(JoystickPrefix . 6) ;Hold down button 6 to proceed
 		Return
+	*/
+
+	if BothModDown = 0
+		return
 
 	BlockKeyTab := 1
 	BlockPOVTab := 1 ; Prevent user from using pov key while checking for inputs, makes alt tabbing work uninterrupted
+
 	if GetKeyState(JoystickPrefix . 9)
 		{
 			BlockPOVTab := 0
@@ -362,7 +368,7 @@ CheckAll:
 		}
 	else
 		{
-			; BlockPOVTab := 0
+			BlockPOVTab := 0
 		}
 return
 
@@ -906,11 +912,12 @@ DoubleEscape:
 return
 
 ; ENTER KEY BUTTON
-KeyEnter:
+	KeyEnter:
 	if (ToggleMouseSimulator = 1)
 		return
 	if (BothModDown = 1) ; new way of checking modifiers!
 	{
+		; choose monitors
 		Send {RWin down}
 		Sleep 10
 		Send {P}
@@ -931,9 +938,9 @@ Mute:
 	if ToggleMouseSimulator = 1 ; only run when mouse is enabled
 		return
 
-	if TotalModDown = 1
+	if (TotalModDown = 1) {
 		Send {Ctrl down}{0}{Ctrl up}
-	else {
+	} else {
 		SoundGet master_volume
 		Send {Volume_Mute}
 	}
@@ -1258,18 +1265,16 @@ Joystick2ScrollVerticalTimer:
 return
 
 JoyStick2Down:
-	;Send {WheelDown}
-	if (TotalModDown = 1)
+	if (TotalModDown = 1) {
 		Send {Ctrl down}{-}{Ctrl up}
-	else
+	}else
 		Gosub DecreaseVolume
 return
 
 JoyStick2Up:
-	;Send {WheelUp}
-	if (TotalModDown = 1)
+	if (TotalModDown = 1) {
 		Send {Ctrl down}{+}{Ctrl up}
-	else
+	}else
 		Gosub IncreaseVolume
 return
 
@@ -1345,8 +1350,8 @@ DigitalPad:
 			Send, {%KeyToHoldDownPrev% up}  ; Release it.
 		}
 
-	; NIRKLARS SPECIFIC CHANGE WHEN USING ALT+TAB SHORTCUT
-	if BlockPOVTab = 1
+	; SPECIFIC CHANGE WHEN USING ALT+TAB SHORTCUT
+	if BothModDown = 1
 	{
 		if KeyToHoldDown = Left
 		{
@@ -1359,7 +1364,6 @@ DigitalPad:
 	}
 	else
 	{
-		; BEFORE NIRKLARS/NORMAL FEATURE
 		; Otherwise, release the previous key and press down the new key:
 		SetKeyDelay -1  ; Avoid delays between keystrokes.
 		if KeyToHoldDown   ; There is a key to press down.
