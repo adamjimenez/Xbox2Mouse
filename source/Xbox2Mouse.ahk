@@ -397,9 +397,11 @@ return
 
 ; ALT ENTER MENU
 GoAltEnter:
+	SetMouseDelay, -1  ; Makes movement smoother.
 	Settimer CheckAll, off
 	Settimer ReActivateCheckAll, 1000
-	Send {Alt down}{Enter}{Alt up}
+	Send !{Enter}
+	BlockPOVTab := 0
 return
 
 ; Toggle one handed mode
