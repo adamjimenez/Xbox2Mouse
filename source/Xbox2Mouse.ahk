@@ -1,3 +1,13 @@
+FileCreateDir, assets
+FileInstall, assets\controls one handed.png, assets\controls one handed.png
+FileInstall, assets\controls with both modifiers.png, assets\controls with both modifiers.png
+FileInstall, assets\controls with one modifier.png, assets\controls with one modifier.png
+FileInstall, assets\controls.png, assets\controls.png
+FileInstall, assets\mouse.png, assets\mouse.png
+FileInstall, assets\mouse-off.png, assets\mouse-off.png
+FileInstall, assets\tray-disabled.ico, assets\tray-disabled.ico
+FileInstall, assets\tray-onehanded.ico, assets\tray-onehanded.ico
+
 ; -----------------PUBLIC VARS, DECLARATION
 #SingleInstance force
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
@@ -7,7 +17,7 @@ if A_IsCompiled
 {
 	AppDir = %A_ScriptDir%
 } else {
-	AppDir = %A_ScriptDir%\..
+	AppDir = %A_ScriptDir%
 }
 
 SetWorkingDir AppDir  ; Ensures a consistent starting directory.
