@@ -282,6 +282,18 @@ else
 	Hotkey, 6Joy1, JoyReload
 }
 
+; ---Load keyboard
+Loop, %0%  ; For each parameter:
+	{
+		param := %A_Index%  ; Fetch the contents of the variable whose name is contained in A_Index.
+		params .= A_Space . param
+
+ Tooltip %param%
+		if param = keyboard
+			Goto KeyKeyboard
+	}
+
+
 return  ; End of auto-execute section.
 ;-----------------------------------------------END OF AUTO-EXECUTE SECTION------------------------------------------------------
 
@@ -375,6 +387,10 @@ CheckAll:
 	else if KeyToHoldDown = Up
 		{
 			Goto GoAltEnter
+		}
+	else if KeyToHoldDown = Down
+		{
+			Goto KeyKeyboard
 		}
 	else
 		{
@@ -594,11 +610,26 @@ KeyKeyboard:
 	if (ToggleMouseSimulator = 1)
 		return
 	SetMouseDelay, -1  ; Makes movement smoother.
-	if GetKeyState(JoystickPrefix . 5) ; ignore inputs while holding down this button
+
+	; run as admin
+	Loop, %0%  ; For each parameter:
 		{
-		if GetKeyState(JoystickPrefix . 6) ; ignore inputs while holding down this button
-			Return
+			param := %A_Index%  ; Fetch the contents of the variable whose name is contained in A_Index.
+			params .= A_Space . param
 		}
+
+	params .= A_Space . "keyboard"
+	ShellExecute := A_IsUnicode ? "shell32\ShellExecute":"shell32\ShellExecuteA"
+
+	if not A_IsAdmin
+	{
+			If A_IsCompiled
+				DllCall(ShellExecute, uint, 0, str, "RunAs", str, A_ScriptFullPath, str, params , str, A_WorkingDir, int, 1)
+			Else
+				DllCall(ShellExecute, uint, 0, str, "RunAs", str, A_AhkPath, str, """" . A_ScriptFullPath . """" . A_Space . params, str, A_WorkingDir, int, 1)
+			ExitApp
+	}
+
 
 	;Start ON SCREEN keyboard
 	Process, Exist, osk.exe ; check to see if process is running
