@@ -22,3 +22,4 @@ Enhancements in fork
 * Zoom with LB|RB and right stick, click to reset zoom
 * Scroll up/ down with triggers
 * Fix don't accept triggers from other controllers
+* Prompt for Admin rights when opening virtual keyboard (Both mods + down)
