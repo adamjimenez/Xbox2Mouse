@@ -629,6 +629,9 @@ KeyKeyboard:
 			ExitApp
 	}
 
+	; prevent multiple presses
+	Settimer CheckAll, off
+	Settimer ReActivateCheckAll, 1000
 
 	;Start ON SCREEN keyboard
 	Process, Exist, osk.exe ; check to see if process is running
