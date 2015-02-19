@@ -530,13 +530,16 @@ isWindowFullScreen(winTitle) {
 	Return ((style & 0x20800000) or winH < A_ScreenHeight or winW < A_ScreenWidth) ? false : true
 }
 
-ShowSplashImage:
+ShowSplashImage(SplashIcon, caption) {
+	global AppDir
+
 	; disable when fullscreen
 	if isWindowFullScreen(null) {
+	  Tooltip %caption%
+	  SetTimer TooltipOff, 2000
 		return
 	}
 
-	Settimer ShowSplashImage, off
 	gui,add,picture,,%AppDir%\assets\%SplashIcon%
 	Gui, Color, 7e7e7e
 	Gui +LastFound
@@ -547,7 +550,8 @@ ShowSplashImage:
 	sleep,1000
 	; DllCall("AnimateWindow","UInt",GUI_ID,"Int",1000,"UInt","0x90000") ;fade window / FIXME temp disables input..
 	gui,destroy
-return
+	return
+}
 
 ; TOGGLE MOUSE CONTROLLER FUNCTION
 ToggleMouseSet:
@@ -573,6 +577,7 @@ ToggleMouseSet:
 			Menu Tray, Icon, %AppIcon%
 
 		SplashIcon = mouse.png
+		SplashCaption = Xbox2Mouse Enabled;
 	}
 	else
 	{
@@ -591,8 +596,9 @@ ToggleMouseSet:
 		Menu Tray, Icon, %DisabledIcon%
 
 		SplashIcon = mouse-off.png
+		SplashCaption = Xbox2Mouse Disabled;
 	}
-	Settimer ShowSplashImage, on
+	ShowSplashImage(SplashIcon, SplashCaption)
 	Settimer CheckAll, off
 	; Settimer TooltipOff, 2000
 	Settimer ReActivateCheckAll, 1000
