@@ -535,8 +535,12 @@ ShowSplashImage(SplashIcon, caption) {
 
 	; disable when fullscreen
 	if isWindowFullScreen(null) {
-	  Tooltip %caption%
-	  SetTimer TooltipOff, 2000
+	  ; Tooltip %caption%
+	  ; SetTimer TooltipOff, 2000
+
+		XInput_SetState(JoyName, 30000, 30000) ; up to 65535
+		SetTimer VibrationOff, 300
+
 		return
 	}
 
@@ -608,6 +612,11 @@ Return
 TooltipOff:
 	ToolTip
 	Settimer TooltipOff, off
+return
+
+; DISABLE TOOLTIP AFTER A WHILE
+VibrationOff:
+	XInput_SetState(JoyName, 0, 0)
 return
 
 ; TOGGLE ON SCREEN KEYBOARD
