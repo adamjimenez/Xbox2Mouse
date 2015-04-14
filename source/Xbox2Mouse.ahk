@@ -550,7 +550,7 @@ ShowSplashImage(SplashIcon, caption) {
 	GUI_ID:=WinExist() ; Handle to the GUI
 	; winset,transcolor,000000 ; transparency doesn't work with fade
 	gui,-caption +alwaysontop +ToolWindow
-	gui,show,NoActivate
+	gui,show
 	sleep,1000
 	; DllCall("AnimateWindow","UInt",GUI_ID,"Int",1000,"UInt","0x90000") ;fade window / FIXME temp disables input..
 	gui,destroy
@@ -1470,7 +1470,7 @@ return
 ShowHelpAbout:
 Gui Destroy
 	Gui Margin, 5, 5
-	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
+	Gui +ToolWindow +AlwaysOnTop
 	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
 	Gui, Add, Picture, xm ym, %AppDir%\assets\controls.png
 	Gui Add, Button, xp+250 yp+450 h23 w75, Next
@@ -1507,7 +1507,7 @@ return
 ShowHelpAbout1:
 Gui Destroy
 	Gui Margin, 5, 5
-	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
+	Gui +ToolWindow +AlwaysOnTop
 	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
 	Gui, Add, Picture, xm ym, %AppDir%\assets\controls one handed.png
 	Gui Add, Button, xp+250 yp+450 h23 w75, Next1
@@ -1539,7 +1539,7 @@ return
 ShowHelpAbout2:
 Gui Destroy
 	Gui Margin, 5, 5
-	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
+	Gui +ToolWindow +AlwaysOnTop
 	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
 	Gui, Add, Picture, xm ym, %AppDir%\assets\controls with one modifier.png
 	Gui Add, Button, xp+250 yp+450 h23 w75, Next2
@@ -1571,7 +1571,7 @@ return
 ShowHelpAbout3:
 Gui Destroy
 	Gui Margin, 5, 5
-	Gui +ToolWindow +AlwaysOnTop +NoActivate +Center
+	Gui +ToolWindow +AlwaysOnTop
 	Gui Add, Text, xm ym, Xbox2Mouse V%AppVersion%
 	Gui, Add, Picture, xm ym, %AppDir%\assets\controls with both modifiers.png
 	Gui Add, Button, xp+250 yp+450 h23 w75, Close
