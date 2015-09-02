@@ -1006,6 +1006,9 @@ Mute:
 	if ToggleMouseSimulator = 1 ; only run when mouse is enabled
 		return
 
+	if LeftStickDown
+		return
+
 	if (TotalModDown = 1) {
 		Send {Ctrl down}{0}{Ctrl up}
 	} else {
