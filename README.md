@@ -11,6 +11,7 @@ Forked from XboxMouse Simulator by Nicklas Hult (http://nirklars.wordpress.com/x
 ![controls](https://github.com/adamjimenez/Xbox2Mouse/raw/master/source/assets/controls with both modifiers.png "Controls with both modifiers")
 
 Enhancements in fork
+* Toggle on / off by pressing both sticks down
 * One Handed Mode (Enable with Y)
 * Fullscreen LB+RB+Up
 * Holding dpad repeats cursor presses
@@ -22,4 +23,4 @@ Enhancements in fork
 * Zoom with LB|RB and right stick, click to reset zoom
 * Scroll up/ down with triggers
 * Fix don't accept triggers from other controllers
-* Prompt for Admin rights when opening virtual keyboard (Both mods + down)
+* Prompt for Admin rights when opening virtual keyboard (LB + RB + Down)

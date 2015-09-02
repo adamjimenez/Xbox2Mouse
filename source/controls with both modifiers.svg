@@ -17,7 +17,9 @@
   <!--
   <text fill="#000000" stroke-width="0" x="80" y="206" id="label_ls" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Left Stick</text>
   -->
+  <!--
   <text fill="#000000" stroke-width="0" x="80" y="290" id="label_l3" font-size="14" font-family="Monospace" text-anchor="middle" stroke="#000000">Click Toggle On/Off</text>
+  -->
   <text fill="#000000" stroke-width="0" x="170" y="390" id="label_dpad" font-size="14" font-family="Monospace" stroke="#000000">Up - Full Screen</text>
   <text fill="#000000" stroke-width="0" x="170" y="405" id="label_dpad3" font-size="14" font-family="Monospace" stroke="#000000">Left - Prev Program</text>
   <text fill="#000000" stroke-width="0" x="170" y="420" id="label_dpad4" font-size="14" font-family="Monospace" stroke="#000000">Right - Next Program</text>
