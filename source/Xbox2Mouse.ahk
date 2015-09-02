@@ -684,22 +684,19 @@ return
 LeftRightTrigger:
 	SetMouseDelay, -1  ; Makes movement smoother.
 
-	if XInput_GetState(JoystickNumber-1, State)=0 {
-		LT := json(State,"bLeftTrigger") >= TriggerThreshold
-		RT := json(State,"bRightTrigger") >= TriggerThreshold
+	GetKeyState, Trigger, JoyZ
 
-		if (LT != 0)
-		{
-			Gosub LeftTrigger
-			LastLT := LT
-			sleep, 50
-		}
-		if (RT != 0)
-		{
-			Gosub RightTrigger
-			LastRT := RT
-			sleep, 50
-		}
+	if (Trigger > 70)
+	{
+		Gosub LeftTrigger
+		LastLT := LT
+		sleep, 50
+	}
+	if (Trigger < 30)
+	{
+		Gosub RightTrigger
+		LastRT := RT
+		sleep, 50
 	}
 return
 
@@ -1747,12 +1744,14 @@ XInput_Init(dll="xinput1_3")
 	_XInput_SetState        := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputSetState")
 	_XInput_GetCapabilities := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputGetCapabilities")
 
+	/*
 	if !(_XInput_GetState && _XInput_SetState && _XInput_GetCapabilities)
 	{
 		XInput_Term()
 		MsgBox, Failed to initialize XInput: function not found.
 		return
 	}
+	*/
 }
 
 /*
