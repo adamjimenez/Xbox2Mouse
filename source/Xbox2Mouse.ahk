@@ -335,12 +335,18 @@ CheckAll:
 		RightModDown := 1
 	else
 		RightModDown := 0
+
 	; Sum modifiers together to get if both are down or if any are down
 	TotalModDown := RightModDown + LeftModDown
 	If TotalModDown = 2
 		BothModDown = 1
 	else
 		BothModDown = 0
+
+	if GetKeyState(JoystickPrefix . 9)
+		LeftStickDown := 1
+	else
+		LeftStickDown := 0
 
 	;Debug
 	;Tooltip Modifier %LeftModDown% and %RightModDown% and %BothModDown%
@@ -352,6 +358,13 @@ CheckAll:
 	if !GetKeyState(JoystickPrefix . 6) ;Hold down button 6 to proceed
 		Return
 	*/
+
+	// toggle disabled when both sticks are pressed
+	if LeftStickDown && GetKeyState(JoystickPrefix . 10)
+		{
+			BlockPOVTab := 0
+			Goto ToggleMouseSet
+		}
 
 	if BothModDown = 0
 		return
