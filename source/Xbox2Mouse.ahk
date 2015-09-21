@@ -372,12 +372,15 @@ CheckAll:
 	BlockKeyTab := 1
 	BlockPOVTab := 1 ; Prevent user from using pov key while checking for inputs, makes alt tabbing work uninterrupted
 
+	/*
 	if GetKeyState(JoystickPrefix . 9)
 		{
 			BlockPOVTab := 0
 			Goto ToggleMouseSet
 		}
-	else if GetKeyState(JoystickPrefix . 4)
+	else
+	*/
+	if GetKeyState(JoystickPrefix . 4)
 		{
 			; BlockPOVTab := 0
 			; Goto ToggleTriggerSet
