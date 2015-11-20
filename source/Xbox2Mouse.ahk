@@ -695,7 +695,7 @@ LeftRightTrigger:
 		LastLT := LT
 		sleep, 50
 	}
-	if (Trigger < 30)
+	if (Trigger > 0 && Trigger < 30)
 	{
 		Gosub RightTrigger
 		LastRT := RT
