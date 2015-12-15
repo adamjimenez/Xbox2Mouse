@@ -209,7 +209,7 @@ Menu Tray, Icon, %AppIcon%
 
 Menu tray, NoStandard
 Menu Tray, Tip, Xbox2Mouse V%AppVersion%
-Menu tray, add, Enable Mouse Simulator, ToggleMouseSet  ; Creates a new menu item.
+Menu tray, add, Enable Xbox2Mouse, ToggleMouseSet  ; Creates a new menu item.
 ; Menu tray, add, Enable L/R Trigger Buttons, ToggleTriggerSet  ; Creates a new menu item.
 ; Menu tray, add, Enable Emulator Enhancement Hotkeys, ToggleEmulatorEnhancement  ; Creates a new menu item.
 Menu tray, add  ; Creates a separator line.
