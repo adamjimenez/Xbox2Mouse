@@ -723,14 +723,7 @@ return
 LeftTrigger:
 	if ToggleMouseSimulator = 0 ; Is the mouse simulator active? If it is then
 	{
-		if InvertVolumeButtons = 1
-		{
-			Send {WheelDown}
-		}
-		else
-		{
-			Send {WheelUp}
-		}
+		Send {WheelUp}
 	}
 	/*
 	else if ToggleTrigger = 0 ; Are the trigger replacements disabled?
@@ -748,14 +741,7 @@ return
 RightTrigger:
 	if ToggleMouseSimulator = 0 ; Is the mouse simulator active? If it is then
 	{
-		if InvertVolumeButtons = 1
-		{
-			Send {WheelUp}
-		}
-		else
-		{
-			Send {WheelDown}
-		}
+		Send {WheelDown}
 	}
 	/*
 	else if ToggleTrigger = 0 ; Are the trigger replacements disabled?
