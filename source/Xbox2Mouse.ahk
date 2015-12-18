@@ -164,16 +164,14 @@ if AutoDetectJoysticks = 1
 	; Auto-detect the joystick number if called for:
 	if JoystickNumber <= 0
 	{
-		Loop 16  ; Query each joystick number to find out which ones exist.
+		Loop 8  ; Query each joystick number to find out which ones exist.
 		{
-			GetKeyState, JoyName, %A_Index%JoyName
-			if JoyName <>
-			{
-				JoystickNumber = %A_Index%
-				break
+			if State := XInput_GetState(A_Index-1) {
+				JoystickNumber := A_Index
+				break ;
 			}
 		}
-		if JoystickNumber <= 0
+		if JoystickNumber < 0
 		{
 			IniRead, JoyStickMessageShowOnce, %inifile%, Settings, JoyStickMessageShowOnce, 0
 			if JoyStickMessageShowOnce
@@ -216,7 +214,7 @@ Menu tray, add  ; Creates a separator line.
 Menu tray, add, Edit Advanced Settings, MenuHandler  ; Creates a new menu item.
 	If ToggleMouseSimulator = 0
 	{
-		Menu, tray, Check, Enable Mouse Simulator
+		Menu, tray, Check, Enable Xbox2Mouse
 	}
 	If ToggleTrigger = 1
 	{
@@ -238,18 +236,37 @@ if HaltProgram = 0 ; prevent looping overuse of cpu when no controller is connec
 	SystemCursor("Init") ; Initialize Cursor hiding
 	XInput_Init() ; Initialize XInput for trigger button recognition
 
-	; Load hotkeys
-	JoystickPrefix = %JoystickNumber%Joy
-	Hotkey, %JoystickPrefix%%ButtonLeft%, ButtonLeft
-	Hotkey, %JoystickPrefix%%ButtonRight%, ButtonRight
-	Hotkey, %JoystickPrefix%%ButtonMiddle%, ButtonMiddle
-	Hotkey, %JoystickPrefix%4, ToggleOneHanded
-	Hotkey, %JoystickPrefix%5, KeyTabPrev
-	Hotkey, %JoystickPrefix%6, KeyTabNext
-	Hotkey, %JoystickPrefix%7, KeyEscape
-	Hotkey, %JoystickPrefix%8, KeyEnter
-	Hotkey, %JoystickPrefix%9, EmuState ; L3
-	Hotkey, %JoystickPrefix%10, Mute ; R3
+	Global aInput := {UP: 0x0001
+, DOWN: 0x0002
+, LEFT: 0x0004
+, RIGHT: 0x0008
+, START: 0x0010
+, BACK: 0x0020
+, LT: 0x0040
+, RT: 0x0080
+, LB: 0x0100
+, RB: 0x0200
+, GUIDE: 0x0400 ; Undocumented
+, A: 0x1000
+, B: 0x2000
+, X: 0x4000
+, Y: 0x8000 }
+
+	Global aPressed := {UP: false
+, DOWN: false
+, LEFT: false
+, RIGHT: false
+, START: false
+, BACK: false
+, LB: false
+, RB: false
+, LT: false
+, RT: false
+, GUIDE: false
+, A: false
+, B: false
+, X: false
+, Y: false }
 
 	; -----------------LOADING PARAMETERS
 
@@ -268,8 +285,6 @@ if HaltProgram = 0 ; prevent looping overuse of cpu when no controller is connec
 	SetTimer WatchJoystick, 10  ; Monitor the movement of the joystick.
 	SetTimer WatchJoystick2, 250 ; Movement of the scroller (joystick 2)
 	SetTimer DigitalPad, %WheelDelay%
-	GetKeyState, JoyInfo, %JoystickNumber%JoyInfo
-	;IfInString, JoyInfo, P  ; Joystick has POV control
 }
 else
 {
@@ -321,17 +336,45 @@ MenuHandlerExit:
 	ExitApp
 return
 
+handleButton(button) {
+; Tooltip %button%
+	if (button == "A") {
+		ButtonLeft()
+	} else if (button == "B") {
+		ButtonRight()
+	} else if (button == "X") {
+		ButtonMiddle()
+	} else if (button == "Y") {
+		ToggleOneHanded()
+	} else if (button == "LB") {
+		KeyTabPrev()
+	} else if (button == "RB") {
+		KeyTabNext()
+	} else if (button == "BACK") {
+		KeyEscape()
+	} else if (button == "START") {
+		KeyEnter()
+	} else if (button == "LT") {
+		EmuState()
+	} else if (button == "RT") {
+		Mute()
+	}
+}
+
 ; CHECK MODIFIER BUTTONS HELD DOWN
 ;check if all buttons are pressed at the same time
 CheckAll:
 
+	; Load hotkeys
+  State := XInput_GetState(JoystickNumber-1)
+
 	; Check if modifier buttons are down
-	if GetKeyState(JoystickPrefix . 5)
+	if (State.wButtons & aInput.LB)
 		LeftModDown := 1
 	else
 		LeftModDown := 0
 
-	if GetKeyState(JoystickPrefix . 6)
+	if (State.wButtons & aInput.RB)
 		RightModDown := 1
 	else
 		RightModDown := 0
@@ -343,7 +386,7 @@ CheckAll:
 	else
 		BothModDown = 0
 
-	if GetKeyState(JoystickPrefix . 9)
+	if (State.wButtons & aInput.LT)
 		LeftStickDown := 1
 	else
 		LeftStickDown := 0
@@ -351,53 +394,37 @@ CheckAll:
 	;Debug
 	;Tooltip Modifier %LeftModDown% and %RightModDown% and %BothModDown%
 
-	/*
-	; Old script part, I know this uses an older way of triggering buttons and I will clean up this properly some day.
-	if !GetKeyState(JoystickPrefix . 5) ;Hold down button 5 to proceed
-		Return
-	if !GetKeyState(JoystickPrefix . 6) ;Hold down button 6 to proceed
-		Return
-	*/
-
-	// toggle disabled when both sticks are pressed
-	if LeftStickDown && GetKeyState(JoystickPrefix . 10)
-		{
-			BlockPOVTab := 0
-			Goto ToggleMouseSet
+	for index, element in aPressed {
+		if (State.wButtons & aInput[index]) {
+			if (!aPressed[index]) {
+				aPressed[index] := true
+				handleButton(index)
+			}
+		} else {
+			aPressed[index] := false
 		}
+	}
 
 	if BothModDown = 0
 		return
 
-	BlockKeyTab := 1
 	BlockPOVTab := 1 ; Prevent user from using pov key while checking for inputs, makes alt tabbing work uninterrupted
 
-	/*
-	if GetKeyState(JoystickPrefix . 9)
-		{
-			BlockPOVTab := 0
-			Goto ToggleMouseSet
-		}
-	else
-	*/
-	if GetKeyState(JoystickPrefix . 4)
-		{
-			; BlockPOVTab := 0
-			; Goto ToggleTriggerSet
-		}
-	else if GetKeyState(JoystickPrefix . 3)
-		{
-			; disable this for now
-			; BlockPOVTab := 0
-			; Goto ToggleEmulatorEnhancement
-		}
-	else if KeyToHoldDown = Right
+	SetTimer, WaitForLBRBUp, 10
+
+	; block repeat input
+	if (lastModKey = KeyToHoldDown){
+		return
+	}
+	lastModKey := KeyToHoldDown
+
+	if KeyToHoldDown = Right
 		{
 			Goto GoAltTab
 		}
 	else if KeyToHoldDown = Left
 		{
-			Goto GoAltTab
+			Goto GoAltShiftTab
 		}
 	else if KeyToHoldDown = Up
 		{
@@ -409,13 +436,29 @@ CheckAll:
 		}
 	else
 		{
-			BlockPOVTab := 0
+
 		}
 return
 
 ; ENABLES THE MODIFIER CHECKALL TIMER AGAIN AFTER A WHILE
 ReActivateCheckAll:
 	Settimer CheckAll, on
+return
+
+WaitForLBRBUp:
+	global JoyMultiplier, MouseCursorSpeedSlowdownMultiplier
+
+	if (ToggleMouseSimulator = 1)
+		return
+	if aPressed.LB OR aPressed.RB
+		return  ; The button is still, down, so keep waiting.
+
+	SetTimer, WaitForLBRBUp, off
+
+	Send {Alt up}
+	Send {Shift up}
+
+	BlockPOVTab := 0
 return
 
 ; ALT TAB MENU
@@ -429,17 +472,34 @@ GoAltTab:
 		KeyWait %JoystickPrefix%5
 		KeyWait %JoystickPrefix%6
 		Send {Alt up}
+		BlockPOVTab := 0
 	}
 	else
 	{
 		; new alt+tab solution for vista and windows 7
 		Send {Alt down}{Tab}
+	}
+return
+
+GoAltShiftTab:
+	SetMouseDelay, -1  ; Makes movement smoother.
+	if A_OSVersion in WIN_XP,WIN_NT4,WIN_95,WIN_98,WIN_ME  ; Check if old OS is running, then the new alt tab wont work
+	{
+		; old alt+tab solution
+		BlockPOVTab := 1
+		Send {Alt down}
+		Send {Shift down}
 		KeyWait %JoystickPrefix%5
 		KeyWait %JoystickPrefix%6
+		Send {Shift up}
 		Send {Alt up}
-		; BlockPOVTab := 1
+		BlockPOVTab := 0
 	}
-	BlockPOVTab := 0
+	else
+	{
+		; new alt+tab solution for vista and windows 7
+		Send {Alt down}{Shift down}{Tab}{Shift up}
+	}
 return
 
 ; ALT ENTER MENU
@@ -452,7 +512,8 @@ GoAltEnter:
 return
 
 ; Toggle one handed mode
-ToggleOneHanded:
+ToggleOneHanded() {
+	global OneHanded
 	if (ToggleMouseSimulator = 1)
 		return
 
@@ -469,7 +530,8 @@ ToggleOneHanded:
 		Hotkey, %JoystickPrefix%6, ButtonLeft
 		Menu Tray, Icon, %OneHandedIcon%
 	}
-return
+  return
+}
 
 ; TOGGLE TRIGGER NORMAL BUTTON BEHAVIOUR FUNCTION
 ToggleTriggerSet:
@@ -575,6 +637,12 @@ ShowSplashImage(SplashIcon, caption) {
 
 ; TOGGLE MOUSE CONTROLLER FUNCTION
 ToggleMouseSet:
+  doToggleMouseSet()
+return
+
+doToggleMouseSet() {
+	global SetMouseDelay, ToggleMouseSimulator
+
 	SetMouseDelay, -1  ; Makes movement smoother.
 	if ToggleMouseSimulator = 1
 	{
@@ -589,7 +657,7 @@ ToggleMouseSet:
 				DllCall("ShowCursor","Uint",1)
 				SystemCursor("On")
 			}
-		Menu, tray, Check, Enable Mouse Simulator
+		Menu, tray, Check, Enable Xbox2Mouse
 
 		if OneHanded = 1
 			Menu Tray, Icon, %OneHandedIcon%
@@ -611,7 +679,7 @@ ToggleMouseSet:
 				SetTimer HideMouseCursorCheckIdle, 250
 			}
 		ToggleMouseSimulator = 1
-		Menu, tray, Uncheck, Enable Mouse Simulator
+		Menu, tray, Uncheck, Enable Xbox2Mouse
 
 		Menu Tray, Icon, %DisabledIcon%
 
@@ -622,7 +690,8 @@ ToggleMouseSet:
 	Settimer CheckAll, off
 	; Settimer TooltipOff, 2000
 	Settimer ReActivateCheckAll, 1000
-Return
+	Return
+}
 
 ; DISABLE TOOLTIP AFTER A WHILE
 TooltipOff:
@@ -687,15 +756,19 @@ return
 LeftRightTrigger:
 	SetMouseDelay, -1  ; Makes movement smoother.
 
-	GetKeyState, Trigger, JoyZ
+	State := XInput_GetState(JoystickNumber-1)
 
-	if (Trigger > 70)
+	LT := State.bLeftTrigger
+	RT := State.bRightTrigger
+	; Tooltip %LT% - %RT%
+
+	if (LT > 70)
 	{
 		Gosub LeftTrigger
 		LastLT := LT
 		sleep, 50
 	}
-	if (Trigger > 0 && Trigger < 30)
+	if (RT > 70)
 	{
 		Gosub RightTrigger
 		LastRT := RT
@@ -769,92 +842,51 @@ BrowserForward:
 	Send {Browser_Forward}
 return
 
-; PREVIOUS TAB BUTTON
-KeyTabPrev:
-	if (ToggleMouseSimulator = 1)
-		return
+WaitForLBUp:
+	global JoyMultiplier, MouseCursorSpeedSlowdownMultiplier
+
+
+	if aPressed.LB
+		return  ; The button is still, down, so keep waiting.
+	; Otherwise, the button has been released.
 	SetMouseDelay, -1  ; Makes movement smoother.
+	SetTimer, WaitForLBUp, off
 
-	; MOUSE SLOWDOWN START
-		; Lower Mouse Speed while keeping key down
-		JoyMultiplier:=JoyMultiplier/MouseCursorSpeedSlowdownMultiplier
-		; Store data from mouse to determine if it moved
-		DeltaXcheck := DeltaX
-		DeltaYcheck := DeltaY
-		joyXcheck := joyX
-		joyYcheck := joyY
-	KeyWait %JoystickPrefix%5
-
-		; Restore Mouse Speed when releasing key
-		JoyMultiplier:=JoyMultiplier*MouseCursorSpeedSlowdownMultiplier
-		; Abort command if mouse moved
-		if !(DeltaYcheck = DeltaY)
-		{
-			return
-		}
-		if !(DeltaXcheck = DeltaY)
-		{
-			return
-		}
-		if !(joyYcheck = joyY)
-		{
-			return
-		}
-		if !(joyXcheck = joyX)
-		{
-			return
-		}
+	; Restore Mouse Speed when releasing key
+	JoyMultiplier:=JoyMultiplier*MouseCursorSpeedSlowdownMultiplier
+	; Abort command if mouse moved
+	if !(DeltaYcheck = DeltaY)
+	{
+		return
+	}
+	if !(DeltaXcheck = DeltaY)
+	{
+		return
+	}
+	if !(joyYcheck = joyY)
+	{
+		return
+	}
+	if !(joyXcheck = joyX)
+	{
+		return
+	}
 	; MOUSE SLOWDOWN END
 
 	; ABORT IF MODIFIERS WERE USED
-	if GetKeyState(JoystickPrefix . 6)
+	if aPressed.LB
 		return
 	if BlockKeyTab = 1
 	{
 		BlockKeyTab = 0
 		return
 	}
-
-	return
-
-	/*
-	; CUSTOM COMMAND INTEGRATION
-		WinGetActiveStats Title, Width, Height, X, Y
-		{
-			if InStr(Title, "Firefox") ; Is firefox running?
-			{
-				Send {Ctrl down}{PgUp}{Ctrl up}
-			}
-			else if InStr(Title, "Google Chrome") ; Is chrome running?
-			{
-				Send {Ctrl down}{PgUp}{Ctrl up}
-			}
-			else if InStr(Title, "Internet Explorer") ; Is IE running?
-			{
-				Send {Ctrl down}{shift down}{Tab}{shift up}{Ctrl up}
-			}
-			else
-			{
-				if WinActive("ahk_class CabinetWClass") ; If Windows Explorer is running
-				{
-					Send {Alt down}{Left}{Alt up}
-				}
-				else if WinActive("ahk_class QWidget") ; If vlc is running
-				{
-					;do nothing
-				}
-				else ; No integration
-				{
-					;do nothing
-				}
-			}
-		}
-	*/
 return
 
+; PREVIOUS TAB BUTTON
+KeyTabPrev() {
+	global JoyMultiplier, MouseCursorSpeedSlowdownMultiplier
 
-; NEXT TAB BUTTON
-KeyTabNext:
 	if (ToggleMouseSimulator = 1)
 		return
 	SetMouseDelay, -1  ; Makes movement smoother.
@@ -867,37 +899,73 @@ KeyTabNext:
 		DeltaYcheck := DeltaY
 		joyXcheck := joyX
 		joyYcheck := joyY
-	KeyWait %JoystickPrefix%6
+	SetTimer, WaitForLBUp, 10
 
-		; Restore Mouse Speed when releasing key
-		JoyMultiplier:=JoyMultiplier*MouseCursorSpeedSlowdownMultiplier
-		; Abort command if mouse moved
-		if !(DeltaYcheck = DeltaY)
-		{
-			return
-		}
-		if !(DeltaXcheck = DeltaY)
-		{
-			return
-		}
-		if !(joyYcheck = joyY)
-		{
-			return
-		}
-		if !(joyXcheck = joyX)
-		{
-			return
-		}
+	return
+}
+
+WaitForRBUp:
+	global JoyMultiplier, MouseCursorSpeedSlowdownMultiplier
+
+	if (ToggleMouseSimulator = 1)
+		return
+	if OneHanded AND RightModDown {
+		return
+	}
+	if aPressed.RB
+		return  ; The button is still, down, so keep waiting.
+	; Otherwise, the button has been released.
+	SetMouseDelay, -1  ; Makes movement smoother.
+	SetTimer, WaitForRBUp, off
+
+	; Restore Mouse Speed when releasing key
+	JoyMultiplier:=JoyMultiplier*MouseCursorSpeedSlowdownMultiplier
+	; Abort command if mouse moved
+	if !(DeltaYcheck = DeltaY)
+	{
+		return
+	}
+	if !(DeltaXcheck = DeltaY)
+	{
+		return
+	}
+	if !(joyYcheck = joyY)
+	{
+		return
+	}
+	if !(joyXcheck = joyX)
+	{
+		return
+	}
 	; MOUSE SLOWDOWN END
 
 	; ABORT IF MODIFIERS WERE USED
-	if GetKeyState(JoystickPrefix . 5)
+	if aPressed.RB
 		return
 	if BlockKeyTab = 1
 	{
 		BlockKeyTab = 0
 		return
 	}
+return
+
+; NEXT TAB BUTTON
+KeyTabNext() {
+	global JoyMultiplier, MouseCursorSpeedSlowdownMultiplier
+
+	if (ToggleMouseSimulator = 1)
+		return
+	SetMouseDelay, -1  ; Makes movement smoother.
+
+	; MOUSE SLOWDOWN START
+		; Lower Mouse Speed while keeping key down
+		JoyMultiplier:=JoyMultiplier/MouseCursorSpeedSlowdownMultiplier
+		; Store data from mouse to determine if it moved
+		DeltaXcheck := DeltaX
+		DeltaYcheck := DeltaY
+		joyXcheck := joyX
+		joyYcheck := joyY
+		SetTimer, WaitForRBUp, 10
 
 	return
 
@@ -934,11 +1002,13 @@ KeyTabNext:
 			}
 		}
 	*/
-return
-
+	return
+}
 
 ; ESCAPE KEY BUTTON
-KeyEscape:
+KeyEscape() {
+	global BothModDown, TotalModDown
+
 	if (ToggleMouseSimulator = 1)
 		return
 	SetMouseDelay, -1  ; Makes movement smoother.
@@ -961,7 +1031,8 @@ KeyEscape:
 		Settimer DoubleEscape, %EscapeDoubleTapDelay%
 		DoubleEscapeActive = 1
 		}
-return
+		return
+}
 
 DoubleEscape:
 	DoubleEscapeActive = 0
@@ -969,7 +1040,9 @@ DoubleEscape:
 return
 
 ; ENTER KEY BUTTON
-	KeyEnter:
+KeyEnter() {
+	global BothModDown, TotalModDown
+
 	if (ToggleMouseSimulator = 1)
 		return
 	if (BothModDown = 1) ; new way of checking modifiers!
@@ -989,9 +1062,12 @@ return
 	{
 		Send {Enter}
 	}
-return
+	return
+}
 
-Mute:
+Mute() {
+	global BothModDown, TotalModDown
+
 	if ToggleMouseSimulator = 1 ; only run when mouse is enabled
 		return
 
@@ -1000,24 +1076,31 @@ Mute:
 
 	if (TotalModDown = 1) {
 		Send {Ctrl down}{0}{Ctrl up}
+	} else if aPressed.LT {
+		BlockPOVTab := 0
+		doToggleMouseSet()
 	} else {
 		SoundGet master_volume
 		Send {Volume_Mute}
 	}
-return
+	return
+}
 
-EmuState:
+EmuState() {
+	global BothModDown, TotalModDown
+
 	if ToggleMouseSimulator = 1 ; only run when mouse is disabled
 		return
 
 	if TotalModDown = 1
-		Gosub SaveState
+		SaveState()
 	else
-		Gosub LoadState
-return
+		LoadState()
+	return
+}
 
 ; SAVE STATE BUTTON - DIFFERENT DEPENDING ON THE EMULATOR CURRENTLY RUNNING IN FOCUS
-SaveState:
+SaveState() {
 	if ToggleMouseSimulator = 1 ; only run when mouse is disabled
 		return
 	SetMouseDelay, -1  ; Makes movement smoother.
@@ -1059,10 +1142,11 @@ SaveState:
 			Send {F5}
 		}
 	}
-return
+  return
+}
 
 ; LOAD STATE BUTTON - DIFFERENT DEPENDING ON THE EMULATOR CURRENTLY RUNNING IN FOCUS
-LoadState:
+LoadState() {
 	if (ToggleMouseSimulator = 1) ; only run when mouse is enabled
 		return
 
@@ -1103,18 +1187,20 @@ LoadState:
 			Send {F7}
 		}
 	}
-return
+  return
+}
 
 ; -----------------HOTKEY FUNCTIONS
 
 
-ButtonLeft:
+ButtonLeft() {
 	if (ToggleMouseSimulator = 1)
 		return
 	SetMouseDelay, -1  ; Makes movement smoother.
 	MouseClick, left,,, 1, 0, D  ; Hold down the left mouse button.
 	SetTimer, WaitForLeftButtonUp, 10
-return
+  return
+}
 
 
 WaitForLeftButtonUp:
@@ -1123,7 +1209,7 @@ WaitForLeftButtonUp:
 	if OneHanded AND RightModDown {
 		return
 	}
-	if GetKeyState(JoystickPrefix . ButtonLeft)
+	if aPressed.A
 		return  ; The button is still, down, so keep waiting.
 	; Otherwise, the button has been released.
 	SetMouseDelay, -1  ; Makes movement smoother.
@@ -1132,24 +1218,24 @@ WaitForLeftButtonUp:
 return
 
 
-ButtonRight:
+ButtonRight() {
 	if (ToggleMouseSimulator = 1)
 		return
-	if GetKeyState(JoystickPrefix . 5) ; ignore inputs while holding down this button
-		{
-		if GetKeyState(JoystickPrefix . 6) ; ignore inputs while holding down this button
-			Return
-		}
+
+  if aPressed.LB OR aPressed.RB {
+		return
+  }
+
 	SetMouseDelay, -1  ; Makes movement smoother.
 	MouseClick, right,,, 1, 0, D  ; Hold down the right mouse button.
 	SetTimer, WaitForRightButtonUp, 10
-return
-
+	return
+}
 
 WaitForRightButtonUp:
 	if (ToggleMouseSimulator = 1)
 		return
-	if GetKeyState(JoystickPrefix . ButtonRight)
+	if aPressed.B
 		return  ; The button is still, down, so keep waiting.
 	; Otherwise, the button has been released.
 	SetTimer, WaitForRightButtonUp, off
@@ -1157,18 +1243,19 @@ WaitForRightButtonUp:
 return
 
 
-ButtonMiddle:
+ButtonMiddle() {
 	if (ToggleMouseSimulator = 1)
 		return
 	SetMouseDelay, -1  ; Makes movement smoother.
 	MouseClick, middle,,, 1, 0, D  ; Hold down the right mouse button.
 	SetTimer, WaitForMiddleButtonUp, 10
-return
+	return
+}
 
 WaitForMiddleButtonUp:
 	if (ToggleMouseSimulator = 1)
 		return
-	if GetKeyState(JoystickPrefix . ButtonMiddle)
+	if aPressed.X
 		return  ; The button is still, down, so keep waiting.
 	; Otherwise, the button has been released.
 	SetTimer, WaitForMiddleButtonUp, off
@@ -1223,10 +1310,17 @@ WatchJoystick:
 	SetMouseDelay, -1  ; Makes movement smoother.
 	MouseNeedsToBeMoved := false  ; Set default.
 	SetFormat, float, 03
-	GetKeyState, joyx, %JoystickNumber%JoyX
-	GetKeyState, joyy, %JoystickNumber%JoyY
 
-	MoveMouse(joyx, joyy)
+	if State := XInput_GetState(JoystickNumber-1) {
+	  joyx := State.sThumbLX
+	  joyy := State.sThumbLY
+
+		; normalise values out of 100
+		joyx := Round((joyx + 32768) / 655.36)
+		joyy := 100 - Round((joyy + 32768) / 655.36)
+
+		MoveMouse(joyx, joyy)
+	}
 return
 
 
@@ -1235,81 +1329,91 @@ WatchJoystick2:
 	if (ToggleMouseSimulator = 1)
 		return
 	SetMouseDelay, -1  ; Makes movement smoother.
-	GetKeyState, joyr, %JoystickNumber%JoyR
-	GetKeyState, joyu, %JoystickNumber%JoyU
 	JoyNeedsToBeMoved := false  ; Set default.
 
-	if (OneHanded) {
-		MoveMouse(joyu, joyr)
-		return
-	}
+	if State := XInput_GetState(JoystickNumber-1) {
 
-	; VERTICAL
-	if joyr > 60
-	{
-		JoyNeedsToBeMoved := true
-		;DeltaR := joyr - 60
-	}
-	else if (joyr = %EmptyVar%)
-	{
-		return
-	}
-	else if joyr < 40
-	{
-		JoyNeedsToBeMoved := true
-		;DeltaR := joyr - 40
-	}
-	else
-	{
-		JoyNeedsToBeMoved := false
-		SetTimer Joystick2ScrollVerticalTimer, off
-		;DeltaR = 0
-	}
+	  joyu := State.sThumbRX
+	  joyr := State.sThumbRY
 
+		; normalise values out of 100
+		joyu := Round((joyu + 32768) / 655.36)
+		joyr := 100 - Round((joyr + 32768) / 655.36)
 
-	; ACTION
-	if JoyNeedsToBeMoved
-	{
-		SetMouseDelay, -1  ; Makes movement smoother.
+		; Tooltip %joyu% x %joyr%
 
-		; VERTICAL DIRECTION
-		if joyr < 50
+		if (OneHanded) {
+			MoveMouse(joyu, joyr)
+			return
+		}
+
+		; VERTICAL
+		if joyr > 60
 		{
-			ScrollSpeedVertical := ((joyr)*10^JoyMouseScrollAcceleration)*JoyMouseScrollAccelerationStart
-			VerticalDirection = 0
+			JoyNeedsToBeMoved := true
+			;DeltaR := joyr - 60
+		}
+		else if (joyr = %EmptyVar%)
+		{
+			return
+		}
+		else if joyr < 40
+		{
+			JoyNeedsToBeMoved := true
+			;DeltaR := joyr - 40
 		}
 		else
 		{
-			ScrollSpeedVertical := ((100 - joyr)*10^JoyMouseScrollAcceleration)*JoyMouseScrollAccelerationStart
-			VerticalDirection = 1
+			JoyNeedsToBeMoved := false
+			SetTimer Joystick2ScrollVerticalTimer, off
+			;DeltaR = 0
 		}
 
-		; INSTANT SINGLE SCROLL "NUDGE" makes the scrolling experience softer and more comfortable
-		if JoyBuffer = 0
+
+		; ACTION
+		if JoyNeedsToBeMoved
 		{
-			;Tooltip %joyr% %ScrollSpeedVertical% ;debugging info
-				if VerticalDirection = 1
-				{
-					Gosub JoyStick2Down
-				}
-				else
-				{
-					Gosub JoyStick2Up
-				}
-			JoyBuffer := 1
+			SetMouseDelay, -1  ; Makes movement smoother.
+
+			; VERTICAL DIRECTION
+			if joyr < 50
+			{
+				ScrollSpeedVertical := ((joyr)*10^JoyMouseScrollAcceleration)*JoyMouseScrollAccelerationStart
+				VerticalDirection = 0
+			}
+			else
+			{
+				ScrollSpeedVertical := ((100 - joyr)*10^JoyMouseScrollAcceleration)*JoyMouseScrollAccelerationStart
+				VerticalDirection = 1
+			}
+
+			; INSTANT SINGLE SCROLL "NUDGE" makes the scrolling experience softer and more comfortable
+			if JoyBuffer = 0
+			{
+				;Tooltip %joyr% %ScrollSpeedVertical% ;debugging info
+					if VerticalDirection = 1
+					{
+						Gosub JoyStick2Down
+					}
+					else
+					{
+						Gosub JoyStick2Up
+					}
+				JoyBuffer := 1
+			}
+			else
+			{
+				if (TotalModDown = 0)
+					SetTimer Joystick2ScrollVerticalTimer, %ScrollSpeedVertical%
+			}
+			;SetTimer Joystick2ScrollHorisontalTimer, %ScrollSpeedHorisontal%
 		}
 		else
 		{
-			if (TotalModDown = 0)
-				SetTimer Joystick2ScrollVerticalTimer, %ScrollSpeedVertical%
+			SetTimer Joystick2ScrollVerticalTimer, off
+			JoyBuffer = 0
+			;SetTimer Joystick2ScrollHorisontalTimer, off
 		}
-		;SetTimer Joystick2ScrollHorisontalTimer, %ScrollSpeedHorisontal%
-	}
-	else
-	{
-		SetTimer Joystick2ScrollVerticalTimer, off
-		JoyBuffer = 0
-		;SetTimer Joystick2ScrollHorisontalTimer, off
 	}
 return
 
@@ -1326,14 +1430,14 @@ return
 
 JoyStick2Down:
 	if (TotalModDown = 1) {
-		Send {Ctrl down}{-}{Ctrl up}
+		Send {Ctrl down}{-}{Ctrl up} ; browser zoom out
 	}else
 		Gosub DecreaseVolume
 return
 
 JoyStick2Up:
 	if (TotalModDown = 1) {
-		Send {Ctrl down}{+}{Ctrl up}
+		Send {Ctrl down}{+}{Ctrl up} ; browser zoom in
 	}else
 		Gosub IncreaseVolume
 return
@@ -1366,27 +1470,22 @@ Return
 DigitalPad:
 	if (ToggleMouseSimulator = 1)
 		return
+
 	SetMouseDelay, -1  ; Makes movement smoother.
-	GetKeyState, POV, %JoystickNumber%JoyPOV
 	KeyToHoldDownPrev = %KeyToHoldDown%  ; Prev now holds the key that was down before (if any).
 
-	; Some joysticks might have a smooth/continous POV rather than one in fixed increments.
-	; To support them all, use a range:
-	if POV < 0   ; No angle to report
-	{
+	if aPressed.DOWN {
+		KeyToHoldDown = Down
+	} else if aPressed.UP {
+		KeyToHoldDown = Up
+	} else if aPressed.LEFT {
+		KeyToHoldDown = Left
+	} else if aPressed.RIGHT {
+		KeyToHoldDown = Right
+	} else {
 		KeyToHoldDown =
 		KeyHeld = 0
 	}
-	else if POV > 31500                 ; 315 to 360 degrees: Forward
-		KeyToHoldDown = Up
-	else if POV between 0 and 4500      ; 0 to 45 degrees: Forward
-		KeyToHoldDown = Up
-	else if POV between 4501 and 13500  ; 45 to 135 degrees: Right
-		KeyToHoldDown = Right
-	else if POV between 13501 and 22500 ; 135 to 225 degrees: Down
-		KeyToHoldDown = Down
-	else                                ; 225 to 315 degrees: Left
-		KeyToHoldDown = Left
 
 	if KeyToHoldDown = %KeyToHoldDownPrev%  ; The correct key is already down (or no key is needed).
 	{
@@ -1404,46 +1503,33 @@ DigitalPad:
 	else
 		KeyHeld = 0
 
+	if BlockPOVTab = 1
+		return
 
 	if KeyToHoldDownPrev   ; There is a previous key to release.
 		{
 			Send, {%KeyToHoldDownPrev% up}  ; Release it.
 		}
 
-	; SPECIFIC CHANGE WHEN USING ALT+TAB SHORTCUT
-	if BothModDown = 1
-	{
-		if KeyToHoldDown = Left
+	;  release the previous key and press down the new key:
+	SetKeyDelay -1  ; Avoid delays between keystrokes.
+	if KeyToHoldDown   ; There is a key to press down.
 		{
-			Send {Shift down}{Tab}{Shift up}
-		}
-		else if KeyToHoldDown = Right
-		{
-			Send {Tab}
-		}
-	}
-	else
-	{
-		; Otherwise, release the previous key and press down the new key:
-		SetKeyDelay -1  ; Avoid delays between keystrokes.
-		if KeyToHoldDown   ; There is a key to press down.
-			{
-				if (TotalModDown = 1) {
-					if KeyToHoldDown = Up
-						Send {PgUp}
-					else if KeyToHoldDown = Down
-						Send {PgDn}
-					else if KeyToHoldDown = Left
-						Send {Ctrl down}{Shift down}{Tab}{Ctrl up}{Shift up}
-					else if KeyToHoldDown = Right
-						Send {Ctrl down}{Tab}{Ctrl up}
-				}
-				else
-					Send, {%KeyToHoldDown% down}  ; Press it down.
-
-				sleep, 50
+			if (TotalModDown = 1) {
+				if KeyToHoldDown = Up
+					Send {PgUp}
+				else if KeyToHoldDown = Down
+					Send {PgDn}
+				else if KeyToHoldDown = Left
+					Send {Ctrl down}{Shift down}{Tab}{Ctrl up}{Shift up}
+				else if KeyToHoldDown = Right
+					Send {Ctrl down}{Tab}{Ctrl up}
 			}
-	}
+			else
+				Send, {%KeyToHoldDown% down}  ; Press it down.
+
+			sleep, 50
+		}
 return
 
 WindowedFullscreenToggle:
@@ -1709,6 +1795,7 @@ XInput_Init(dll="xinput1_3")
 	XINPUT_GAMEPAD_RIGHT_THUMB      = 0x0080
 	XINPUT_GAMEPAD_LEFT_SHOULDER    = 0x0100
 	XINPUT_GAMEPAD_RIGHT_SHOULDER   = 0x0200
+  XINPUT_GAMEPAD_GUIDE            = 0x0400
 	XINPUT_GAMEPAD_A                = 0x1000
 	XINPUT_GAMEPAD_B                = 0x2000
 	XINPUT_GAMEPAD_X                = 0x4000
@@ -1732,7 +1819,7 @@ XInput_Init(dll="xinput1_3")
 		return
 	}
 
-	_XInput_GetState        := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputGetState")
+	_XInput_GetState        := DllCall("GetProcAddress" ,"ptr",_XInput_hm ,"uint", 100)
 	_XInput_SetState        := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputSetState")
 	_XInput_GetCapabilities := DllCall("GetProcAddress" ,"uint",_XInput_hm ,"str","XInputGetCapabilities")
 
@@ -1767,32 +1854,26 @@ XInput_Init(dll="xinput1_3")
 		XInput.ahk converts this structure to a string, compatible with Titan's json():
 			http://www.autohotkey.com/forum/topic34565.html
 */
-XInput_GetState(UserIndex, ByRef State)
+XInput_GetState(UserIndex)
 {
-	global _XInput_GetState
+    global _XInput_GetState
 
-	VarSetCapacity(xiState,16)
+    VarSetCapacity(xiState,16)
 
-	if ErrorLevel := DllCall(_XInput_GetState ,"uint",UserIndex ,"uint",&xiState)
-		State =
-	else
-		State := "{
-		( C LTrim Join
-			'dwPacketNumber':" NumGet(xiState,0) ",
-			;   Seems less convenient - though more technically accurate - to require
-			;   "Gamepad." prefix to access any of the useful properties with json().
-			;'Gamepad':{
-				'wButtons':" NumGet(xiState,4,"UShort") ",
-				'bLeftTrigger':" NumGet(xiState,6,"UChar") ",
-				'bRightTrigger':" NumGet(xiState,7,"UChar") ",
-				'sThumbLX':" NumGet(xiState,8,"Short") ",
-				'sThumbLY':" NumGet(xiState,10,"Short") ",
-				'sThumbRX':" NumGet(xiState,12,"Short") ",
-				'sThumbRY':" NumGet(xiState,14,"Short") "
-			;}
-		)}"
+    if ErrorLevel := DllCall(_XInput_GetState ,"uint",UserIndex ,"uint",&xiState)
+        return 0
 
-	return ErrorLevel
+    return {
+    (Join,
+        dwPacketNumber: NumGet(xiState,  0, "UInt")
+        wButtons:       NumGet(xiState,  4, "UShort")
+        bLeftTrigger:   NumGet(xiState,  6, "UChar")
+        bRightTrigger:  NumGet(xiState,  7, "UChar")
+        sThumbLX:       NumGet(xiState,  8, "Short")
+        sThumbLY:       NumGet(xiState, 10, "Short")
+        sThumbRX:       NumGet(xiState, 12, "Short")
+        sThumbRY:       NumGet(xiState, 14, "Short")
+    )}
 }
 
 /*
@@ -1841,36 +1922,38 @@ XInput_SetState(UserIndex, LeftMotorSpeed, RightMotorSpeed)
 		If the function fails, the return value is an error code defined in Winerror.h.
 			http://msdn.microsoft.com/en-us/library/ms681381.aspx
 */
-XInput_GetCapabilities(UserIndex, Flags, ByRef Caps)
+XInput_GetCapabilities(UserIndex, Flags)
 {
-	global _XInput_GetCapabilities
+    global _XInput_GetCapabilities
 
-	VarSetCapacity(xiCaps,20)
+    VarSetCapacity(xiCaps,20)
 
-	if ErrorLevel := DllCall(_XInput_GetCapabilities ,"uint",UserIndex ,"uint",Flags ,"uint",&xiCaps)
-		Caps =
-	else
-		Caps := "{
-		( LTrim Join
-			'Type':" NumGet(xiCaps,0,"UChar") ",
-			'SubType':" NumGet(xiCaps,1,"UChar") ",
-			'Flags':" NumGet(xiCaps,2,"UShort") ",
-			'Gamepad':{
-				'wButtons':" NumGet(xiCaps,4,"UShort") ",
-				'bLeftTrigger':" NumGet(xiCaps,6,"UChar") ",
-				'bRightTrigger':" NumGet(xiCaps,7,"UChar") ",
-				'sThumbLX':" NumGet(xiCaps,8,"Short") ",
-				'sThumbLY':" NumGet(xiCaps,10,"Short") ",
-				'sThumbRX':" NumGet(xiCaps,12,"Short") ",
-				'sThumbRY':" NumGet(xiCaps,14,"Short") "
-			},
-			'Vibration':{
-				'wLeftMotorSpeed':" NumGet(xiCaps,16,"UShort") ",
-				'wRightMotorSpeed':" NumGet(xiCaps,18,"UShort") "
-			}
-		)}"
+    if ErrorLevel := DllCall(_XInput_GetCapabilities ,"uint",UserIndex ,"uint",Flags ,"ptr",&xiCaps)
+        return 0
 
-	return ErrorLevel
+    return,
+    (Join
+        {
+            Type:                   NumGet(xiCaps,  0, "UChar"),
+            SubType:                NumGet(xiCaps,  1, "UChar"),
+            Flags:                  NumGet(xiCaps,  2, "UShort"),
+            Gamepad:
+            {
+                wButtons:           NumGet(xiCaps,  4, "UShort"),
+                bLeftTrigger:       NumGet(xiCaps,  6, "UChar"),
+                bRightTrigger:      NumGet(xiCaps,  7, "UChar"),
+                sThumbLX:           NumGet(xiCaps,  8, "Short"),
+                sThumbLY:           NumGet(xiCaps, 10, "Short"),
+                sThumbRX:           NumGet(xiCaps, 12, "Short"),
+                sThumbRY:           NumGet(xiCaps, 14, "Short")
+            },
+            Vibration:
+            {
+                wLeftMotorSpeed:    NumGet(xiCaps, 16, "UShort"),
+                wRightMotorSpeed:   NumGet(xiCaps, 18, "UShort")
+            }
+        }
+    )
 }
 
 /*
