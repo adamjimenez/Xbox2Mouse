@@ -513,7 +513,7 @@ return
 
 ; Toggle one handed mode
 ToggleOneHanded() {
-	global OneHanded
+	global OneHanded, AppIcon, OneHandedIcon
 	if (ToggleMouseSimulator = 1)
 		return
 
@@ -654,7 +654,7 @@ ToggleMouseSet:
 return
 
 doToggleMouseSet() {
-	global SetMouseDelay, ToggleMouseSimulator
+	global SetMouseDelay, ToggleMouseSimulator, OneHandedIcon, AppIcon, DisabledIcon
 
 	SetMouseDelay, -1  ; Makes movement smoother.
 	if ToggleMouseSimulator = 1
