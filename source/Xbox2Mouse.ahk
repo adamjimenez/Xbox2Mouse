@@ -630,7 +630,20 @@ ShowSplashImage(SplashIcon, caption) {
 	gui,-caption +alwaysontop +ToolWindow
 	gui,show
 	sleep,1000
-	; DllCall("AnimateWindow","UInt",GUI_ID,"Int",1000,"UInt","0x90000") ;fade window / FIXME temp disables input..
+
+	; fadeout
+	TotalTime := 500
+	Time1 := A_TickCount
+	Loop
+	{
+		Trans := Round(((A_TickCount-Time1)/TotalTime)*255)
+		Trans := 255 - Trans
+		WinSet, Transparent, %Trans%, ahk_id %GUI_ID%
+		if (Trans <= 0)
+			break
+		Sleep, 10
+	}
+
 	gui,destroy
 	return
 }
