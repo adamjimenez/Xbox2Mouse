@@ -24,3 +24,4 @@ Enhancements in fork
 * Scroll up/ down with triggers
 * Fix don't accept triggers from other controllers
 * Prompt for Admin rights when opening virtual keyboard (LB + RB + Down)
+* Compatible with Xbox One controller under Windows 10
